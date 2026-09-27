@@ -1,4 +1,4 @@
-import { ArrowRight, Star } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { brand, footer } from "@/lib/content";
 import { slugify } from "@/lib/landing";
 import { Logo } from "@/components/logo";
@@ -42,9 +42,7 @@ export function SiteFooter() {
                 className="mt-1 size-1.5 shrink-0 rounded-full bg-[#16a34a]"
                 aria-hidden="true"
               />
-              <span>
-                {footer.status.label} · {footer.status.meta}
-              </span>
+              <span>{footer.status.label}</span>
             </p>
           </div>
 
@@ -136,14 +134,6 @@ export function SiteFooter() {
           ))}
         </p>
 
-        <p className="flex items-center gap-2 font-mono text-[0.72rem] text-ink">
-          <span className="flex items-center gap-0.5" aria-hidden="true">
-            {Array.from({ length: 5 }, (_, i) => (
-              <Star key={i} className="size-3 fill-current text-accent-ink" />
-            ))}
-          </span>
-          {footer.rating.score} · {footer.rating.count}
-        </p>
       </div>
     </footer>
   );

@@ -588,9 +588,7 @@ export function cityCopy(name: string) {
     titleAccent: `from ${brand.priceFrom}/mo.`,
     intro: `Running a business in ${name} is hard enough on its own. Pick the services you need, send one brief, and we write, design, shoot and schedule the content — then publish it on your channels.`,
     stats: [
-      { value: "[20,000]+", label: "businesses served" },
-      { value: "[4.6]/5", label: "average rating" },
-      { value: "[7] days", label: "to first content" },
+      { value: "Since 2010", label: "doing this" },
       { value: `${brand.priceFrom}/mo`, label: "to start" },
     ],
     reasonsTitle: `Why ${name} businesses pick us over an agency or DIY.`,
@@ -626,8 +624,7 @@ export function industryCopy(industry: IndustryPage) {
     intro: `Your ${singular} deserves better than an empty feed. Pick the services you need, send one brief, and we write, shoot, design and schedule the content — then publish it on your channels, while you run the ${singular}.`,
     stats: [
       { value: brand.priceFrom, label: "per month, from" },
-      { value: "[20,000]+", label: "businesses served" },
-      { value: "[4.6]/5", label: "average rating" },
+      { value: "Since 2010", label: "doing this" },
     ],
     painsTitle: `What usually goes wrong for ${plural}.`,
     winsTitle: `Built for how ${plural} actually win on social.`,

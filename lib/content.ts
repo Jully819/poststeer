@@ -51,7 +51,7 @@ export interface MenuItem {
 }
 
 export const servicesMenu = {
-  stats: ["[4.6] / 5", "[20,000]+ businesses", "14-day guarantee"],
+  stats: ["Since 2010", "14-day guarantee"],
   groups: [
     {
       title: "Social Media",
@@ -415,7 +415,6 @@ export const work = {
 };
 
 export const hero = {
-  rating: { score: "4.8", source: "[Review site]", count: "[1,200] reviews" },
   headlineLead: "Social content on subscription",
   headlineAccent: `from ${brand.priceFrom}/mo`,
   subheadLead: "Stay active. Stay relevant.",
@@ -1085,9 +1084,9 @@ export const selectPage = {
   intro:
     "Pick your services, cancel anytime. The original content subscription. Onboarding call and monthly review meetings are included with every plan.",
   bullets: [
-    { strong: "[15]+", rest: "services on one platform." },
-    { strong: "[200]+", rest: "vetted marketers and creatives." },
-    { strong: "Trusted", rest: "by [20,000]+ businesses since [2016]." },
+    { strong: "Every service", rest: "on one platform." },
+    { strong: "Real marketers", rest: "on your brand, not a content mill." },
+    { strong: "Trusted", rest: "by businesses since 2010." },
   ],
   groups: [
     {
@@ -1392,7 +1391,7 @@ export const briefPage = {
 
 export const proStrip = {
   text: "Want someone to run the whole account for you?",
-  linkText: `Look at PostSteer Pro, from $[1,500]/mo`,
+  linkText: `Look at PostSteer Pro`,
   href: "#pricing",
 };
 
@@ -1568,8 +1567,8 @@ export const finalCta = {
  */
 export const footer = {
   about:
-    "The all-in-one content platform where [200]+ creatives and software we built ourselves work as one team, shipping standout content faster, and for less, than an agency.",
-  status: { label: "all systems operational", meta: "[99.9]% uptime" },
+    "The all-in-one content platform where creatives and software we built ourselves work as one team, shipping standout content faster, and for less, than an agency.",
+  status: { label: "all systems operational" },
   columns: [
     {
       title: "Social Media",
@@ -1649,7 +1648,7 @@ export const footer = {
   legal: {
     leadIn: "PostSteer is a",
     linkText: "social media management agency",
-    tail: "since [2016].",
+    tail: "since 2010.",
     copyrightTail: "Inc. · [US + EU]",
     links: [
       { label: "Privacy", href: "/legal/privacy" },
@@ -1657,7 +1656,6 @@ export const footer = {
       { label: "Refunds", href: "/legal/refund-policy" },
     ],
   },
-  rating: { score: "[4.6]/5", count: "[800]+ reviews" },
 };
 
 /**
@@ -1687,14 +1685,13 @@ export const demoPage = {
   seoTitle: "Book a 20-minute demo | PostSteer",
   seoDescription:
     "Pick a time and we will walk through how PostSteer works for your business, recommend the right services, and answer your questions. No pitch deck, no pressure.",
-  rating: { count: "[800]+", label: "verified reviews" },
   title: "See how it works for your business",
   intro:
     "In 20 minutes we will learn about your business, recommend the right services, and answer every question. No pitch deck, no pressure.",
   bullets: [
     {
       title: "Real marketers, not AI",
-      body: "Designers, copywriters and strategists on your brand. Playbooks refined across [20,000]+ accounts.",
+      body: "Designers, copywriters and strategists on your brand. Playbooks refined on every account we run.",
     },
     {
       title: "No contracts, cancel anytime",
@@ -1784,7 +1781,7 @@ export const demoPage = {
         "None. The demo is free, there is nothing to sign, and plans are month to month if you do go ahead.",
     },
   ],
-  trusted: "trusted by [20,000]+ businesses since [2016]",
+  trusted: "trusted since 2010",
 };
 
 export const chat = {
@@ -1935,10 +1932,9 @@ export const archivedAiVideoCallout = {
  *
  * THE COUNT IS NOT WRITTEN DOWN. "20 cities served" is derived from `cities`
  * in the component, so adding a market cannot leave the label saying twenty.
- * The kicker's [200]+ is a bracketed placeholder like every other figure here.
  */
 export const serviceAreas = {
-  kicker: "Service areas · [200]+ cities",
+  kicker: "Service areas",
   title: "Social media management, wherever you are.",
   intro:
     "A dedicated team that knows your market. Find done-for-you social media in your city, at the same fixed rate, with no contracts, anywhere in the US and Canada.",
@@ -1990,10 +1986,7 @@ export const serviceAreas = {
       "14-day satisfaction guarantee",
     ],
     stats: [
-      { value: "[20,000]+", label: "Businesses served" },
-      { value: "[4.6]/5", label: "Average rating · [800]+ reviews" },
-      { value: "[200]+", label: "Creatives on the team" },
-      { value: "Since [2016]", label: "Nearly a decade of it" },
+      { value: "Since 2010", label: "Doing this for businesses" },
     ],
   },
   seoTitle: "Service Areas | PostSteer",

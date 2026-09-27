@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Check, Star } from "lucide-react";
+import { Check } from "lucide-react";
 import { demoPage } from "@/lib/content";
 import { DemoBooker } from "@/components/demo-booker";
 import { DemoFaq } from "@/components/demo-faq";
@@ -19,16 +19,6 @@ export default function DemoPage() {
     <section aria-labelledby="demo-title" className="pt-12 pb-20 md:pt-16">
       <div className="container-x grid items-start gap-12 lg:grid-cols-[1fr_28rem] lg:gap-16">
         <div>
-          <p className="flex items-center gap-2 text-[0.85rem] text-body">
-            <span className="flex items-center gap-0.5" aria-hidden="true">
-              {Array.from({ length: 5 }, (_, i) => (
-                <Star key={i} className="size-3.5 fill-current text-ink" />
-              ))}
-            </span>
-            <span className="font-display font-semibold text-ink">{demoPage.rating.count}</span>
-            <span className="text-muted">{demoPage.rating.label}</span>
-          </p>
-
           <h1 id="demo-title" className="h1 mt-5 max-w-[16ch]">
             {demoPage.title}
           </h1>

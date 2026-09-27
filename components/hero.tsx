@@ -1,4 +1,4 @@
-import { ArrowRight, CalendarX, Check, PencilLine, ShieldCheck, Star } from "lucide-react";
+import { ArrowRight, CalendarX, Check, PencilLine, ShieldCheck } from "lucide-react";
 import { hero } from "@/lib/content";
 import { HeroCards } from "@/components/hero-cards";
 import { withBase } from "@/lib/utils";
@@ -24,18 +24,6 @@ export function Hero() {
           hanging off the top of a much taller neighbour. */}
       <div className="container-x grid items-center gap-12 lg:grid-cols-[1fr_1fr] lg:gap-14">
         <div>
-          <p className="flex items-center gap-2 text-[0.85rem] text-body">
-            <span className="flex items-center gap-0.5" aria-hidden="true">
-              {Array.from({ length: 5 }, (_, i) => (
-                <Star key={i} className="size-3.5 fill-current text-ink" />
-              ))}
-            </span>
-            <span className="font-display font-semibold text-ink">{hero.rating.score}</span>
-            <span className="text-muted">
-              {hero.rating.source} · {hero.rating.count}
-            </span>
-          </p>
-
           <h1 id="hero-title" className="h1 mt-5">
             {hero.headlineLead} <span className="text-accent-ink">{hero.headlineAccent}</span>
           </h1>
