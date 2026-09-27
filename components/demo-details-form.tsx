@@ -1,17 +1,19 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { UserPlus, X } from "lucide-react";
+import { Loader2, UserPlus, X } from "lucide-react";
 import { demoPage } from "@/lib/content";
+import { bookingConfigured, sendDemoRequest, type DemoRequest } from "@/lib/booking";
 import { cn } from "@/lib/utils";
 
 /**
- * Step two of the booker: the details taken after a slot is chosen and before
- * it is confirmed.
+ * Step two of the booker: the details taken after a slot is chosen, and the
+ * two emails that go out when they are submitted.
  *
- * NOTHING IS POSTED. A static export has no endpoint, so submitting only moves
- * the booker to its review state, which says plainly that no scheduler is
- * connected. Wire this to your booking provider before launch.
+ * THE SEND CAN FAIL, and a booking form that swallows the failure is worse
+ * than one that never sent: the visitor walks away believing a meeting is in
+ * the diary. A failed send therefore stays on the form, keeps every answer,
+ * and says so. See lib/booking.ts for what is actually sent.
  */
 
 const field =
@@ -40,22 +42,61 @@ const DIAL_CODES = [
 ];
 
 type Props = {
-  /** The chosen day, already formatted for reading. */
+  /** Midnight on the chosen day, local. */
+  day: Date;
+  /** The same day, already formatted for reading. */
   dayLabel: string;
   slot: string;
   timezone: string;
   /** Back to the list of times. */
   onBack: () => void;
-  onSubmit: () => void;
+  /** Both emails are away; show the confirmation. */
+  onSent: (request: DemoRequest) => void;
 };
 
-export function DemoDetailsForm({ dayLabel, slot, timezone, onBack, onSubmit }: Props) {
+export function DemoDetailsForm({ day, dayLabel, slot, timezone, onBack, onSent }: Props) {
+  const [values, setValues] = useState<Record<string, string>>({});
   const [guests, setGuests] = useState<string[]>([]);
+  const [smsOptIn, setSmsOptIn] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [failed, setFailed] = useState(false);
   const d = demoPage.booker.details;
 
-  const submit = (event: FormEvent<HTMLFormElement>) => {
+  const set = (name: string, value: string) =>
+    setValues((current) => ({ ...current, [name]: value }));
+
+  const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    onSubmit();
+    if (sending) return;
+    setSending(true);
+    setFailed(false);
+
+    const request: DemoRequest = {
+      name: values.name ?? "",
+      email: values.email ?? "",
+      goal: values.goal ?? "",
+      website: values.website ?? "",
+      guests,
+      dial:
+        DIAL_CODES.find((entry) => entry.iso === (values.dialIso ?? "US"))?.code ??
+        DIAL_CODES[0].code,
+      phone: values.phone ?? "",
+      smsOptIn,
+      day,
+      slot,
+      timezone,
+    };
+
+    try {
+      await sendDemoRequest(request);
+      onSent(request);
+    } catch (error) {
+      /* The reason belongs in the console, not in front of a customer. */
+      console.error("Demo booking was not sent", error);
+      setFailed(true);
+    } finally {
+      setSending(false);
+    }
   };
 
   const setGuest = (index: number, value: string) =>
@@ -86,7 +127,14 @@ export function DemoDetailsForm({ dayLabel, slot, timezone, onBack, onSubmit }: 
           <label htmlFor="demo-name" className={label}>
             {d.name} <span className="text-accent-ink">*</span>
           </label>
-          <input id="demo-name" name="name" required className={cn(field, "mt-1.5")} />
+          <input
+            id="demo-name"
+            name="name"
+            required
+            value={values.name ?? ""}
+            onChange={(event) => set("name", event.target.value)}
+            className={cn(field, "mt-1.5")}
+          />
         </div>
 
         <div>
@@ -98,6 +146,8 @@ export function DemoDetailsForm({ dayLabel, slot, timezone, onBack, onSubmit }: 
             name="email"
             type="email"
             required
+            value={values.email ?? ""}
+            onChange={(event) => set("email", event.target.value)}
             className={cn(field, "mt-1.5")}
           />
         </div>
@@ -112,6 +162,8 @@ export function DemoDetailsForm({ dayLabel, slot, timezone, onBack, onSubmit }: 
             rows={3}
             required
             placeholder={d.goalPlaceholder}
+            value={values.goal ?? ""}
+            onChange={(event) => set("goal", event.target.value)}
             className={cn(field, "mt-1.5")}
           />
         </div>
@@ -124,6 +176,8 @@ export function DemoDetailsForm({ dayLabel, slot, timezone, onBack, onSubmit }: 
             id="demo-website"
             name="website"
             required
+            value={values.website ?? ""}
+            onChange={(event) => set("website", event.target.value)}
             className={cn(field, "mt-1.5")}
           />
         </div>
@@ -181,7 +235,8 @@ export function DemoDetailsForm({ dayLabel, slot, timezone, onBack, onSubmit }: 
             <select
               id="demo-dial"
               name="dial"
-              defaultValue="US"
+              value={values.dialIso ?? "US"}
+              onChange={(event) => set("dialIso", event.target.value)}
               className="w-[5.5rem] shrink-0 rounded-l-lg border-r border-hairline bg-transparent py-2 pr-1 pl-3 font-mono text-[0.8rem] text-ink focus-visible:outline-none"
             >
               {DIAL_CODES.map((entry) => (
@@ -195,6 +250,8 @@ export function DemoDetailsForm({ dayLabel, slot, timezone, onBack, onSubmit }: 
               name="phone"
               type="tel"
               required
+              value={values.phone ?? ""}
+              onChange={(event) => set("phone", event.target.value)}
               placeholder={d.phonePlaceholder}
               className="w-full flex-1 rounded-r-lg bg-transparent px-3 py-2 text-[0.85rem] text-ink placeholder:text-muted focus-visible:outline-none"
             />
@@ -206,6 +263,8 @@ export function DemoDetailsForm({ dayLabel, slot, timezone, onBack, onSubmit }: 
           <input
             type="checkbox"
             name="sms"
+            checked={smsOptIn}
+            onChange={(event) => setSmsOptIn(event.target.checked)}
             className="mt-0.5 size-4 shrink-0 accent-accent-ink"
           />
           <span>
@@ -219,8 +278,28 @@ export function DemoDetailsForm({ dayLabel, slot, timezone, onBack, onSubmit }: 
           </span>
         </label>
 
-        <button type="submit" className="btn btn-accent w-full">
-          {d.submit}
+        {failed ? (
+          <p
+            role="alert"
+            className="rounded-lg border border-hairline bg-wash p-3 text-[0.8rem] leading-snug text-ink"
+          >
+            {bookingConfigured ? d.sendFailed : d.sendNotConfigured}
+          </p>
+        ) : null}
+
+        <button
+          type="submit"
+          disabled={sending}
+          className="btn btn-accent w-full disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          {sending ? (
+            <>
+              <Loader2 className="size-4 animate-spin" aria-hidden="true" />
+              {d.sending}
+            </>
+          ) : (
+            d.submit
+          )}
         </button>
       </form>
     </div>

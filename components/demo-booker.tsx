@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { ArrowLeft, Check, ChevronLeft, ChevronRight, Star } from "lucide-react";
 import { demoPage, testimonials } from "@/lib/content";
 import { DemoDetailsForm } from "@/components/demo-details-form";
+import type { DemoRequest } from "@/lib/booking";
 import { cn } from "@/lib/utils";
 
 /**
@@ -16,9 +17,9 @@ import { cn } from "@/lib/utils";
  * and holds its height until then, so nothing jumps when the real month
  * arrives.
  *
- * NOTHING IS BOOKED — see the note on `demoPage` in lib/content.ts. Picking a
- * slot opens the details form; submitting that shows the choice back and says
- * the scheduler is not connected.
+ * Picking a slot opens the details form; submitting that sends the two emails
+ * in lib/booking.ts and only then shows the confirmation. A send that fails
+ * stays on the form, so nobody is told a meeting exists when it does not.
  */
 
 const WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
@@ -74,7 +75,9 @@ export function DemoBooker() {
   const [slot, setSlot] = useState<string | null>(null);
   /* Between the list of times and the review: the details form. */
   const [details, setDetails] = useState(false);
-  const [confirmed, setConfirmed] = useState(false);
+  /* Set only once both emails are away, so the confirmation can name the
+     address they went to. */
+  const [sent, setSent] = useState<DemoRequest | null>(null);
   const [timezone, setTimezone] = useState("");
 
   useEffect(() => {
@@ -112,7 +115,7 @@ export function DemoBooker() {
   }
 
   function reset() {
-    setConfirmed(false);
+    setSent(null);
     setDetails(false);
     setSlot(null);
     setDay(null);
@@ -141,7 +144,7 @@ export function DemoBooker() {
         <div className="min-h-[26rem] p-4 sm:p-5">
           {!today || !month ? (
             <p className="body-text py-24 text-center">{c.loading}</p>
-          ) : confirmed && day && slot ? (
+          ) : sent && day && slot ? (
             /* Review state. */
             <div className="py-10 text-center">
               <span
@@ -161,7 +164,9 @@ export function DemoBooker() {
               <p className="mt-5 font-display text-[0.95rem] font-semibold text-ink">
                 {c.confirmedTitle}
               </p>
-              <p className="body-text mx-auto mt-2 max-w-[24rem]">{c.confirmedBody}</p>
+              <p className="body-text mx-auto mt-2 max-w-[24rem]">
+                {c.confirmedBody.replace("{email}", sent.email)}
+              </p>
               <button type="button" onClick={reset} className="btn btn-ghost mt-6">
                 <ArrowLeft className="size-4" aria-hidden="true" />
                 {c.again}
@@ -170,11 +175,12 @@ export function DemoBooker() {
           ) : details && day && slot ? (
             /* Details, taken before anything is confirmed. */
             <DemoDetailsForm
+              day={day}
               dayLabel={dayLabel}
               slot={slot}
               timezone={timezone}
               onBack={() => setDetails(false)}
-              onSubmit={() => setConfirmed(true)}
+              onSent={setSent}
             />
           ) : day ? (
             /* Times for the chosen day. */

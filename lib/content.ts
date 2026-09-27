@@ -1717,11 +1717,11 @@ export const demoPage = {
     pickTime: "Pick a time",
     changeDate: "Change day",
     confirm: "Confirm this slot",
-    /* The review state. */
-    confirmedTitle: "That slot is held in the mock, not in a calendar.",
+    /* The state after both emails are away. */
+    confirmedTitle: "You are booked in.",
     confirmedBody:
-      "This build has no booking provider connected and no endpoint to post to, so nothing has been reserved and nobody has been emailed. Wire the picker to your scheduler before launch.",
-    again: "Pick a different slot",
+      "A confirmation is on its way to {email}, and we have your details. Nothing lands in five minutes, check the spam folder.",
+    again: "Book another slot",
     timezoneLead: "Times shown in",
     /* Step two: the details taken before the slot is confirmed. NOTHING IS
        POSTED — see the note in components/demo-details-form.tsx. */
@@ -1746,6 +1746,13 @@ export const demoPage = {
       smsTermsLabel: "poststeer.com/terms",
       smsTermsHref: "/legal/terms",
       submit: "Schedule demo",
+      sending: "Sending",
+      /* Shown on the form itself: a booking that did not send must not look
+         like one that did. */
+      sendFailed:
+        "That did not send. Try again, or email poststeer@gmail.com and we will put the time in by hand.",
+      sendNotConfigured:
+        "The email service for this site is not connected yet, so nothing was sent. Email poststeer@gmail.com and we will book the time by hand.",
     },
   },
   reviewsLabel: "Verified review",
