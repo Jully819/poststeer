@@ -1,0 +1,307 @@
+@import "tailwindcss";
+
+/* Palette read off the reference screenshot: white page, near-black ink, one
+   blue accent. The accent carries the highlighted words in the headline, the
+   guarantee band, links and active states. Nothing else is coloured. */
+@theme {
+  /* Palette taken from the reference's own custom properties, mapped onto this
+     project's token names. Their --fb-bg is the PAGE; their --fb-card is what
+     cards sit on, and it is lighter than the page rather than white. Getting
+     those two the wrong way round is what makes a warm-grey layout look like
+     a broken white one. */
+  /* THREE PAGE-LEVEL BACKGROUNDS, AND ONLY THREE. Every section on a page
+     picks one of --color-page, --color-sage or --color-band. The point is
+     that the steps between them are big enough to see: cream on cream reads
+     as one undifferentiated column, which is what this replaces.
+     --color-wash stays, but it is a TINT FOR SMALL SURFACES inside a card —
+     icon tiles, hover states, the estimate panel — never a section. */
+  --color-page: #fffdf2; /* cream — the base */
+  --color-sage: #eef0e1; /* pale green-cream — one or two sections per page */
+  --color-wash: #f7f3e3; /* cream, one step down. NOT a section background. */
+  --color-paper: #ffffff; /* cards, lighter than the cream page */
+  --color-ink: #0a0b10; /* --fb-ink */
+  --color-body: #52525b; /* --fb-ink-2 */
+  --color-muted: #8a8b95; /* --fb-muted */
+  --color-hairline: #e9e2cc; /* warm border, to match the cream */
+  --color-hairline-soft: #f1ecda;
+  /* MINT IS A FILL COLOUR, NOT A TEXT COLOUR. #0ffcbe on cream measures
+     about 1.3:1 — invisible. Fills use --color-accent with INK text on top
+     (about 14:1), and accent-coloured TEXT uses --color-accent-ink, a
+     darkened mint that clears AA on cream and on white. */
+  --color-accent: #0ffcbe; /* mint */
+  --color-accent-deep: #0be0a9; /* mint, hover fill */
+  --color-accent-ink: #046b51; /* dark mint, for text and icons on light */
+  --color-accent-tint: #0ffcbe33;
+  --color-good: #10b981; /* --fb-good */
+  --color-warn: #f59e0b; /* --fb-warn */
+  --color-bad: #e0564b; /* --fb-bad */
+  /* The dark bands: key numbers, guarantee, closing CTA. Near-black with a
+     faint green cast rather than the neutral --color-ink, so it sits with
+     the mint accent instead of against it. It is a BACKGROUND only; text
+     stays --color-ink. */
+  --color-band: #07211c;
+
+  --font-display: var(--font-geist), Inter, system-ui, sans-serif;
+  --font-body: var(--font-geist), Inter, system-ui, sans-serif;
+  /* Drives Tailwind's font-mono, so the estimate panel and the footer pick it
+     up without touching a class. */
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  /* The page is the warm grey; cards are the lighter tone on top of it. */
+  background-color: var(--color-page);
+  /* clip, not hidden: it stops sideways overflow without creating a scroll
+     container, which would break position: sticky on the estimate panel. */
+  overflow-x: clip;
+  width: 100%;
+  color: var(--color-body);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+@layer components {
+  /* The reference's section rhythm, to the pixel. */
+  .section-pad {
+    padding-block: 52px 56px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .container-x {
+    width: 100%;
+    max-width: 1180px;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  @media (min-width: 768px) {
+    .container-x {
+      padding-inline: 2rem;
+    }
+  }
+
+  /* Section label above a heading: small, uppercase, wide tracking. The
+     reference sets these in grey with a leading slash; here it is a plain
+     label so it reads the same at any size. */
+  .kicker {
+    font-family: var(--font-display);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .h1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--color-ink);
+    letter-spacing: -0.035em;
+    line-height: 1.05;
+    font-size: clamp(2.4rem, 5vw, 3.6rem);
+  }
+
+  .h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--color-ink);
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    text-wrap: balance;
+    font-size: clamp(1.9rem, 3.4vw, 2.75rem);
+  }
+
+  .h3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--color-ink);
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+    font-size: 1.05rem;
+  }
+
+  .lead {
+    font-size: 1.02rem;
+    line-height: 1.7;
+    color: var(--color-body);
+  }
+
+  .body-text {
+    font-size: 0.95rem;
+    line-height: 1.65;
+    color: var(--color-body);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    padding: 0.7rem 1.35rem;
+    border-radius: 999px;
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+  }
+
+  .btn-primary {
+    background-color: var(--color-ink);
+    color: #fff;
+  }
+
+  .btn-primary:hover {
+    background-color: #000;
+  }
+
+  .btn-accent {
+    background-color: var(--color-accent);
+    /* Ink, not white: white on mint is about 1.4:1 and unreadable. */
+    color: var(--color-ink);
+  }
+
+  .btn-accent:hover {
+    background-color: var(--color-accent-deep);
+  }
+
+  .btn-ghost {
+    border: 1px solid var(--color-hairline);
+    background-color: #fff;
+    color: var(--color-ink);
+  }
+
+  .btn-ghost:hover {
+    border-color: var(--color-ink);
+  }
+
+  .card {
+    border-radius: 1rem;
+    border: 1px solid var(--color-hairline);
+    background-color: var(--color-paper);
+  }
+
+  /* Every image on the page is a placeholder block: a flat tint with a hairline
+     and a caption naming what belongs there. No gradients, nothing pretending
+     to be a photograph. */
+  .ph {
+    position: relative;
+    overflow: hidden;
+    border-radius: 0.75rem;
+    background-color: #eceef2;
+    border: 1px solid var(--color-hairline);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   HERO COLLAGE MARQUEE.
+
+   Each column renders its tiles TWICE and travels exactly -50% (or +50%), so
+   the second copy lands where the first began and the loop has no seam. Any
+   other distance produces a visible jump once per cycle.
+
+   The columns are not the same duration: identical speeds make three columns
+   read as one moving block, and the middle one running against the other two
+   is the whole effect.
+--------------------------------------------------------------------------- */
+@keyframes marquee-up {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50%);
+  }
+}
+
+@keyframes marquee-down {
+  from {
+    transform: translateY(-50%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.marquee-up,
+.marquee-down {
+  /* No animation by default. It is switched on below only when the visitor
+     has not asked for reduced motion, so a still column is the fallback
+     rather than something that has to be stopped. */
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .marquee-up {
+    animation: marquee-up var(--marquee-duration, 40s) linear infinite;
+  }
+
+  .marquee-down {
+    animation: marquee-down var(--marquee-duration, 40s) linear infinite;
+  }
+
+  /* Pausing on hover lets someone actually look at a tile. */
+  .marquee-stage:hover .marquee-up,
+  .marquee-stage:hover .marquee-down {
+    animation-play-state: paused;
+  }
+}
+
+/* Fades the tops and bottoms of the columns into the page so tiles enter and
+   leave instead of being cut off by a hard edge. */
+.marquee-stage {
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    #000 12%,
+    #000 88%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 12%, #000 88%, transparent 100%);
+}
+
+/* ---------------------------------------------------------------------------
+   ESTIMATE PANEL EDGE.
+
+   The receipt notch along the bottom is a mask, not a row of drawn circles:
+   one repeating tile, so it survives any card width and any background behind
+   it. The circle sits on the bottom edge of a tile as wide as two notches.
+--------------------------------------------------------------------------- */
+.ticket-edge {
+  --notch: 9px;
+  -webkit-mask-image: radial-gradient(
+    circle at var(--notch) 100%,
+    transparent var(--notch),
+    #000 calc(var(--notch) + 0.5px)
+  );
+  mask-image: radial-gradient(
+    circle at var(--notch) 100%,
+    transparent var(--notch),
+    #000 calc(var(--notch) + 0.5px)
+  );
+  -webkit-mask-size: calc(var(--notch) * 2) 100%;
+  mask-size: calc(var(--notch) * 2) 100%;
+  -webkit-mask-repeat: repeat-x;
+  mask-repeat: repeat-x;
+}
+
+/* The dotted run between a line item and its price. A border on a flexible
+   spacer, so it fills whatever room is left rather than being a fixed string
+   of dots that wraps at the wrong width. */
+.leader {
+  flex: 1 1 auto;
+  border-bottom: 1px dotted var(--color-hairline);
+  transform: translateY(-0.25rem);
+  min-width: 1.5rem;
+}
