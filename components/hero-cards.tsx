@@ -1,6 +1,6 @@
 import { hero } from "@/lib/content";
 import { PlatformLogo } from "@/components/platform-logos";
-import { cn } from "@/lib/utils";
+import { cn, withBase } from "@/lib/utils";
 
 /**
  * The right half of the hero: five mocked-up deliverables, arranged rather
@@ -31,7 +31,7 @@ import { cn } from "@/lib/utils";
 function Art({ art }: { art: { src: string; alt: string; w: number; h: number } }) {
   return (
     <img
-      src={`/hero/${art.src}.webp`}
+      src={withBase(`/hero/${art.src}.webp`)}
       alt={art.alt}
       width={art.w}
       height={art.h}
@@ -132,7 +132,7 @@ function Note({
 }) {
   return (
     <img
-      src={`/hero/${note.src}.webp`}
+      src={withBase(`/hero/${note.src}.webp`)}
       alt=""
       aria-hidden="true"
       width={note.w}

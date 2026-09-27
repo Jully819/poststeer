@@ -20,7 +20,7 @@ import {
   Zap,
 } from "lucide-react";
 import { brand, pricing, work, type AddOn, type PricingService } from "@/lib/content";
-import { cn } from "@/lib/utils";
+import { cn, withBase } from "@/lib/utils";
 import { Placeholder } from "@/components/ui/placeholder";
 import { ServiceInfoDialog } from "@/components/service-info-dialog";
 
@@ -289,7 +289,7 @@ export function PricingBuilder() {
                             return (
                               <img
                                 key={key}
-                                src={`/work/${sample.src}.webp`}
+                                src={withBase(`/work/${sample.src}.webp`)}
                                 alt={sample.alt}
                                 width={work.tileWidth}
                                 height={work.tileHeight}
@@ -704,7 +704,7 @@ export function PricingBuilder() {
             ) : null}
 
             <a
-              href={`/start#plan=${planHash()}`}
+              href={withBase(`/start#plan=${planHash()}`)}
               className="btn btn-accent mt-6 min-h-[3.2rem] w-full text-[0.9rem]"
             >
               {pricing.estimate.cta}
@@ -725,11 +725,11 @@ export function PricingBuilder() {
 
             <p className="mt-6 text-center text-[0.675rem] leading-relaxed text-muted">
               {pricing.estimate.finePrint}{" "}
-              <a href="/legal/terms" className="underline underline-offset-2">
+              <a href={withBase("/legal/terms")} className="underline underline-offset-2">
                 {pricing.estimate.terms}
               </a>{" "}
               and{" "}
-              <a href="/legal/refund-policy" className="underline underline-offset-2">
+              <a href={withBase("/legal/refund-policy")} className="underline underline-offset-2">
                 {pricing.estimate.refunds}
               </a>
               .

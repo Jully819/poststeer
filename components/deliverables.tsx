@@ -1,6 +1,7 @@
 import { Check, ChevronDown, ChevronLeft, ChevronRight, Play, Plus } from "lucide-react";
 import { deliverables } from "@/lib/content";
 import { PlatformLogo } from "@/components/platform-logos";
+import { withBase } from "@/lib/utils";
 
 /**
  * How it works: the heading sits beside the four steps rather than above
@@ -102,7 +103,7 @@ function StepArt({ art }: { art: (typeof deliverables.steps)[number]["art"] }) {
           {f.thumbs.map((src) => (
             <img
               key={src}
-              src={`/work/${src}.webp`}
+              src={withBase(`/work/${src}.webp`)}
               alt=""
               width={80}
               height={80}
@@ -126,7 +127,7 @@ function StepArt({ art }: { art: (typeof deliverables.steps)[number]["art"] }) {
         {deliverables.createThumbs.map((src, i) => (
           <img
             key={src}
-            src={`/hero/${src}.webp`}
+            src={withBase(`/hero/${src}.webp`)}
             alt=""
             width={120}
             height={160}
@@ -153,7 +154,7 @@ function StepArt({ art }: { art: (typeof deliverables.steps)[number]["art"] }) {
         <Panel>
           <span className="flex gap-1.5">
             <img
-              src={`/reviews/${a.avatar}.webp`}
+              src={withBase(`/reviews/${a.avatar}.webp`)}
               alt=""
               width={40}
               height={40}
@@ -205,7 +206,7 @@ function StepArt({ art }: { art: (typeof deliverables.steps)[number]["art"] }) {
           {p.thumbs.map((src) => (
             <img
               key={src}
-              src={`/work/${src}.webp`}
+              src={withBase(`/work/${src}.webp`)}
               alt=""
               width={60}
               height={80}

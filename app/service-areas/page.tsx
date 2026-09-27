@@ -4,6 +4,7 @@ import { serviceAreas } from "@/lib/content";
 import { CityGrid } from "@/components/city-grid";
 import { Button } from "@/components/ui/button";
 import KineticGrid from "@/components/ui/kinetic-grid";
+import { withBase } from "@/lib/utils";
 
 /**
  * /service-areas — the page behind the footer's "All cities" link.
@@ -46,7 +47,7 @@ export default function ServiceAreasPage() {
               </p>
 
               <div className="mt-8 flex flex-wrap justify-center gap-3">
-                <Button href="/demo" variant="accent">
+                <Button href={withBase("/demo")} variant="accent">
                   {serviceAreas.cta.primary}
                   <ArrowRight className="size-4" aria-hidden="true" />
                 </Button>

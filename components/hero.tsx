@@ -1,6 +1,7 @@
 import { ArrowRight, CalendarX, Check, PencilLine, ShieldCheck, Star } from "lucide-react";
 import { hero } from "@/lib/content";
 import { HeroCards } from "@/components/hero-cards";
+import { withBase } from "@/lib/utils";
 
 const highlightIcons = { pencil: PencilLine, check: Check, calendar: CalendarX };
 
@@ -66,7 +67,7 @@ export function Hero() {
 
           <div className="mt-9 flex flex-wrap items-center gap-3">
             <a
-              href="/demo"
+              href={withBase("/demo")}
               className="btn btn-accent min-h-[3.4rem] px-8 text-[1.02rem] font-semibold"
             >
               {hero.primaryCta}

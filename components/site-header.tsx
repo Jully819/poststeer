@@ -5,7 +5,7 @@ import { ChevronDown, Menu, X } from "lucide-react";
 import { brand, nav } from "@/lib/content";
 import { ServicesMenu } from "@/components/services-menu";
 import { Logo } from "@/components/logo";
-import { cn } from "@/lib/utils";
+import { cn, withBase } from "@/lib/utils";
 
 /**
  * Sticky header: wordmark, dropdown-style nav, log in, and the price CTA.
@@ -25,7 +25,7 @@ export function SiteHeader() {
             industry pages, posts and the legal pages — it just put a hash on
             the URL. A wordmark is the way back to the front page from
             anywhere, so it has to be a real link. */}
-        <a href="/" className="shrink-0">
+        <a href={withBase("/")} className="shrink-0">
           <Logo height={36} priority />
         </a>
 
@@ -39,7 +39,7 @@ export function SiteHeader() {
               ) : (
                 <li key={item.label}>
                   <a
-                    href={item.href}
+                    href={withBase(item.href)}
                     className="flex items-center gap-1 font-display text-[0.9rem] font-medium text-ink/80 transition-colors hover:text-ink"
                   >
                     {item.label}
@@ -87,7 +87,7 @@ export function SiteHeader() {
           {nav.map((item) => (
             <li key={item.label}>
               <a
-                href={item.href}
+                href={withBase(item.href)}
                 onClick={() => setOpen(false)}
                 className="block py-3 font-display text-[1rem] font-medium text-ink"
               >

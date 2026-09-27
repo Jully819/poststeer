@@ -3,6 +3,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { notFound } from "next/navigation";
 import { blogPage } from "@/lib/content";
 import { Placeholder } from "@/components/ui/placeholder";
+import { withBase } from "@/lib/utils";
 
 /** Static per post; an unknown slug 404s rather than rendering an empty shell. */
 export const dynamicParams = false;
@@ -38,7 +39,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
   return (
     <article className="container-x py-14">
       <a
-        href="/blog"
+        href={withBase("/blog")}
         className="inline-flex items-center gap-1.5 text-[0.8rem] font-medium text-body transition-colors hover:text-ink"
       >
         <ArrowLeft className="size-3.5" aria-hidden="true" />
@@ -76,7 +77,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
           {others.map((other) => (
             <li key={other.slug}>
               <a
-                href={`/blog/${other.slug}`}
+                href={withBase(`/blog/${other.slug}`)}
                 className="flex items-center justify-between gap-4 rounded-xl border border-hairline bg-wash p-4 transition-colors hover:border-ink"
               >
                 <span>

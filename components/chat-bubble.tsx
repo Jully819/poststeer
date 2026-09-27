@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { MessageCircle, X } from "lucide-react";
 import { chat } from "@/lib/content";
+import { withBase } from "@/lib/utils";
 
 /**
  * Floating chat launcher, bottom right.
@@ -37,7 +38,7 @@ export function ChatBubble() {
         >
           <p className="font-display text-[1rem] font-semibold text-ink">{chat.title}</p>
           <p className="mt-2 text-[0.85rem] leading-relaxed text-body">{chat.body}</p>
-          <a href="/demo" className="btn btn-accent mt-4 min-h-[2.6rem] w-full text-[0.85rem]">
+          <a href={withBase("/demo")} className="btn btn-accent mt-4 min-h-[2.6rem] w-full text-[0.85rem]">
             {chat.cta}
           </a>
         </div>

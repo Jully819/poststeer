@@ -16,7 +16,7 @@ import {
   Video,
 } from "lucide-react";
 import { gallery, work, type WorkIndustry } from "@/lib/content";
-import { cn } from "@/lib/utils";
+import { cn, withBase } from "@/lib/utils";
 
 /**
  * The portfolio: a row of service tabs, a row of industry pills, and one grid
@@ -173,7 +173,7 @@ export function WorkGrid({ initialScope = "featured" }: { initialScope?: Scope }
             <li key={item.src}>
               <figure className="card overflow-hidden">
                 <img
-                  src={`/work/${item.src}.webp`}
+                  src={withBase(`/work/${item.src}.webp`)}
                   alt={item.alt}
                   width={work.tileWidth}
                   height={work.tileHeight}

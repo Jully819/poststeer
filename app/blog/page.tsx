@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { ArrowRight } from "lucide-react";
 import { blogPage } from "@/lib/content";
 import { Placeholder } from "@/components/ui/placeholder";
+import { withBase } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: blogPage.seoTitle,
@@ -29,7 +30,7 @@ export default function BlogIndex() {
       <ul className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {blogPage.posts.map((post) => (
           <li key={post.slug} className="card overflow-hidden">
-            <a href={`/blog/${post.slug}`} className="block">
+            <a href={withBase(`/blog/${post.slug}`)} className="block">
               <Placeholder
                 label="Post image"
                 ratio="aspect-[16/10]"
@@ -59,7 +60,7 @@ export default function BlogIndex() {
           <h2 className="font-display text-[1.15rem] font-bold text-ink">{blogPage.ctaTitle}</h2>
           <p className="mt-1 text-[0.9rem] text-body">{blogPage.ctaBody}</p>
         </div>
-        <a href="/start" className="btn btn-accent min-h-[2.8rem] px-6 text-[0.92rem]">
+        <a href={withBase("/start")} className="btn btn-accent min-h-[2.8rem] px-6 text-[0.92rem]">
           {blogPage.ctaButton}
           <ArrowRight className="size-4" aria-hidden="true" />
         </a>

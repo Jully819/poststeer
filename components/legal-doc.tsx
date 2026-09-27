@@ -1,4 +1,5 @@
 import { legalDocs, legalNav, legalUi, type LegalDoc } from "@/lib/legal";
+import { withBase } from "@/lib/utils";
 
 /**
  * The shared frame for the three legal documents.
@@ -15,7 +16,7 @@ export function LegalDocPage({ slug }: { slug: LegalDoc["slug"] }) {
   return (
     <article className="container-x py-12 md:py-16">
       <nav aria-label="Breadcrumb" className="font-mono text-[0.72rem] text-muted">
-        <a href="/" className="transition-colors hover:text-ink">
+        <a href={withBase("/")} className="transition-colors hover:text-ink">
           Home
         </a>
         <span aria-hidden="true" className="px-2 text-hairline">
@@ -48,7 +49,7 @@ export function LegalDocPage({ slug }: { slug: LegalDoc["slug"] }) {
               return (
                 <li key={item.slug}>
                   <a
-                    href={item.href}
+                    href={withBase(item.href)}
                     aria-current={active ? "page" : undefined}
                     className={
                       active
@@ -103,7 +104,7 @@ export function LegalDocPage({ slug }: { slug: LegalDoc["slug"] }) {
           <p className="mt-12 rounded-xl border border-dashed border-hairline bg-wash p-5 text-[0.8rem] leading-relaxed text-muted">
             {legalUi.footnote}{" "}
             <a
-              href={`mailto:${legalUi.contactEmail}`}
+              href={withBase(`mailto:${legalUi.contactEmail}`)}
               className="text-accent-ink underline underline-offset-2"
             >
               {legalUi.contactEmail}

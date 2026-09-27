@@ -1,5 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import { proStrip } from "@/lib/content";
+import { withBase } from "@/lib/utils";
 
 /** Thin upsell band between pricing and the guarantee, as in the reference. */
 export function ProStrip() {
@@ -7,7 +8,7 @@ export function ProStrip() {
     <section aria-label="Full-service option" className="pb-4">
       <div className="container-x">
         <a
-          href={proStrip.href}
+          href={withBase(proStrip.href)}
           className="card flex flex-wrap items-center justify-between gap-3 bg-wash px-6 py-4 transition-colors hover:border-ink/40"
         >
           <span className="text-[0.95rem] text-body">{proStrip.text}</span>

@@ -4,7 +4,7 @@ import { useEffect, useState, type FormEvent } from "react";
 import { ArrowLeft, Check } from "lucide-react";
 import { briefPage } from "@/lib/content";
 import { encodePlan, parsePlan, type Plan } from "@/lib/plan";
-import { cn } from "@/lib/utils";
+import { cn, withBase } from "@/lib/utils";
 import { OrderSummary } from "@/components/order-summary";
 
 const field =
@@ -59,7 +59,7 @@ export function BriefForm() {
     <div className="container-x grid gap-8 py-10 lg:grid-cols-[1fr_20rem] lg:items-start">
       <div>
         <a
-          href={backHref}
+          href={withBase(backHref)}
           className="inline-flex items-center gap-1.5 text-[0.8rem] font-medium text-body transition-colors hover:text-ink"
         >
           <ArrowLeft className="size-3.5" aria-hidden="true" />
@@ -79,7 +79,7 @@ export function BriefForm() {
             className="mt-6 rounded-xl border border-hairline bg-wash p-4 text-[0.85rem] text-ink"
           >
             No services selected yet.{" "}
-            <a href="/start" className="font-semibold text-accent-ink underline underline-offset-2">
+            <a href={withBase("/start")} className="font-semibold text-accent-ink underline underline-offset-2">
               Pick your services first
             </a>
             .

@@ -1,5 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import { DemoBooker } from "@/components/demo-booker";
+import { withBase } from "@/lib/utils";
 
 /**
  * Hero for the city and industry landing pages: copy and a stat row on the
@@ -32,7 +33,7 @@ export function LandingHero({
             <span key={crumb.label}>
               {i > 0 ? <span aria-hidden="true"> / </span> : null}
               {crumb.href ? (
-                <a href={crumb.href} className="transition-colors hover:text-ink">
+                <a href={withBase(crumb.href)} className="transition-colors hover:text-ink">
                   {crumb.label}
                 </a>
               ) : (
@@ -53,7 +54,7 @@ export function LandingHero({
             <p className="lead mt-5 max-w-[34rem]">{intro}</p>
 
             <div className="mt-8 flex flex-wrap items-center gap-3">
-              <a href="/demo" className="btn btn-accent min-h-[3.2rem] px-7 text-[1rem]">
+              <a href={withBase("/demo")} className="btn btn-accent min-h-[3.2rem] px-7 text-[1rem]">
                 Book a demo
                 <ArrowRight className="size-4" aria-hidden="true" />
               </a>

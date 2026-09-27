@@ -1,6 +1,7 @@
 import { finalCta } from "@/lib/content";
 import { Button } from "@/components/ui/button";
 import KineticGrid from "@/components/ui/kinetic-grid";
+import { withBase } from "@/lib/utils";
 
 /**
  * The closing band, on the same kinetic grid as the guarantee block — the two
@@ -22,7 +23,7 @@ export function FinalCta() {
               {finalCta.body}
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
-              <Button href="/demo" variant="accent">
+              <Button href={withBase("/demo")} variant="accent">
                 {finalCta.primaryCta}
               </Button>
               <a href="#faq" className="btn border border-white/30 text-white hover:border-white">

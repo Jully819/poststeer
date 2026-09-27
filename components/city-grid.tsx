@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { ArrowUpRight, Globe, X } from "lucide-react";
 import { serviceAreas } from "@/lib/content";
 import { slugify } from "@/lib/landing";
+import { withBase } from "@/lib/utils";
 
 /**
  * The searchable city list.
@@ -75,7 +76,7 @@ export function CityGrid() {
           {cities.map((city) => (
             <li key={city}>
               <a
-                href={`/service-areas/${slugify(city)}`}
+                href={withBase(`/service-areas/${slugify(city)}`)}
                 className="group flex items-center gap-3 rounded-xl border border-hairline bg-paper p-4 transition-colors hover:border-ink"
               >
                 <span className="min-w-0 flex-1">
@@ -102,7 +103,7 @@ export function CityGrid() {
           <p className="mx-auto mt-2 max-w-[34ch] text-[0.9rem] leading-relaxed text-body">
             {serviceAreas.empty.body}
           </p>
-          <a href="/demo" className="btn btn-accent mt-6">
+          <a href={withBase("/demo")} className="btn btn-accent mt-6">
             {serviceAreas.empty.cta}
           </a>
         </div>

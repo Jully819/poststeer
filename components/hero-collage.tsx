@@ -1,5 +1,5 @@
 import { hero, work } from "@/lib/content";
-import { cn } from "@/lib/utils";
+import { cn, withBase } from "@/lib/utils";
 
 /**
  * Three columns of work, scrolling continuously: outer two up, middle down.
@@ -48,7 +48,7 @@ export function HeroCollage() {
                     return (
                       <figure key={`${copy}-${key}`} className="ph relative aspect-[9/16] shrink-0">
                         <img
-                          src={`/work/${tile.src}.webp`}
+                          src={withBase(`/work/${tile.src}.webp`)}
                           alt={tile.alt}
                           width={work.tileWidth}
                           height={work.tileHeight}

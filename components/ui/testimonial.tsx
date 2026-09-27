@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import { ChevronLeft, ChevronRight, Star } from "lucide-react";
 import { testimonials } from "@/lib/content";
-import { cn } from "@/lib/utils";
+import { cn, withBase } from "@/lib/utils";
 
 /**
  * Client reviews as a slider: one row of identical cards, each a portrait
@@ -72,7 +72,7 @@ export default function ClientFeedback() {
                       row. object-cover crops the sides rather than the face:
                       each file is already framed on it. */}
                   <img
-                    src={`/reviews/${quote.photo}.webp`}
+                    src={withBase(`/reviews/${quote.photo}.webp`)}
                     alt=""
                     aria-hidden="true"
                     width={340}

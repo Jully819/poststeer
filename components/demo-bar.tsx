@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight, X } from "lucide-react";
 import { demoBar } from "@/lib/content";
-import { cn } from "@/lib/utils";
+import { cn, withBase } from "@/lib/utils";
 
 /**
  * Dark bar pinned to the bottom, from "How it works" downwards.
@@ -82,7 +82,7 @@ export function DemoBar() {
 
           <div className="flex items-center gap-3">
             <a
-              href="/demo"
+              href={withBase("/demo")}
               tabIndex={shown ? undefined : -1}
               className="btn min-h-[2.6rem] bg-white px-5 text-[0.88rem] font-bold text-ink hover:bg-white/90"
             >

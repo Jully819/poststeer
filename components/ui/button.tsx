@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { cn } from "@/lib/utils";
+import { cn, withBase } from "@/lib/utils";
 
 export function Button({
   href,
@@ -13,7 +13,7 @@ export function Button({
   children: ReactNode;
 }) {
   return (
-    <a href={href} className={cn("btn", `btn-${variant}`, className)}>
+    <a href={withBase(href)} className={cn("btn", `btn-${variant}`, className)}>
       {children}
     </a>
   );

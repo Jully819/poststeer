@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { brand } from "@/lib/content";
 import { industries } from "@/lib/landing";
 import { FinalCta } from "@/components/final-cta";
+import { withBase } from "@/lib/utils";
 
 const intro =
   "The same subscription, written for the trade you are in. Pick your industry to see what a month of content looks like, what usually goes wrong, and what it costs.";
@@ -21,7 +22,7 @@ export default function IndustriesPage() {
       <section aria-labelledby="industries-title" className="section-pad">
         <div className="container-x">
           <nav aria-label="Breadcrumb" className="text-[0.8rem] text-muted">
-            <a href="/" className="transition-colors hover:text-ink">
+            <a href={withBase("/")} className="transition-colors hover:text-ink">
               Home
             </a>
             <span aria-hidden="true"> / </span>
@@ -40,7 +41,7 @@ export default function IndustriesPage() {
             {industries.map((industry) => (
               <li key={industry.slug}>
                 <a
-                  href={`/industries/${industry.slug}`}
+                  href={withBase(`/industries/${industry.slug}`)}
                   className="card flex items-center justify-between gap-4 p-5 transition-colors hover:border-ink"
                 >
                   <span>

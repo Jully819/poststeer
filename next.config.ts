@@ -11,6 +11,12 @@ const nextConfig: NextConfig = {
   /* Static pre-render. One page, no API routes, no request-time data. */
   output: "export",
 
+  /* GitHub Pages serves a project site from /<repo>, so the export has to know
+     its prefix. The deploy workflow passes it; locally it is empty and the
+     site stays at the root. */
+  basePath: process.env.NEXT_PUBLIC_BASE_PATH || undefined,
+  assetPrefix: process.env.NEXT_PUBLIC_BASE_PATH || undefined,
+
   /* Static export has no image optimiser server. */
   images: { unoptimized: true },
 

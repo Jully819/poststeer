@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { ChevronDown, Search, X } from "lucide-react";
 import { glossaryPage, glossaryTerms, type GlossaryTerm } from "@/lib/glossary";
+import { withBase } from "@/lib/utils";
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
@@ -93,7 +94,7 @@ export function GlossaryIndex() {
           present.has(letter) ? (
             <a
               key={letter}
-              href={`#letter-${letter}`}
+              href={withBase(`#letter-${letter}`)}
               className="grid size-7 place-items-center rounded-md font-mono text-[0.78rem] text-ink transition-colors hover:bg-accent-tint"
             >
               {letter}
@@ -166,7 +167,7 @@ export function GlossaryIndex() {
           <p className="mx-auto mt-2 max-w-[38ch] text-[0.9rem] leading-relaxed text-body">
             {glossaryPage.empty.body}
           </p>
-          <a href="/demo" className="btn btn-accent mt-6">
+          <a href={withBase("/demo")} className="btn btn-accent mt-6">
             {glossaryPage.empty.cta}
           </a>
         </div>

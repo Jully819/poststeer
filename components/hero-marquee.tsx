@@ -1,6 +1,7 @@
 import { ArrowRight, Check, Plus, ShieldCheck, Star } from "lucide-react";
 import { hero } from "@/lib/content";
 import { HeroCollage } from "@/components/hero-collage";
+import { withBase } from "@/lib/utils";
 
 /* Each cross is centred on a corner of its frame's border. */
 const cornerPositions = [
@@ -92,7 +93,7 @@ export function HeroMarquee() {
           {/* Large pills, arrow on both. The blue one leads. */}
           <div className="mt-9 flex flex-wrap items-center gap-3">
             <a
-              href="/demo"
+              href={withBase("/demo")}
               className="btn btn-accent min-h-[3.4rem] px-8 text-[1.02rem] font-semibold"
             >
               {hero.primaryCta}

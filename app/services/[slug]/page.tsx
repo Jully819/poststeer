@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { brand, servicePages, servicesMenu } from "@/lib/content";
 import { CheckoutSteps } from "@/components/checkout-steps";
 import { serviceIcons } from "@/components/ui/service-icons";
+import { withBase } from "@/lib/utils";
 
 const allItems = servicesMenu.groups.flatMap((group) => group.items);
 
@@ -48,11 +49,11 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
 
       <article className="container-x py-12">
         <nav aria-label="Breadcrumb" className="text-[0.8rem] text-muted">
-          <a href="/" className="transition-colors hover:text-ink">
+          <a href={withBase("/")} className="transition-colors hover:text-ink">
             Home
           </a>
           <span aria-hidden="true"> / </span>
-          <a href="/start" className="transition-colors hover:text-ink">
+          <a href={withBase("/start")} className="transition-colors hover:text-ink">
             Services
           </a>
           <span aria-hidden="true"> / </span>
@@ -81,11 +82,11 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
         <p className="mt-6 max-w-[44rem] text-[1rem] leading-relaxed text-body">{page.intro}</p>
 
         <div className="mt-10 flex flex-wrap gap-3">
-          <a href={startHref} className="btn btn-accent min-h-[3rem] px-6 text-[0.95rem]">
+          <a href={withBase(startHref)} className="btn btn-accent min-h-[3rem] px-6 text-[0.95rem]">
             Add to plan
             <ArrowRight className="size-4" aria-hidden="true" />
           </a>
-          <a href="/start" className="btn btn-ghost min-h-[3rem] px-6 text-[0.95rem]">
+          <a href={withBase("/start")} className="btn btn-ghost min-h-[3rem] px-6 text-[0.95rem]">
             See all services
           </a>
         </div>
@@ -142,7 +143,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
               return (
                 <li key={other.slug}>
                   <a
-                    href={`/services/${other.slug}`}
+                    href={withBase(`/services/${other.slug}`)}
                     className="flex items-center gap-3 rounded-xl border border-hairline bg-wash p-3 transition-colors hover:border-ink"
                   >
                     <span

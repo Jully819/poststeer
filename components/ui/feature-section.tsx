@@ -4,6 +4,7 @@ import * as React from 'react';
 import { motion, Variants } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
+import { withBase } from "@/lib/utils";
 
 // Type definitions for the component props
 interface FeatureItem {
@@ -87,7 +88,7 @@ export const FeatureGrid = React.forwardRef<HTMLDivElement, FeatureGridProps>(
           {illustrationSrc && (
             <div className="flex-shrink-0">
               <img
-                src={illustrationSrc}
+                src={withBase(illustrationSrc)}
                 alt={illustrationAlt}
                 className="w-48 h-auto"
               />
@@ -119,7 +120,7 @@ export const FeatureGrid = React.forwardRef<HTMLDivElement, FeatureGridProps>(
                     <li key={itemIndex}>
                       {item.href ? (
                         <a
-                          href={item.href}
+                          href={withBase(item.href)}
                           className="hover:text-primary hover:underline underline-offset-2 transition-colors"
                         >
                           {item.text}
@@ -142,7 +143,7 @@ export const FeatureGrid = React.forwardRef<HTMLDivElement, FeatureGridProps>(
             transition={{ delay: 0.5, duration: 0.5 }}
             className="mt-12"
           >
-            <Button href={buttonHref} className="px-6">
+            <Button href={withBase(buttonHref)} className="px-6">
               {buttonText}
             </Button>
           </motion.div>

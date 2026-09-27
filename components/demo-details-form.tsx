@@ -4,7 +4,7 @@ import { useState, type FormEvent } from "react";
 import { Loader2, UserPlus, X } from "lucide-react";
 import { demoPage } from "@/lib/content";
 import { bookingConfigured, sendDemoRequest, type DemoRequest } from "@/lib/booking";
-import { cn } from "@/lib/utils";
+import { cn, withBase } from "@/lib/utils";
 
 /**
  * Step two of the booker: the details taken after a slot is chosen, and the
@@ -270,7 +270,7 @@ export function DemoDetailsForm({ day, dayLabel, slot, timezone, onBack, onSent 
           <span>
             {d.smsOptIn}{" "}
             <a
-              href={d.smsTermsHref}
+              href={withBase(d.smsTermsHref)}
               className="font-medium text-accent-ink underline underline-offset-2"
             >
               {d.smsTermsLabel}

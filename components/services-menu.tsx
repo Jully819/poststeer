@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight, ChevronDown, Star, Users } from "lucide-react";
 import { servicesMenu, type MenuItem } from "@/lib/content";
-import { cn } from "@/lib/utils";
+import { cn, withBase } from "@/lib/utils";
 import { serviceIcons } from "@/components/ui/service-icons";
 
 type Group = { title: string; viewAll: string; items: MenuItem[] };
@@ -19,7 +19,7 @@ function MenuGroup({ group, onNavigate }: { group: Group; onNavigate: () => void
           {group.title}
         </h3>
         <a
-          href="/start"
+          href={withBase("/start")}
           onClick={onNavigate}
           className="inline-flex items-center gap-1 font-display text-[0.82rem] font-semibold text-accent-ink"
         >
@@ -34,7 +34,7 @@ function MenuGroup({ group, onNavigate }: { group: Group; onNavigate: () => void
           return (
             <li key={item.slug}>
               <a
-                href={`/services/${item.slug}`}
+                href={withBase(`/services/${item.slug}`)}
                 onClick={onNavigate}
                 className="flex items-center gap-3 rounded-xl p-2.5 transition-colors hover:bg-wash"
               >
@@ -175,7 +175,7 @@ export function ServicesMenu({ label }: { label: string }) {
         </div>
 
         <a
-          href="/start"
+          href={withBase("/start")}
           onClick={close}
           className="flex flex-wrap items-center gap-4 border-t border-hairline bg-accent-tint px-6 py-4 transition-colors hover:bg-accent/15"
         >
@@ -218,11 +218,11 @@ export function ServicesMenu({ label }: { label: string }) {
         </a>
 
         <div className="flex flex-wrap items-center justify-between gap-3 border-t border-hairline px-6 py-3.5">
-          <a href="/start" onClick={close} className="font-display text-[0.92rem] font-bold text-ink">
+          <a href={withBase("/start")} onClick={close} className="font-display text-[0.92rem] font-bold text-ink">
             {servicesMenu.footerLeft}
           </a>
           <a
-            href="/start"
+            href={withBase("/start")}
             onClick={close}
             className="inline-flex items-center gap-1 font-display text-[0.92rem] font-semibold text-accent-ink"
           >

@@ -2,6 +2,7 @@ import { ArrowRight, Star } from "lucide-react";
 import { brand, footer } from "@/lib/content";
 import { slugify } from "@/lib/landing";
 import { Logo } from "@/components/logo";
+import { withBase } from "@/lib/utils";
 
 /**
  * Footer: brand column, five link columns, then city and industry rows.
@@ -54,7 +55,7 @@ export function SiteFooter() {
                 {column.items.map((item) => (
                   <li key={item}>
                     <a
-                      href={columnHrefs[item] ?? "#"}
+                      href={withBase(columnHrefs[item] ?? "#")}
                       className="text-[0.82rem] leading-snug text-body transition-colors hover:text-ink"
                     >
                       {item}
@@ -78,14 +79,14 @@ export function SiteFooter() {
           {footer.cities.items.map((city) => (
             <a
               key={city}
-              href={`/service-areas/${slugify(city)}`}
+              href={withBase(`/service-areas/${slugify(city)}`)}
               className="text-[0.82rem] text-body transition-colors hover:text-ink"
             >
               {city}
             </a>
           ))}
           <a
-            href="/service-areas"
+            href={withBase("/service-areas")}
             className="inline-flex items-center gap-1 font-display text-[0.82rem] font-semibold text-accent-ink"
           >
             {footer.cities.all}
@@ -105,7 +106,7 @@ export function SiteFooter() {
           {footer.industries.items.map((industry) => (
             <a
               key={industry}
-              href={`/industries/${slugify(industry)}`}
+              href={withBase(`/industries/${slugify(industry)}`)}
               className="text-[0.82rem] text-body transition-colors hover:text-ink"
             >
               {industry}
@@ -128,7 +129,7 @@ export function SiteFooter() {
           {footer.legal.links.map((link, i) => (
             <span key={link.label} className="flex items-center gap-4">
               {i > 0 ? <span aria-hidden="true">•</span> : null}
-              <a href={link.href} className="transition-colors hover:text-ink">
+              <a href={withBase(link.href)} className="transition-colors hover:text-ink">
                 {link.label}
               </a>
             </span>

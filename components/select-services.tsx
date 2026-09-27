@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Check } from "lucide-react";
 import { selectPage, type ServiceItem } from "@/lib/content";
 import { encodePlan, parsePlan } from "@/lib/plan";
-import { cn } from "@/lib/utils";
+import { cn, withBase } from "@/lib/utils";
 import { OrderSummary } from "@/components/order-summary";
 import { serviceIcons } from "@/components/ui/service-icons";
 
@@ -194,7 +194,7 @@ export function SelectServices() {
             selected: a Next that leads to an empty summary is a dead end
             dressed up as progress. */}
         <a
-          href={`/start/brief#plan=${encodePlan(chosen)}`}
+          href={withBase(`/start/brief#plan=${encodePlan(chosen)}`)}
           aria-disabled={selectedItems.length === 0}
           onClick={(event) => {
             if (selectedItems.length === 0) event.preventDefault();
