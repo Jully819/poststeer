@@ -1,0 +1,83 @@
+# Builds the static export and publishes it to GitHub Pages.
+#
+# THE EMAILJS IDS ARE BUILD-TIME. `output: 'export'` inlines every
+# NEXT_PUBLIC_* value into the bundle, so they have to be present here or the
+# booking form ships with no keys and silently sends nothing. They come from
+# .env.production, which Next loads for `next build` and which is committed:
+# see the note at the top of that file for why that is safe here.
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Let a running deploy finish rather than cancelling it half way.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Configure Pages
+        id: pages
+        uses: actions/configure-pages@v5
+
+      - run: npm ci
+
+      # An empty key does not break the build, it ships a form that silently
+      # sends nothing. Fail here instead, where the reason is visible.
+      - name: Check the EmailJS config is filled in
+        run: |
+          missing=""
+          for name in SERVICE_ID PUBLIC_KEY TEMPLATE_CLIENT TEMPLATE_TEAM; do
+            value=$(grep -E "^NEXT_PUBLIC_EMAILJS_$name=" .env.production | cut -d= -f2-)
+            if [ -z "$value" ]; then missing="$missing NEXT_PUBLIC_EMAILJS_$name"; fi
+          done
+          if [ -n "$missing" ]; then
+            echo "::error::.env.production is missing values for:$missing"
+            exit 1
+          fi
+          echo "All four EmailJS IDs are present in .env.production."
+
+      - name: Build
+        env:
+          # A project page is served from /<repo>, so the export has to be
+          # built for that prefix. Empty for a custom domain at the root.
+          NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+          # Canonicals, the sitemap and Open Graph URLs all hang off this.
+          NEXT_PUBLIC_SITE_URL: ${{ steps.pages.outputs.base_url }}
+        run: npm run build
+
+      # Without this, Pages runs the output through Jekyll, which skips every
+      # directory starting with an underscore. Next puts everything in _next.
+      - name: Disable Jekyll
+        run: touch out/.nojekyll
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5
