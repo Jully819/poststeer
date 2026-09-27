@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { ArrowLeft, Check, ChevronLeft, ChevronRight, Star } from "lucide-react";
 import { demoPage, testimonials } from "@/lib/content";
+import { DemoDetailsForm } from "@/components/demo-details-form";
 import { cn } from "@/lib/utils";
 
 /**
@@ -15,8 +16,9 @@ import { cn } from "@/lib/utils";
  * and holds its height until then, so nothing jumps when the real month
  * arrives.
  *
- * NOTHING IS BOOKED — see the note on `demoPage` in lib/content.ts. Confirming
- * shows the choice back and says the scheduler is not connected.
+ * NOTHING IS BOOKED — see the note on `demoPage` in lib/content.ts. Picking a
+ * slot opens the details form; submitting that shows the choice back and says
+ * the scheduler is not connected.
  */
 
 const WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
@@ -70,6 +72,8 @@ export function DemoBooker() {
   const [month, setMonth] = useState<Date | null>(null);
   const [day, setDay] = useState<Date | null>(null);
   const [slot, setSlot] = useState<string | null>(null);
+  /* Between the list of times and the review: the details form. */
+  const [details, setDetails] = useState(false);
   const [confirmed, setConfirmed] = useState(false);
   const [timezone, setTimezone] = useState("");
 
@@ -109,6 +113,7 @@ export function DemoBooker() {
 
   function reset() {
     setConfirmed(false);
+    setDetails(false);
     setSlot(null);
     setDay(null);
   }
@@ -162,6 +167,15 @@ export function DemoBooker() {
                 {c.again}
               </button>
             </div>
+          ) : details && day && slot ? (
+            /* Details, taken before anything is confirmed. */
+            <DemoDetailsForm
+              dayLabel={dayLabel}
+              slot={slot}
+              timezone={timezone}
+              onBack={() => setDetails(false)}
+              onSubmit={() => setConfirmed(true)}
+            />
           ) : day ? (
             /* Times for the chosen day. */
             <div>
@@ -207,7 +221,7 @@ export function DemoBooker() {
               <button
                 type="button"
                 disabled={!slot}
-                onClick={() => setConfirmed(true)}
+                onClick={() => setDetails(true)}
                 className="btn btn-accent mt-5 w-full disabled:cursor-not-allowed disabled:opacity-40"
               >
                 {c.confirm}

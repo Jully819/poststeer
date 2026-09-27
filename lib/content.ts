@@ -1723,6 +1723,30 @@ export const demoPage = {
       "This build has no booking provider connected and no endpoint to post to, so nothing has been reserved and nobody has been emailed. Wire the picker to your scheduler before launch.",
     again: "Pick a different slot",
     timezoneLead: "Times shown in",
+    /* Step two: the details taken before the slot is confirmed. NOTHING IS
+       POSTED — see the note in components/demo-details-form.tsx. */
+    details: {
+      changeTime: "Change time",
+      name: "Your name",
+      email: "Email address",
+      goal: "What's the #1 result you're hoping to achieve by working with PostSteer?",
+      goalPlaceholder: "Please share anything that will help prepare for our meeting.",
+      website: "Website URL (or link to your socials)",
+      addGuests: "Add guests",
+      guestEmail: "Guest email address",
+      addAnotherGuest: "Add another guest",
+      removeGuest: "Remove guest",
+      countryCode: "Country code",
+      phone: "Phone number (Text notifications)",
+      phonePlaceholder: "Enter phone number",
+      phoneConsent:
+        "By entering your phone number you consent to receive SMS messages for this event. SMS rates may apply.",
+      smsOptIn:
+        "PostSteer can text me about my demo. Msg & data rates may apply. Reply STOP to opt out, HELP for help. Terms:",
+      smsTermsLabel: "poststeer.com/terms",
+      smsTermsHref: "/legal/terms",
+      submit: "Schedule demo",
+    },
   },
   reviewsLabel: "Verified review",
   beforeTitle: "Before you book",
