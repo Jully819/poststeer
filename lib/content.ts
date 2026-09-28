@@ -1116,7 +1116,8 @@ export const selectPage = {
           id: "stories",
           name: "Instagram Stories",
           icon: "stories",
-          description: "Static, single-image Instagram stories.",
+          description:
+            "Full-screen stories designed and published for you. They vanish after 24 hours, so they keep the profile busy without filling up the grid.",
           mode: "quantity",
           placeholder: "Stories quantity",
           options: [
@@ -1130,7 +1131,7 @@ export const selectPage = {
           name: "Carousel Posts",
           icon: "carousel",
           description:
-            "Three to five slides each. Replaces a regular post, so do not buy more than your post quantity.",
+            "Three to five slides on one post, for a tip, a list or a before and after. Replaces a regular post, so do not buy more than your post quantity.",
           mode: "quantity",
           placeholder: "Carousel quantity",
           options: [
