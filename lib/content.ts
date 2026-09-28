@@ -526,8 +526,8 @@ export const hero = {
       alt: "Email newsletter with a green smoothie",
       w: 1056,
       h: 1192,
-      wordmarkLeft: "8%",
-      wordmarkTop: "15.5%",
+      wordmarkLeft: "7.4%",
+      wordmarkTop: "9.4%",
     },
     /* The pencilled notes, cut from the same artwork as the cards rather
        than set in a handwriting face: the wording, the slant, the line

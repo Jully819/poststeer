@@ -60,8 +60,16 @@ export function HeroCards() {
           </figure>
 
           <figure className="relative overflow-hidden rounded-2xl shadow-[0_14px_36px_-18px_rgb(10_11_16/0.3)] transition-shadow duration-300 hover:shadow-[0_26px_56px_-20px_rgb(10_11_16/0.45)] sm:rotate-[0.5deg]">
-            {/* The wordmark is printed on this artwork too. */}
             <Art art={s.email} />
+            {/* Ours, over the painted-out wordmark. The rest of this card's
+                furniture is baked into the artwork; only the brand name is
+                ours to set. */}
+            <span
+              className="absolute font-display text-[0.6rem] font-semibold tracking-[0.2em] text-ink uppercase sm:text-[0.68rem]"
+              style={{ left: s.email.wordmarkLeft, top: s.email.wordmarkTop }}
+            >
+              {s.handle}
+            </span>
           </figure>
         </div>
 
