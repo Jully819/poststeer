@@ -1051,8 +1051,7 @@ export type ServiceIcon =
   | "website"
   | "landing"
   | "email"
-  | "blog"
-  | "backlinks";
+  | "blog";
 
 export interface ServiceOption {
   label: string;
@@ -1070,6 +1069,15 @@ export interface ServiceItem {
   placeholder?: string;
   options?: ServiceOption[];
   price?: number;
+  /**
+   * A Stripe Payment Link, for services that can be bought on their own.
+   *
+   * ONLY ON FIXED, ONE-OFF SERVICES. A Payment Link charges an amount set in
+   * Stripe, so it can only stand in for a service whose price never varies.
+   * The monthly services are quantities the visitor chooses and combines, and
+   * that total exists only in the browser: it goes to the brief instead.
+   */
+  checkout?: string;
 }
 
 export interface ServiceGroup {
@@ -1173,6 +1181,7 @@ export const selectPage = {
           mode: "add",
           oneTime: true,
           price: 2500,
+          checkout: "https://buy.stripe.com/bJe3coaOP5J9a927ig6oo01",
         },
         {
           id: "landing",
@@ -1183,6 +1192,7 @@ export const selectPage = {
           mode: "add",
           oneTime: true,
           price: 399,
+          checkout: "https://buy.stripe.com/7sYfZaf551sT3KE7ig6oo00",
         },
       ],
     },
@@ -1219,25 +1229,6 @@ export const selectPage = {
             { label: "2 posts - $99/mo", price: 99 },
             { label: "4 posts - $189/mo", price: 189 },
             { label: "8 posts - $379/mo", price: 379 },
-          ],
-        },
-      ],
-    },
-    {
-      title: "SEO Backlinks",
-      items: [
-        {
-          id: "backlinks",
-          name: "SEO Backlinks",
-          icon: "backlinks",
-          description:
-            "High-traffic, niche-relevant DA20-65 backlinks to lift your search rankings.",
-          mode: "quantity",
-          placeholder: "Backlink quantity",
-          options: [
-            { label: "5 links - $249/mo", price: 249 },
-            { label: "15 links - $699/mo", price: 699 },
-            { label: "30 links - $1,399/mo", price: 1399 },
           ],
         },
       ],
@@ -1540,7 +1531,7 @@ export const faqs = [
        as its own <p> rather than running them together. */
     answer: [
       "Your first month of eligible creative services is covered by our 14-day satisfaction guarantee. If you\u2019ve worked through revisions and still aren\u2019t satisfied, we\u2019ll refund your first month in full, provided you haven\u2019t approved or scheduled the work.",
-      "The guarantee covers social posts, short-form video, blog posts, email design, and static and video ads. Services with significant upfront or third-party costs\u2014including Meta Ads, Google Ads, Managed SEO, SEO Backlinks, UGC Videos, and Instagram Growth\u2014aren\u2019t covered.",
+      "The guarantee covers social posts, short-form video, blog posts, email design, and static and video ads. Services with significant upfront or third-party costs\u2014including Meta Ads, Google Ads, Managed SEO, UGC Videos, and Instagram Growth\u2014aren\u2019t covered.",
       "You can cancel any service anytime to prevent future charges. If you sign up but don\u2019t complete onboarding, your payment remains as credit with no expiration.",
     ],
   },

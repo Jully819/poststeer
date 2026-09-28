@@ -75,4 +75,10 @@ export function planTotals(plan: Plan) {
   return { items, monthly, oneTime };
 }
 
-export const money = (value: number) => `$${value.toFixed(2)}`;
+/* Locale pinned to en-US: the export is rendered on the build machine and
+   hydrated in the visitor's browser, and a floating locale would make those
+   two disagree about where the separators go. */
+export const money = (value: number) => `$${value.toLocaleString("en-US", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}`;

@@ -9,7 +9,13 @@ import { OrderSummary } from "@/components/order-summary";
 import { serviceIcons } from "@/components/ui/service-icons";
 
 /** 99 -> "$99.00". Two decimals, as on a checkout page. */
-const money = (value: number) => `$${value.toFixed(2)}`;
+/* Locale pinned to en-US: the export is rendered on the build machine and
+   hydrated in the visitor's browser, and a floating locale would make those
+   two disagree about where the separators go. */
+const money = (value: number) => `$${value.toLocaleString("en-US", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}`;
 
 /** "$69.00 – $149.00 / month" for a dropdown, or one price for an Add item. */
 function priceLabel(item: ServiceItem) {
@@ -170,17 +176,32 @@ export function SelectServices() {
                           ) : null}
                         </>
                       ) : (
-                        <button
-                          type="button"
-                          onClick={() => toggleAdd(item)}
-                          aria-pressed={on}
-                          className={cn(
-                            "btn mt-3 min-h-[2.2rem] px-3 text-[0.8rem]",
-                            on ? "btn-ghost" : "btn-accent",
-                          )}
-                        >
-                          {on ? "Remove service" : "+ Add Service"}
-                        </button>
+                        <div className="mt-3 flex flex-wrap items-center gap-2">
+                          <button
+                            type="button"
+                            onClick={() => toggleAdd(item)}
+                            aria-pressed={on}
+                            className={cn(
+                              "btn min-h-[2.2rem] px-3 text-[0.8rem]",
+                              on ? "btn-ghost" : "btn-accent",
+                            )}
+                          >
+                            {on ? "Remove service" : "+ Add Service"}
+                          </button>
+                          {/* Only fixed one-off services carry a link: see the
+                              note on `checkout` in lib/content.ts. Priced in
+                              the label so nobody mistakes a single build for a
+                              subscription. */}
+                          {item.checkout ? (
+                            <a
+                              href={item.checkout}
+                              rel="noopener"
+                              className="btn btn-ghost min-h-[2.2rem] px-3 text-[0.8rem]"
+                            >
+                              Buy once for {money(item.price ?? 0)}
+                            </a>
+                          ) : null}
+                        </div>
                       )}
                     </article>
                   );

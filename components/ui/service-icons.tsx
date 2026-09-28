@@ -6,7 +6,6 @@ import {
   Image as ImageIcon,
   Layers,
   LayoutTemplate,
-  Link2,
   Mail,
   MonitorCog,
   MonitorPlay,
@@ -37,5 +36,4 @@ export const serviceIcons: Record<ServiceIcon, ComponentType<SVGProps<SVGSVGElem
   landing: LayoutTemplate,
   email: Mail,
   blog: FileText,
-  backlinks: Link2,
 };
