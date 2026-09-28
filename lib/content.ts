@@ -106,13 +106,13 @@ export const servicesMenu = {
           planId: "email",
         },
         {
-          slug: "conversion-tracking",
-          name: "Conversion Tracking",
-          tagline: "Pixel, GTM & server-side",
-          price: "$299",
+          slug: "business-website",
+          name: "Business Website",
+          tagline: "Up to five pages, on your domain",
+          price: "$2,500",
           unit: "once",
-          icon: "conversion",
-          planId: "conversion",
+          icon: "website",
+          planId: "website",
         },
         {
           slug: "landing-pages",
@@ -208,19 +208,19 @@ export const servicePages: Record<
       { title: "Send", body: "Scheduled, monitored and reported monthly." },
     ],
   },
-  "conversion-tracking": {
+  "business-website": {
     intro:
-      "Tracking set up properly once: pixel, tag manager and server-side events, so the numbers your ads report match what actually happened.",
+      "Up to five pages, written, designed and built on your domain. The site your posts and ads send people to when one page is not enough.",
     includes: [
-      "Pixel and tag manager installation",
-      "Server-side events where the platform supports them",
-      "Conversion and lead events mapped to real actions",
-      "A test report showing each event firing",
+      "Up to 5 pages, copy and custom design",
+      "Built on your own domain, not rented from us",
+      "Forms or booking wired up and tested",
+      "Mobile-ready throughout",
     ],
     steps: [
-      { title: "Map", body: "We agree which actions count as a conversion." },
-      { title: "Install", body: "Tags, events and server-side configuration." },
-      { title: "Verify", body: "Each event tested and documented before handover." },
+      { title: "Scope", body: "Which pages you need, and what each one is for." },
+      { title: "Build", body: "Written, designed and built, with one round of changes." },
+      { title: "Launch", body: "Live on your domain, forms tested before handover." },
     ],
   },
   "landing-pages": {
@@ -1048,7 +1048,7 @@ export type ServiceIcon =
   | "video"
   | "growth"
   | "seo"
-  | "conversion"
+  | "website"
   | "landing"
   | "email"
   | "blog"
@@ -1164,17 +1164,14 @@ export const selectPage = {
       twoUp: true,
       items: [
         {
-          id: "conversion",
-          name: "Conversion Tracking",
-          icon: "conversion",
-          description: "Pixel and conversion tracking setup across your ad accounts.",
-          mode: "quantity",
+          id: "website",
+          name: "Business Website",
+          icon: "website",
+          description:
+            "Up to five pages, written, designed and built on your domain. Priced as one build, like a landing page.",
+          mode: "add",
           oneTime: true,
-          placeholder: "Select option",
-          options: [
-            { label: "One platform - $249", price: 249 },
-            { label: "Two platforms - $349", price: 349 },
-          ],
+          price: 2500,
         },
         {
           id: "landing",

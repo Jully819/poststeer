@@ -1,6 +1,7 @@
 import type { ComponentType, SVGProps } from "react";
 import {
   FileText,
+  Globe,
   Film,
   Image as ImageIcon,
   Layers,
@@ -11,7 +12,6 @@ import {
   MonitorPlay,
   Search,
   Smartphone,
-  Target,
   ThumbsUp,
   Users,
 } from "lucide-react";
@@ -33,7 +33,7 @@ export const serviceIcons: Record<ServiceIcon, ComponentType<SVGProps<SVGSVGElem
   video: MonitorPlay,
   growth: ThumbsUp,
   seo: MonitorCog,
-  conversion: Target,
+  website: Globe,
   landing: LayoutTemplate,
   email: Mail,
   blog: FileText,
