@@ -174,6 +174,23 @@ export function SelectServices() {
                               {priceLabel(item)}
                             </p>
                           ) : null}
+                          {/* Only the chosen quantity, and only when that
+                              quantity has a link of its own: see the note on
+                              `checkout` in lib/content.ts. Labelled per month
+                              so a subscription never reads as a one-off. */}
+                          {(() => {
+                            const picked = item.options?.[Number(chosen[item.id])];
+                            if (!on || !picked?.checkout) return null;
+                            return (
+                              <a
+                                href={picked.checkout}
+                                rel="noopener"
+                                className="btn btn-ghost mt-3 min-h-[2.2rem] w-full px-3 text-[0.8rem]"
+                              >
+                                Subscribe for {money(picked.price)}/mo
+                              </a>
+                            );
+                          })()}
                         </>
                       ) : (
                         <div className="mt-3 flex flex-wrap items-center gap-2">

@@ -1056,6 +1056,16 @@ export type ServiceIcon =
 export interface ServiceOption {
   label: string;
   price: number;
+  /**
+   * A Stripe Payment Link for this exact quantity.
+   *
+   * PER OPTION, NOT PER SERVICE. A Payment Link charges one fixed amount, and
+   * every quantity is a different amount, so each needs its own link. Options
+   * without one simply have no buy button: the visitor adds them to the plan
+   * and goes to the brief, which is what every option did before any link
+   * existed.
+   */
+  checkout?: string;
 }
 
 export interface ServiceItem {
@@ -1109,7 +1119,9 @@ export const selectPage = {
           mode: "quantity",
           placeholder: "Select post quantity",
           options: [
-            { label: "10 posts - $69/mo", price: 69 },
+            { label: "10 posts - $69/mo", price: 69,
+              checkout: "https://buy.stripe.com/6oUeV6f557Rh5SMaus6oo07",
+            },
             { label: "20 posts - $129/mo", price: 129 },
             { label: "30 posts - $179/mo", price: 179 },
           ],
@@ -1129,7 +1141,9 @@ export const selectPage = {
           mode: "quantity",
           placeholder: "Stories quantity",
           options: [
-            { label: "10 stories - $69/mo", price: 69 },
+            { label: "10 stories - $69/mo", price: 69,
+              checkout: "https://buy.stripe.com/cNi6oAaOPdbBftm8mk6oo06",
+            },
             { label: "20 stories - $109/mo", price: 109 },
             { label: "30 stories - $149/mo", price: 149 },
           ],
@@ -1144,7 +1158,9 @@ export const selectPage = {
           placeholder: "Carousel quantity",
           options: [
             { label: "1 carousel - $10/mo", price: 10 },
-            { label: "5 carousels - $75/mo", price: 75 },
+            { label: "5 carousels - $75/mo", price: 75,
+              checkout: "https://buy.stripe.com/6oU5kw4qr6Nd5SM0TS6oo05",
+            },
             { label: "10 carousels - $150/mo", price: 150 },
           ],
         },
@@ -1161,7 +1177,9 @@ export const selectPage = {
           mode: "quantity",
           placeholder: "Video quantity",
           options: [
-            { label: "5 videos - $129/mo", price: 129 },
+            { label: "5 videos - $129/mo", price: 129,
+              checkout: "https://buy.stripe.com/aFa00ccWXb3t1Cw0TS6oo04",
+            },
             { label: "10 videos - $249/mo", price: 249 },
             { label: "20 videos - $479/mo", price: 479 },
           ],
@@ -1209,7 +1227,9 @@ export const selectPage = {
           placeholder: "Email quantity",
           options: [
             { label: "2 emails - $149/mo", price: 149 },
-            { label: "4 emails - $289/mo", price: 289 },
+            { label: "4 emails - $289/mo", price: 289,
+              checkout: "https://buy.stripe.com/00w00cf55fjJgxqaus6oo03",
+            },
             { label: "8 emails - $549/mo", price: 549 },
           ],
         },
@@ -1227,7 +1247,9 @@ export const selectPage = {
           placeholder: "Select plan",
           options: [
             { label: "2 posts - $99/mo", price: 99 },
-            { label: "4 posts - $189/mo", price: 189 },
+            { label: "4 posts - $189/mo", price: 189,
+              checkout: "https://buy.stripe.com/eVqbIU0abefFbd6fOM6oo02",
+            },
             { label: "8 posts - $379/mo", price: 379 },
           ],
         },
@@ -1335,6 +1357,35 @@ export const blogPage = {
   ] as BlogPost[],
   seoTitle: "Blog | PostSteer",
   seoDescription: "Notes on making content and actually getting it published.",
+};
+
+/**
+ * /thank-you — where a Stripe Payment Link sends someone after they pay.
+ *
+ * THE PAGE KNOWS NOTHING ABOUT THE PAYMENT. A static export cannot look a
+ * checkout session up, so nothing here names the service, the amount or the
+ * buyer. Stripe's own receipt does that. This page has one job: get the
+ * brief, because a payment with no brief is money we cannot start work on.
+ */
+export const thankYouPage = {
+  seoTitle: "Thank you | PostSteer",
+  seoDescription: "Your payment went through. Next, tell us about the business.",
+  title: "Payment received.",
+  intro:
+    "Stripe has emailed your receipt. Nothing else is needed to secure the work.",
+  nextTitle: "One thing left",
+  nextBody:
+    "We cannot start until we know the business. It takes about ten minutes, once, and it is what the team works from in week one.",
+  cta: "Tell us about the business",
+  whatNextTitle: "What happens next",
+  whatNext: [
+    "Your brief reaches the team the moment you send it.",
+    "Someone reads it and comes back within one working day, by email.",
+    "First work lands about a week after that.",
+  ],
+  helpLead: "Something wrong with the payment?",
+  helpCta: "Email poststeer@gmail.com",
+  helpHref: "mailto:poststeer@gmail.com",
 };
 
 export const briefPage = {
