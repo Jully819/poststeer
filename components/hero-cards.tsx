@@ -1,5 +1,4 @@
 import { hero } from "@/lib/content";
-import { PlatformLogo } from "@/components/platform-logos";
 import { cn, withBase } from "@/lib/utils";
 
 /**
@@ -54,46 +53,15 @@ export function HeroCards() {
         {/* Left stack: the reel, then the newsletter under it. */}
         <div className="flex w-[57%] flex-col gap-3 sm:gap-4">
           <figure className="relative overflow-hidden rounded-2xl shadow-[0_18px_44px_-18px_rgb(10_11_16/0.4)] transition-shadow duration-300 hover:shadow-[0_30px_64px_-20px_rgb(10_11_16/0.5)] sm:-rotate-1">
+            {/* No overlays: the artwork carries the avatar, handle, counters,
+                progress bar and platform pill itself. Drawing ours on top of
+                them printed each one twice. */}
             <Art art={s.video} />
-
-            {/* The three pieces the crop took off, put back. */}
-            <span className="absolute top-3 left-3 flex items-center gap-2">
-              <span className="grid size-7 place-items-center rounded-full bg-paper font-display text-[0.65rem] font-bold text-ink">
-                {s.handle.replace(/[^A-Za-z]/g, "").slice(0, 1).toUpperCase()}
-              </span>
-              <span className="leading-tight">
-                <span className="block font-display text-[0.7rem] font-semibold text-white drop-shadow">
-                  {s.handle}
-                </span>
-                <span className="block font-mono text-[0.6rem] text-white/75 drop-shadow">
-                  {s.posted}
-                </span>
-              </span>
-            </span>
-
-            <span className="absolute right-3 bottom-2.5 left-3 h-[3px] overflow-hidden rounded-full bg-white/30">
-              <span className="block h-full w-1/3 rounded-full bg-white" />
-            </span>
-
-            <span className="absolute bottom-6 left-2.5 flex items-center gap-1.5 rounded-full bg-paper/95 py-1 pr-2.5 pl-1.5 shadow-[0_4px_12px_-4px_rgb(10_11_16/0.25)] backdrop-blur-sm">
-              <span className="grid size-5 place-items-center rounded-md bg-ink text-white">
-                <PlatformLogo mark={s.video.mark} className="size-3" />
-              </span>
-              <span className="font-display text-[0.58rem] font-bold tracking-[0.08em] text-ink uppercase">
-                {s.video.label}
-              </span>
-            </span>
           </figure>
 
           <figure className="relative overflow-hidden rounded-2xl shadow-[0_14px_36px_-18px_rgb(10_11_16/0.3)] transition-shadow duration-300 hover:shadow-[0_26px_56px_-20px_rgb(10_11_16/0.45)] sm:rotate-[0.5deg]">
+            {/* The wordmark is printed on this artwork too. */}
             <Art art={s.email} />
-            {/* Ours, where the painted-out wordmark used to sit. */}
-            <span
-              className="absolute font-display text-[0.6rem] font-semibold tracking-[0.2em] text-ink uppercase sm:text-[0.68rem]"
-              style={{ left: s.email.wordmarkLeft, top: s.email.wordmarkTop }}
-            >
-              {s.handle}
-            </span>
           </figure>
         </div>
 

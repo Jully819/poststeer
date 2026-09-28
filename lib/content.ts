@@ -493,8 +493,8 @@ export const hero = {
     video: {
       src: "reel-skincare-ritual",
       alt: "Short-form video of a serum poured over oranges",
-      w: 640,
-      h: 833,
+      w: 941,
+      h: 1672,
       label: "Short-form video",
       mark: "tiktok" as const,
     },
@@ -502,20 +502,20 @@ export const hero = {
       {
         src: "post-weeknight-meals",
         alt: "Social post of a pasta dish",
-        w: 560,
-        h: 420,
+        w: 1200,
+        h: 1016,
       },
       {
         src: "carousel-vitamin-c",
         alt: "Carousel panel for a vitamin C serum",
-        w: 560,
-        h: 420,
+        w: 1352,
+        h: 908,
       },
       {
         src: "story-move-feel-better",
         alt: "Story frame of someone stretching in morning light",
-        w: 500,
-        h: 888,
+        w: 886,
+        h: 1619,
       },
     ],
     /* The newsletter card. Its wordmark named another brand and has been
@@ -524,8 +524,8 @@ export const hero = {
     email: {
       src: "email-wellness",
       alt: "Email newsletter with a green smoothie",
-      w: 640,
-      h: 800,
+      w: 1056,
+      h: 1192,
       wordmarkLeft: "8%",
       wordmarkTop: "15.5%",
     },
