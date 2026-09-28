@@ -15,16 +15,13 @@
  * says so rather than pretending.
  */
 
-const SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID ?? "";
-const PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY ?? "";
+import { TEAM_EMAIL, sendTemplate, transportConfigured } from "@/lib/emailjs";
+
 const CLIENT_TEMPLATE = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_CLIENT ?? "";
 const TEAM_TEMPLATE = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_TEAM ?? "";
 
 /** Where the team's copy lands. */
-export const BOOKING_EMAIL =
-  process.env.NEXT_PUBLIC_BOOKING_EMAIL ?? "poststeer@gmail.com";
-
-const ENDPOINT = "https://api.emailjs.com/api/v1.0/email/send";
+export const BOOKING_EMAIL = TEAM_EMAIL;
 
 /** The demo as sold everywhere else on the site: 20 minutes. */
 const DEMO_MINUTES = 20;
@@ -48,7 +45,7 @@ export type DemoRequest = {
 
 /** True once every key the send needs is present in the build. */
 export const bookingConfigured = Boolean(
-  SERVICE_ID && PUBLIC_KEY && CLIENT_TEMPLATE && TEAM_TEMPLATE,
+  transportConfigured && CLIENT_TEMPLATE && TEAM_TEMPLATE,
 );
 
 /** The chosen slot as a real instant, and the instant it ends. */
@@ -135,23 +132,6 @@ function templateParams(request: DemoRequest) {
   };
 }
 
-async function send(templateId: string, params: Record<string, string>) {
-  const response = await fetch(ENDPOINT, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      service_id: SERVICE_ID,
-      template_id: templateId,
-      user_id: PUBLIC_KEY,
-      template_params: params,
-    }),
-  });
-  if (!response.ok) {
-    /* EmailJS answers in plain text, and the reason is worth keeping. */
-    throw new Error(`${response.status} ${await response.text()}`.trim());
-  }
-}
-
 /**
  * Sends both emails. Throws if either fails, so the form can say the booking
  * did not go through instead of showing a confirmation for an email nobody
@@ -163,6 +143,6 @@ export async function sendDemoRequest(request: DemoRequest) {
   }
   const params = templateParams(request);
   /* Sequential, not parallel: EmailJS allows one request per second. */
-  await send(TEAM_TEMPLATE, { ...params, to_email: BOOKING_EMAIL });
-  await send(CLIENT_TEMPLATE, params);
+  await sendTemplate(TEAM_TEMPLATE, { ...params, to_email: BOOKING_EMAIL });
+  await sendTemplate(CLIENT_TEMPLATE, params);
 }

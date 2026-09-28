@@ -53,7 +53,7 @@ export function HeroCards() {
       <div className="flex gap-3 sm:gap-4">
         {/* Left stack: the reel, then the newsletter under it. */}
         <div className="flex w-[57%] flex-col gap-3 sm:gap-4">
-          <figure className="relative overflow-hidden rounded-2xl shadow-[0_18px_44px_-18px_rgb(10_11_16/0.4)] sm:-rotate-1">
+          <figure className="relative overflow-hidden rounded-2xl shadow-[0_18px_44px_-18px_rgb(10_11_16/0.4)] transition-shadow duration-300 hover:shadow-[0_30px_64px_-20px_rgb(10_11_16/0.5)] sm:-rotate-1">
             <Art art={s.video} />
 
             {/* The three pieces the crop took off, put back. */}
@@ -85,7 +85,7 @@ export function HeroCards() {
             </span>
           </figure>
 
-          <figure className="relative overflow-hidden rounded-2xl shadow-[0_14px_36px_-18px_rgb(10_11_16/0.3)] sm:rotate-[0.5deg]">
+          <figure className="relative overflow-hidden rounded-2xl shadow-[0_14px_36px_-18px_rgb(10_11_16/0.3)] transition-shadow duration-300 hover:shadow-[0_26px_56px_-20px_rgb(10_11_16/0.45)] sm:rotate-[0.5deg]">
             <Art art={s.email} />
             {/* Ours, where the painted-out wordmark used to sit. */}
             <span
@@ -103,7 +103,7 @@ export function HeroCards() {
             <figure
               key={card.src}
               className={cn(
-                "overflow-hidden rounded-2xl shadow-[0_14px_36px_-18px_rgb(10_11_16/0.3)]",
+                "overflow-hidden rounded-2xl shadow-[0_14px_36px_-18px_rgb(10_11_16/0.3)] transition-shadow duration-300 hover:shadow-[0_26px_56px_-20px_rgb(10_11_16/0.45)]",
                 i === 0 && "sm:rotate-1",
                 i === 1 && "sm:-rotate-[0.5deg]",
                 i === 2 && "sm:rotate-[1.5deg]",

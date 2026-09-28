@@ -1419,11 +1419,18 @@ export const briefPage = {
     required: "Required",
   },
   back: "Back to services",
-  submit: "Review and continue",
-  reviewTitle: "Ready to send",
+  submit: "Send the brief",
+  sending: "Sending",
+  /* The state after the brief is away. Nothing has been charged yet, and
+     saying otherwise would be a lie told to someone who is about to pay. */
+  reviewTitle: "Brief sent",
   reviewNote:
-    "This is where the brief would be saved and payment would start. Connect a backend and a payment provider to finish the flow.",
-  editBrief: "Edit the brief",
+    "It is with the team. Someone reads it and comes back within one working day with an invoice for the plan below. Nothing has been charged yet.",
+  editBrief: "Send another brief",
+  sendFailed:
+    "That did not send. Try again, or email poststeer@gmail.com and we will take the brief that way.",
+  sendNotConfigured:
+    "The email service for this site is not connected yet, so nothing was sent. Email poststeer@gmail.com and we will take the brief that way.",
   seoTitle: "Your brief | PostSteer",
   seoDescription: "Tell us about the business so the first batch lands right.",
 };

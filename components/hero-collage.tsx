@@ -46,7 +46,12 @@ export function HeroCollage() {
                     const tile = byKey.get(key);
                     if (!tile) return null;
                     return (
-                      <figure key={`${copy}-${key}`} className="ph relative aspect-[9/16] shrink-0">
+                      <figure
+                        key={`${copy}-${key}`}
+                        /* border-0 undoes the hairline .ph carries: these are
+                           finished artwork, not placeholder blocks. */
+                        className="ph relative aspect-[9/16] shrink-0 border-0 shadow-[0_10px_30px_-14px_rgb(10_11_16/0.28)] transition-shadow duration-300 hover:shadow-[0_22px_48px_-18px_rgb(10_11_16/0.42)]"
+                      >
                         <img
                           src={withBase(`/work/${tile.src}.webp`)}
                           alt={tile.alt}
