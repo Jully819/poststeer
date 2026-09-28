@@ -53,10 +53,23 @@ export function HeroCards() {
         {/* Left stack: the reel, then the newsletter under it. */}
         <div className="flex w-[57%] flex-col gap-3 sm:gap-4">
           <figure className="relative overflow-hidden rounded-2xl shadow-[0_18px_44px_-18px_rgb(10_11_16/0.4)] transition-shadow duration-300 hover:shadow-[0_30px_64px_-20px_rgb(10_11_16/0.5)] sm:-rotate-1">
-            {/* No overlays: the artwork carries the avatar, handle, counters,
-                progress bar and platform pill itself. Drawing ours on top of
-                them printed each one twice. */}
             <Art art={s.video} />
+            {/* Only the identity is ours. The counters, progress bar and
+                platform pill are printed on the artwork, so drawing those
+                again would show each one twice. */}
+            <span className="absolute top-3 left-3 flex items-center gap-2">
+              <span className="grid size-7 place-items-center rounded-full bg-paper font-display text-[0.65rem] font-bold text-ink">
+                {s.handle.replace(/[^A-Za-z]/g, "").slice(0, 1).toUpperCase()}
+              </span>
+              <span className="leading-tight">
+                <span className="block font-display text-[0.7rem] font-semibold text-white drop-shadow">
+                  {s.handle}
+                </span>
+                <span className="block font-mono text-[0.6rem] text-white/75 drop-shadow">
+                  {s.posted}
+                </span>
+              </span>
+            </span>
           </figure>
 
           <figure className="relative overflow-hidden rounded-2xl shadow-[0_14px_36px_-18px_rgb(10_11_16/0.3)] transition-shadow duration-300 hover:shadow-[0_26px_56px_-20px_rgb(10_11_16/0.45)] sm:rotate-[0.5deg]">
