@@ -133,6 +133,37 @@ function templateParams(request: DemoRequest) {
 }
 
 /**
+ * The team's copy, written out as plain text.
+ *
+ * THE TEAM TEMPLATE IS SHARED with the brief, because the EmailJS free plan
+ * allows two templates and the visitor's confirmation needs one of them. Each
+ * sender composes its own subject and body, so one template can carry either
+ * without the other's fields turning up blank.
+ */
+function teamBody(request: DemoRequest) {
+  const p = templateParams(request);
+  return [
+    `${request.name} booked a demo.`,
+    "",
+    `When: ${p.slot}`,
+    `Duration: ${p.duration}`,
+    `Starts (UTC): ${p.starts_at}`,
+    "",
+    `Email: ${p.email}`,
+    `Phone: ${p.phone}`,
+    `SMS opt-in: ${p.sms_opt_in}`,
+    `Website: ${p.website}`,
+    `Guests: ${p.guests}`,
+    "",
+    "What they want out of it:",
+    request.goal,
+    "",
+    "Add it to the calendar:",
+    p.calendar_link,
+  ].join("\n");
+}
+
+/**
  * Sends both emails. Throws if either fails, so the form can say the booking
  * did not go through instead of showing a confirmation for an email nobody
  * received.
@@ -143,6 +174,11 @@ export async function sendDemoRequest(request: DemoRequest) {
   }
   const params = templateParams(request);
   /* Sequential, not parallel: EmailJS allows one request per second. */
-  await sendTemplate(TEAM_TEMPLATE, { ...params, to_email: BOOKING_EMAIL });
+  await sendTemplate(TEAM_TEMPLATE, {
+    to_email: BOOKING_EMAIL,
+    reply_to: request.email,
+    subject: `Demo booked, ${params.slot}, ${request.name}`,
+    body: teamBody(request),
+  });
   await sendTemplate(CLIENT_TEMPLATE, params);
 }

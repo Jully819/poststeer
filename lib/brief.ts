@@ -15,7 +15,19 @@ import { encodePlan, money, planTotals, priceOf, type Plan } from "@/lib/plan";
  * hand and sends an invoice for the combined total.
  */
 
-const BRIEF_TEMPLATE = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_BRIEF ?? "";
+/**
+ * Falls back to the team template, which the demo booker also uses.
+ *
+ * THE FREE EMAILJS PLAN ALLOWS TWO TEMPLATES, and the visitor's demo
+ * confirmation needs one of them. The other is generic: it prints a subject
+ * and a body that the sender composes, so it carries a booking or a brief
+ * equally well. Setting NEXT_PUBLIC_EMAILJS_TEMPLATE_BRIEF splits them again
+ * on a paid plan, without touching this code.
+ */
+const BRIEF_TEMPLATE =
+  process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_BRIEF ||
+  process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_TEAM ||
+  "";
 
 export const briefConfigured = Boolean(transportConfigured && BRIEF_TEMPLATE);
 
@@ -45,30 +57,50 @@ function planLines(plan: Plan) {
     .join("\n");
 }
 
+/** The whole brief as plain text, since the template only prints a body. */
+function briefBody(request: BriefRequest) {
+  const { monthly, oneTime } = planTotals(request.plan);
+  const v = request.values;
+  const say = (value: string | undefined) => (value?.trim() ? value : "—");
+
+  return [
+    `${say(v.business)} sent a brief.`,
+    "",
+    `Email: ${say(v.email)}`,
+    `Website: ${say(v.website)}`,
+    `Industry: ${say(v.industry)}`,
+    `Channels: ${request.channels.join(", ") || "None given"}`,
+    `Tone: ${say(v.tone)}`,
+    "",
+    "Wants to post about:",
+    say(v.topics),
+    "",
+    "Avoid:",
+    say(v.avoid),
+    "",
+    `Assets: ${say(v.assets)}`,
+    "",
+    "Plan:",
+    planLines(request.plan),
+    "",
+    `Monthly: ${money(monthly)}`,
+    `One-off: ${money(oneTime)}`,
+    "",
+    /* Opens the builder with this exact selection, for quoting from. */
+    `Reopen this plan: /start#plan=${encodePlan(request.plan)}`,
+  ].join("\n");
+}
+
 export async function sendBrief(request: BriefRequest) {
   if (!briefConfigured) {
     throw new Error("The EmailJS brief template is missing from this build.");
   }
 
-  const { monthly, oneTime } = planTotals(request.plan);
-  const v = request.values;
-
   await sendTemplate(BRIEF_TEMPLATE, {
     to_email: TEAM_EMAIL,
-    business: v.business ?? "",
-    website: v.website ?? "",
-    /* Reply-To in the template, so hitting reply reaches the customer. */
-    email: v.email ?? "",
-    industry: v.industry ?? "",
-    channels: request.channels.join(", ") || "None given",
-    tone: v.tone ?? "",
-    topics: v.topics ?? "",
-    avoid: v.avoid ?? "",
-    assets: v.assets ?? "",
-    plan: planLines(request.plan),
-    monthly: money(monthly),
-    one_time: money(oneTime),
-    /* Opens the builder with this exact selection, for quoting from. */
-    plan_link: `/start#plan=${encodePlan(request.plan)}`,
+    /* So hitting reply reaches the customer, not us. */
+    reply_to: request.values.email ?? "",
+    subject: `Brief from ${request.values.business?.trim() || "a visitor"}`,
+    body: briefBody(request),
   });
 }
