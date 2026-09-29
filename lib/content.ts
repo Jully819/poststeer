@@ -1160,11 +1160,9 @@ export const selectPage = {
           mode: "quantity",
           placeholder: "Carousel quantity",
           options: [
-            { label: "1 carousel - $10/mo", price: 10 },
             { label: "5 carousels - $75/mo", price: 75,
               checkout: "https://buy.stripe.com/6oU5kw4qr6Nd5SM0TS6oo05",
             },
-            { label: "10 carousels - $150/mo", price: 150 },
           ],
         },
       ],
