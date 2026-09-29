@@ -1,7 +1,5 @@
 "use client";
 
-import { useState, type ComponentType, type SVGProps } from "react";
-import { BadgeCheck } from "lucide-react";
 import { brand, selectPage } from "@/lib/content";
 import { money, planTotals, priceOf, type Plan } from "@/lib/plan";
 import { serviceIcons } from "@/components/ui/service-icons";
@@ -12,17 +10,12 @@ import { serviceIcons } from "@/components/ui/service-icons";
  * ONE COMPONENT, so the figures on the brief page cannot drift from the ones
  * the customer agreed to on the services page. It reads the same totals
  * helper as everything else, and monthly is never added to one-time.
+ *
+ * IT CARRIES THE ORDER AND NOTHING ELSE. It used to hold a promo field that
+ * did nothing and announced itself as a placeholder, and a bracketed client
+ * quote with no client behind it. Both were visible on /start.
  */
-export function OrderSummary({
-  plan,
-  showPromo = true,
-  showQuote = true,
-}: {
-  plan: Plan;
-  showPromo?: boolean;
-  showQuote?: boolean;
-}) {
-  const [promo, setPromo] = useState("");
+export function OrderSummary({ plan }: { plan: Plan }) {
   const { items, monthly, oneTime } = planTotals(plan);
   const summary = selectPage.summary;
 
@@ -58,25 +51,6 @@ export function OrderSummary({
         )}
       </ul>
 
-      {showPromo ? (
-        <div className="mt-5">
-          <label htmlFor="promo" className="sr-only">
-            {summary.promoPlaceholder}
-          </label>
-          <input
-            id="promo"
-            value={promo}
-            onChange={(event) => setPromo(event.target.value)}
-            placeholder={summary.promoPlaceholder}
-            aria-describedby="promo-note"
-            className="w-full rounded-lg border border-hairline bg-paper px-3 py-2 text-[0.8rem] text-ink"
-          />
-          <p id="promo-note" className="mt-1.5 text-[0.68rem] leading-snug text-muted">
-            {summary.promoNote}
-          </p>
-        </div>
-      ) : null}
-
       <div className="mt-5 border-t border-hairline pt-4">
         <div className="flex items-baseline justify-between gap-3">
           <p className="text-[0.85rem] font-semibold text-ink">{summary.totalLabel}</p>
@@ -98,31 +72,6 @@ export function OrderSummary({
           </div>
         ) : null}
       </div>
-
-      {showQuote ? (
-        <figure className="mt-8 border-t border-hairline pt-6">
-          <blockquote className="text-[0.82rem] leading-relaxed text-ink">
-            {selectPage.quote.text}
-          </blockquote>
-          <figcaption className="mt-4 flex items-center gap-3">
-            <span
-              className="grid size-9 shrink-0 place-items-center rounded-full bg-hairline text-[0.6rem] font-semibold text-muted"
-              aria-hidden="true"
-            >
-              IMG
-            </span>
-            <span>
-              <span className="block text-[0.8rem] font-semibold text-ink">
-                {selectPage.quote.name}
-              </span>
-              <span className="flex items-center gap-1 text-[0.72rem] text-muted">
-                <BadgeCheck className="size-3.5 text-accent-ink" aria-hidden="true" />
-                {selectPage.quote.badge}
-              </span>
-            </span>
-          </figcaption>
-        </figure>
-      ) : null}
 
       <p className="mt-6 text-[0.68rem] text-muted">{brand.name}</p>
     </aside>

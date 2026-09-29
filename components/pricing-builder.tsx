@@ -139,6 +139,7 @@ export function PricingBuilder() {
     [],
   );
   const chosenAddOns = allAddOns.filter((item) => addOnQty[item.id] !== undefined);
+  const hasAddOns = chosenAddOns.length > 0;
 
   /* MONTHLY AND ONE-TIME NEVER SHARE A TOTAL. Folding a one-off build fee
      into a "/month" figure overstates the recurring cost, and it is the kind
@@ -741,13 +742,30 @@ export function PricingBuilder() {
               </div>
             ) : null}
 
+            {/* A plan with add-ons goes straight to the brief.
+                /start sells neither the extra videos nor rush delivery and
+                drops ids it does not know, so sending an add-on plan there
+                would quietly lower the total the visitor just agreed to.
+                Neither can be a Payment Link either: one varies by quantity,
+                the other is a percentage of a total that changes per order.
+                Both are quoted by hand, and the brief is where that starts. */}
             <a
-              href={withBase(`/start#plan=${planHash()}`)}
+              href={withBase(
+                hasAddOns
+                  ? `/start/brief#plan=${planHash()}`
+                  : `/start#plan=${planHash()}`,
+              )}
               className="btn btn-accent mt-6 min-h-[3.2rem] w-full text-[0.9rem]"
             >
-              {pricing.estimate.cta}
+              {hasAddOns ? pricing.estimate.ctaQuote : pricing.estimate.cta}
               <ArrowRight className="size-4" aria-hidden="true" />
             </a>
+
+            {hasAddOns ? (
+              <p className="mt-3 text-center text-[0.75rem] leading-snug text-muted">
+                {pricing.estimate.addOnNote}
+              </p>
+            ) : null}
 
             <button
               type="button"

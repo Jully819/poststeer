@@ -1014,6 +1014,11 @@ export const pricing = {
     ],
     subtotalLabel: "Subtotal / mo",
     cta: "Start with this plan",
+    /* Add-ons are quoted by hand: neither can be a Payment Link, one varying
+       by quantity and the other being a share of a total that moves. */
+    ctaQuote: "Send this plan for a quote",
+    addOnNote:
+      "Extra videos and rush delivery are quoted with your plan, not charged at checkout.",
     shareLink: "Copy a shareable link to this build",
     shareNote: "Send a client or teammate a link to this exact plan.",
     finePrint:
@@ -1285,8 +1290,6 @@ export const selectPage = {
   ] as ServiceGroup[],
   summary: {
     title: "Summary",
-    promoPlaceholder: "Enter promo code",
-    promoNote: "Placeholder field. Wire it to your billing provider before launch.",
     totalLabel: "Total",
     currency: "USD",
     monthlySuffix: "/ month",
@@ -1294,11 +1297,6 @@ export const selectPage = {
     empty: "No services selected yet.",
     next: "Next",
     poweredBy: "Powered by [provider]",
-  },
-  quote: {
-    text: "[Client quote about what changed, in their words. One specific number does more here than three sentences of praise.]",
-    name: "[Client name]",
-    badge: "Verified review",
   },
   seoTitle: "Select Services | PostSteer",
   seoDescription: "Pick your services and see the monthly price before you commit.",

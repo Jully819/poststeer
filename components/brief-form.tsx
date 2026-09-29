@@ -330,7 +330,7 @@ export function BriefForm() {
         )}
       </div>
 
-      <OrderSummary plan={plan} showPromo={false} showQuote={false} />
+      <OrderSummary plan={plan} />
     </div>
   );
 }
