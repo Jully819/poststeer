@@ -1126,7 +1126,6 @@ export const selectPage = {
             { label: "20 posts - $129/mo", price: 129,
               checkout: "https://buy.stripe.com/14A3cobST8Vl5SM0TS6oo09",
             },
-            { label: "30 posts - $179/mo", price: 179 },
           ],
         },
       ],
@@ -1150,7 +1149,6 @@ export const selectPage = {
             { label: "20 stories - $109/mo", price: 109,
               checkout: "https://buy.stripe.com/cNi9AM2ijfjJftm1XW6oo08",
             },
-            { label: "30 stories - $149/mo", price: 149 },
           ],
         },
         {
