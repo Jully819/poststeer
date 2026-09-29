@@ -89,10 +89,35 @@ function IconTile({ service, large = false }: { service: PricingService; large?:
  * the reference, where the chosen item carries its description, previews and
  * a quantity stepper while everything else is one line with an add button.
  *
- * EVERY PRICE IS DERIVED from `perUnit * quantity`. The row price, the
- * estimate line and the subtotal all read the same function, so no figure on
- * screen can contradict another.
+ * EVERY PRICE COMES FROM ONE FUNCTION. The row price, the estimate line and
+ * the subtotal all read `priceAt`, so no figure on screen can contradict
+ * another — and where a service lists `tiers`, that function returns the
+ * tier's price rather than a multiple, so this page cannot quote more than
+ * /start charges for the same quantity.
  */
+
+/** The quantities a service actually sells, in order. */
+const stepsOf = (service: PricingService) =>
+  service.tiers?.map((tier) => tier.qty) ?? null;
+
+/**
+ * What `qty` of this service costs.
+ *
+ * A tiered service carries a volume discount, so its larger quantities cost
+ * less than the per-unit rate would suggest. An untiered one is sold at one
+ * rate whatever the quantity.
+ */
+function priceAt(service: PricingService, qty: number) {
+  const tier = service.tiers?.find((t) => t.qty === qty);
+  if (tier) return tier.price;
+  /* A quantity off the ladder, from an old link: charge the nearest tier
+     below it rather than inventing a figure. */
+  if (service.tiers?.length) {
+    const below = [...service.tiers].reverse().find((t) => t.qty <= qty);
+    return (below ?? service.tiers[0]).price;
+  }
+  return service.perUnit * qty;
+}
 export function PricingBuilder() {
   const [quantities, setQuantities] = useState<Record<string, number>>({
     [pricing.services[0].id]: pricing.services[0].defaultQty,
@@ -107,7 +132,7 @@ export function PricingBuilder() {
 
   const selectedIds = Object.keys(quantities);
   const priceOf = (service: PricingService) =>
-    service.perUnit * (quantities[service.id] ?? service.defaultQty);
+    priceAt(service, quantities[service.id] ?? service.defaultQty);
 
   const allAddOns = useMemo(
     () => pricing.moreAddOns.groups.flatMap((group) => group.items),
@@ -189,6 +214,16 @@ export function PricingBuilder() {
   const setQty = (service: PricingService, delta: number) =>
     setQuantities((current) => {
       const now = current[service.id] ?? service.defaultQty;
+      const steps = stepsOf(service);
+      if (steps) {
+        /* Walk the quantities that are sold. Stopping at the ends is the
+           point: the top tier is the largest plan with a Stripe link behind
+           it, and there is nothing beyond it to buy. */
+        const at = steps.indexOf(now);
+        const index = at === -1 ? 0 : at;
+        const next = steps[Math.min(steps.length - 1, Math.max(0, index + delta))];
+        return { ...current, [service.id]: next };
+      }
       const next = Math.max(service.minQty, now + delta * service.step);
       return { ...current, [service.id]: next };
     });
@@ -268,7 +303,7 @@ export function PricingBuilder() {
                         {service.name}
                       </h3>
                       <p className="mt-1 font-display text-[0.828rem] font-semibold text-ink">
-                        from {money(service.perUnit * service.defaultQty)}
+                        from {money(priceAt(service, service.defaultQty))}
                         {rate(service)} · {service.defaultQty}{" "}
                         {unitLabel(service, service.defaultQty)}
                       </p>
@@ -331,8 +366,11 @@ export function PricingBuilder() {
                         <button
                           type="button"
                           onClick={() => setQty(service, 1)}
+                          /* A tiered service stops at its largest plan: past
+                             it there is nothing to sell. */
+                          disabled={qty >= (stepsOf(service)?.at(-1) ?? Infinity)}
                           aria-label={`More ${service.unit}`}
-                          className="grid size-9 place-items-center rounded-full text-ink transition-colors hover:bg-wash"
+                          className="grid size-9 place-items-center rounded-full text-ink transition-colors hover:bg-wash disabled:opacity-35"
                         >
                           <Plus className="size-4" aria-hidden="true" />
                         </button>
@@ -384,7 +422,7 @@ export function PricingBuilder() {
                         <p className="text-[0.765rem] text-muted">
                           {service.fixed
                             ? `${money(service.perUnit)}${rate(service)}`
-                            : `from ${money(service.perUnit * service.defaultQty)}${rate(service)} · ${service.defaultQty} ${unitLabel(service, service.defaultQty)}`}
+                            : `from ${money(priceAt(service, service.defaultQty))}${rate(service)} · ${service.defaultQty} ${unitLabel(service, service.defaultQty)}`}
                         </p>
                       </div>
 

@@ -745,6 +745,20 @@ export interface PricingService {
   /** Icon key, mapped to a lucide icon in the component. */
   icon: "posts" | "video" | "growth" | "seo" | "email" | "landing" | "website";
   perUnit: number;
+  /**
+   * The quantities actually sold, with what each costs.
+   *
+   * PRESENT MEANS THE STEPPER WALKS THESE and the price comes from the tier
+   * rather than `perUnit * quantity`. The two disagree above the entry
+   * quantity because the tiers carry a volume discount, and a home page
+   * quoting more than the checkout charges is worse than either number on
+   * its own. These must match selectPage's options, which is what /start
+   * sells and what the Stripe links are priced at.
+   *
+   * Without it the stepper is a plain multiple of `perUnit`, which is right
+   * for a service sold at one rate whatever the quantity.
+   */
+  tiers?: { qty: number; price: number }[];
   /** Starting quantity when the service is added. */
   defaultQty: number;
   minQty: number;
@@ -817,9 +831,13 @@ export const pricing = {
       name: "Social Media Posts",
       icon: "posts",
       perUnit: 6.9,
+      tiers: [
+        { qty: 10, price: 69 },
+        { qty: 20, price: 129 },
+      ],
       defaultQty: 10,
-      minQty: 5,
-      step: 5,
+      minQty: 10,
+      step: 10,
       unit: "posts",
       description:
         "We create your posts, write the captions, and plan your content. You simply review and approve.",
@@ -839,6 +857,11 @@ export const pricing = {
       name: "Short-Form Videos",
       icon: "video",
       perUnit: 25.8,
+      tiers: [
+        { qty: 5, price: 129 },
+        { qty: 10, price: 249 },
+        { qty: 20, price: 479 },
+      ],
       defaultQty: 5,
       minQty: 5,
       step: 5,
