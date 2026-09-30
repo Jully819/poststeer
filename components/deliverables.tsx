@@ -103,7 +103,7 @@ function StepArt({ art }: { art: (typeof deliverables.steps)[number]["art"] }) {
           {f.thumbs.map((src) => (
             <img
               key={src}
-              src={withBase(`/work/${src}.webp`)}
+              src={withBase(`/work/${src}-160.webp`)}
               alt=""
               width={80}
               height={80}
@@ -209,7 +209,7 @@ function StepArt({ art }: { art: (typeof deliverables.steps)[number]["art"] }) {
           {p.thumbs.map((src) => (
             <img
               key={src}
-              src={withBase(`/work/${src}.webp`)}
+              src={withBase(`/work/${src}-160.webp`)}
               alt=""
               width={60}
               height={80}

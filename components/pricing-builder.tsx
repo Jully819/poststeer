@@ -325,7 +325,12 @@ export function PricingBuilder() {
                             return (
                               <img
                                 key={key}
-                                src={withBase(`/work/${sample.src}.webp`)}
+                                /* 80px, 96px above sm. The master is 520px
+                                   wide and was being downscaled to a sixth of
+                                   itself. */
+                                src={withBase(`/work/${sample.src}-320.webp`)}
+                                srcSet={`${withBase(`/work/${sample.src}-160.webp`)} 160w, ${withBase(`/work/${sample.src}-320.webp`)} 320w`}
+                                sizes="(min-width: 640px) 96px, 80px"
                                 alt={sample.alt}
                                 width={work.tileWidth}
                                 height={work.tileHeight}

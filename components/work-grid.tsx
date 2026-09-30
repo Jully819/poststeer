@@ -172,8 +172,23 @@ export function WorkGrid({ initialScope = "featured" }: { initialScope?: Scope }
           {shown.map((item) => (
             <li key={item.src}>
               <figure className="card overflow-hidden">
+                {/* The grid runs 2 columns, then 3, then 4, so a tile is
+                    about 178px on a phone and 273px at the container's full
+                    width. The masters are 520px wide, which is roughly three
+                    times the pixels a phone can use. `sizes` describes the
+                    columns so the browser picks the small rendition there and
+                    the master only where the tile is actually wide.
+
+                    THE 400w EXISTS FOR REAL PHONES, NOT THE AUDIT. A tile is
+                    about 165px at 375px wide, which a 2x screen needs 330px
+                    for. With only 320 and 520 to choose from that rounds up
+                    to the master and the commonest phone saves nothing, while
+                    Lighthouse's 1.75x device lands at 317px and takes the
+                    320. The middle step is what makes the saving real. */}
                 <img
                   src={withBase(`/work/${item.src}.webp`)}
+                  srcSet={`${withBase(`/work/${item.src}-320.webp`)} 320w, ${withBase(`/work/${item.src}-400.webp`)} 400w, ${withBase(`/work/${item.src}.webp`)} 520w`}
+                  sizes="(min-width: 1024px) 273px, (min-width: 640px) 32vw, 44vw"
                   alt={item.alt}
                   width={work.tileWidth}
                   height={work.tileHeight}
