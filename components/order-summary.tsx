@@ -13,7 +13,7 @@ import { serviceIcons } from "@/components/ui/service-icons";
  *
  * IT CARRIES THE ORDER AND NOTHING ELSE. It used to hold a promo field that
  * did nothing and announced itself as a placeholder, and a bracketed client
- * quote with no client behind it. Both were visible on /start.
+ * quote with no client behind it. Both were visible on /pricing.
  */
 export function OrderSummary({ plan }: { plan: Plan }) {
   const { items, monthly, oneTime } = planTotals(plan);

@@ -30,7 +30,7 @@ function priceLabel(item: ServiceItem) {
 const allItems = selectPage.groups.flatMap((group) => group.items);
 
 /**
- * /start — pick services, watch the summary add up.
+ * /pricing — pick services, watch the summary add up.
  *
  * SELECTION IS `itemId -> option index`, with -1 meaning an Add-style item
  * that is simply on. One map drives the cards, the summary and both totals,
@@ -232,7 +232,7 @@ export function SelectServices() {
             selected: a Next that leads to an empty summary is a dead end
             dressed up as progress. */}
         <a
-          href={withBase(`/start/brief#plan=${encodePlan(chosen)}`)}
+          href={withBase(`/pricing/brief#plan=${encodePlan(chosen)}`)}
           aria-disabled={selectedItems.length === 0}
           onClick={(event) => {
             if (selectedItems.length === 0) event.preventDefault();

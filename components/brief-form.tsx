@@ -69,7 +69,7 @@ export function BriefForm() {
   };
 
   const hasPlan = Object.keys(plan).length > 0;
-  const backHref = `/start#plan=${encodePlan(plan)}`;
+  const backHref = `/pricing#plan=${encodePlan(plan)}`;
   const f = briefPage.fields;
 
   return (
@@ -96,7 +96,7 @@ export function BriefForm() {
             className="mt-6 rounded-xl border border-hairline bg-wash p-4 text-[0.85rem] text-ink"
           >
             No services selected yet.{" "}
-            <a href={withBase("/start")} className="font-semibold text-accent-ink underline underline-offset-2">
+            <a href={withBase("/pricing")} className="font-semibold text-accent-ink underline underline-offset-2">
               Pick your services first
             </a>
             .

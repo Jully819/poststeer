@@ -93,7 +93,7 @@ function IconTile({ service, large = false }: { service: PricingService; large?:
  * the subtotal all read `priceAt`, so no figure on screen can contradict
  * another — and where a service lists `tiers`, that function returns the
  * tier's price rather than a multiple, so this page cannot quote more than
- * /start charges for the same quantity.
+ * /pricing charges for the same quantity.
  */
 
 /** The quantities a service actually sells, in order. */
@@ -234,7 +234,7 @@ export function PricingBuilder() {
    * plan. Static export has no server to store a build against, and a hash
    * needs no storage at all.
    *
-   * Add-ons ride along in the same format. /start does not sell them yet and
+   * Add-ons ride along in the same format. /pricing does not sell them yet and
    * drops ids it does not know, so carrying them costs nothing today and means
    * the link is already right when it does.
    */
@@ -248,7 +248,7 @@ export function PricingBuilder() {
       is blocked. */
   const shareLink = async () => {
     const build = planHash();
-    const url = `${window.location.origin}/start#plan=${build}`;
+    const url = `${window.location.origin}/pricing#plan=${build}`;
     try {
       await navigator.clipboard.writeText(url);
       setCopied(true);
@@ -729,7 +729,7 @@ export function PricingBuilder() {
               </p>
             </div>
 
-            {/* Carries the build to /start in the hash, so the next page opens
+            {/* Carries the build to /pricing in the hash, so the next page opens
                 with these services already selected. */}
             {oneTimeTotal > 0 ? (
               <div className="mt-3 flex items-baseline justify-between gap-3 border-t border-dashed border-hairline pt-3">
@@ -743,7 +743,7 @@ export function PricingBuilder() {
             ) : null}
 
             {/* A plan with add-ons goes straight to the brief.
-                /start sells neither the extra videos nor rush delivery and
+                /pricing sells neither the extra videos nor rush delivery and
                 drops ids it does not know, so sending an add-on plan there
                 would quietly lower the total the visitor just agreed to.
                 Neither can be a Payment Link either: one varies by quantity,
@@ -752,8 +752,8 @@ export function PricingBuilder() {
             <a
               href={withBase(
                 hasAddOns
-                  ? `/start/brief#plan=${planHash()}`
-                  : `/start#plan=${planHash()}`,
+                  ? `/pricing/brief#plan=${planHash()}`
+                  : `/pricing#plan=${planHash()}`,
               )}
               className="btn btn-accent mt-6 min-h-[3.2rem] w-full text-[0.9rem]"
             >

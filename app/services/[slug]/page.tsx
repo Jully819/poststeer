@@ -39,8 +39,8 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
   if (!item || !page) notFound();
 
   const Icon = serviceIcons[item.icon];
-  /* Lands on /start with this service already selected. */
-  const startHref = `/start#plan=${item.planId}:0`;
+  /* Lands on /pricing with this service already selected. */
+  const pricingHref = `/pricing#plan=${item.planId}:0`;
   const others = allItems.filter((candidate) => candidate.slug !== slug);
 
   return (
@@ -53,7 +53,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
             Home
           </a>
           <span aria-hidden="true"> / </span>
-          <a href={withBase("/start")} className="transition-colors hover:text-ink">
+          <a href={withBase("/pricing")} className="transition-colors hover:text-ink">
             Services
           </a>
           <span aria-hidden="true"> / </span>
@@ -82,11 +82,11 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
         <p className="mt-6 max-w-[44rem] text-[1rem] leading-relaxed text-body">{page.intro}</p>
 
         <div className="mt-10 flex flex-wrap gap-3">
-          <a href={withBase(startHref)} className="btn btn-accent min-h-[3rem] px-6 text-[0.95rem]">
+          <a href={withBase(pricingHref)} className="btn btn-accent min-h-[3rem] px-6 text-[0.95rem]">
             Add to plan
             <ArrowRight className="size-4" aria-hidden="true" />
           </a>
-          <a href={withBase("/start")} className="btn btn-ghost min-h-[3rem] px-6 text-[0.95rem]">
+          <a href={withBase("/pricing")} className="btn btn-ghost min-h-[3rem] px-6 text-[0.95rem]">
             See all services
           </a>
         </div>

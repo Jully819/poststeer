@@ -19,6 +19,7 @@ import { withBase } from "@/lib/utils";
  * the footer still is.
  */
 const columnHrefs: Record<string, string> = {
+  Pricing: "/pricing",
   "Service Areas": "/service-areas",
   "Marketing Glossary": "/marketing-glossary",
   Blog: "/blog",

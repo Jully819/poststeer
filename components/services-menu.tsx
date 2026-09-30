@@ -19,7 +19,7 @@ function MenuGroup({ group, onNavigate }: { group: Group; onNavigate: () => void
           {group.title}
         </h3>
         <a
-          href={withBase("/start")}
+          href={withBase("/pricing")}
           onClick={onNavigate}
           className="inline-flex items-center gap-1 font-display text-[0.82rem] font-semibold text-accent-ink"
         >
@@ -175,7 +175,7 @@ export function ServicesMenu({ label }: { label: string }) {
         </div>
 
         <a
-          href={withBase("/start")}
+          href={withBase("/pricing")}
           onClick={close}
           className="flex flex-wrap items-center gap-4 border-t border-hairline bg-accent-tint px-6 py-4 transition-colors hover:bg-accent/15"
         >
@@ -218,11 +218,11 @@ export function ServicesMenu({ label }: { label: string }) {
         </a>
 
         <div className="flex flex-wrap items-center justify-between gap-3 border-t border-hairline px-6 py-3.5">
-          <a href={withBase("/start")} onClick={close} className="font-display text-[0.92rem] font-bold text-ink">
+          <a href={withBase("/pricing")} onClick={close} className="font-display text-[0.92rem] font-bold text-ink">
             {servicesMenu.footerLeft}
           </a>
           <a
-            href={withBase("/start")}
+            href={withBase("/pricing")}
             onClick={close}
             className="inline-flex items-center gap-1 font-display text-[0.92rem] font-semibold text-accent-ink"
           >

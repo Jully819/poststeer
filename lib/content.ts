@@ -9,6 +9,12 @@
  * Values in [brackets] are placeholders that render as written.
  */
 
+/* The long-form posts live in their own files. A 250-line post object inline
+   in `blogPage` buries the short notes underneath it. The import is safe in
+   both directions because each post file imports only the `BlogPost` TYPE back
+   from here, and a type import is erased before anything runs. */
+import { crossPostingVsNativePosting } from "@/lib/posts/cross-posting-vs-native-posting";
+
 /** Canonical origin. Override with NEXT_PUBLIC_SITE_URL at build time. */
 export const SITE_URL = (
   process.env.NEXT_PUBLIC_SITE_URL || "https://poststeer.com"
@@ -24,7 +30,7 @@ export const brand = {
 export const nav = [
   { label: "Company", href: "#company", dropdown: true },
   { label: "Services", href: "#services", dropdown: true },
-  { label: "Pricing", href: "/start", dropdown: false },
+  { label: "Pricing", href: "/pricing", dropdown: false },
   { label: "Blog", href: "/blog", dropdown: false },
 ];
 
@@ -33,7 +39,7 @@ export const nav = [
  *
  * Every item links to a real page — a menu entry that scrolls to a section,
  * or worse to "#", is the thing that makes a nav look finished while the site
- * behind it is not. `planId` ties each page back to a service in the /start
+ * behind it is not. `planId` ties each page back to a service in the /pricing
  * catalogue, so "Add to plan" arrives with that service already selected.
  *
  * Ads & Creative is deliberately absent, and SEO carries one item.
@@ -46,7 +52,7 @@ export interface MenuItem {
   /** "/mo" or "once" — one-time work is never shown as monthly. */
   unit: string;
   icon: ServiceIcon;
-  /** Matching service id in the /start catalogue. */
+  /** Matching service id in the /pricing catalogue. */
   planId: string;
 }
 
@@ -752,7 +758,7 @@ export interface PricingService {
    * rather than `perUnit * quantity`. The two disagree above the entry
    * quantity because the tiers carry a volume discount, and a home page
    * quoting more than the checkout charges is worse than either number on
-   * its own. These must match selectPage's options, which is what /start
+   * its own. These must match selectPage's options, which is what /pricing
    * sells and what the Stripe links are priced at.
    *
    * Without it the stepper is a plain multiple of `perUnit`, which is right
@@ -1060,7 +1066,7 @@ export const pricingArchived: PricingService[] = [
 ];
 
 /**
- * THE SELECT-SERVICES PAGE (/start).
+ * THE SELECT-SERVICES PAGE (/pricing).
  *
  * Two pricing shapes, because the reference has two: items bought by the
  * quantity (a dropdown of priced options) and items bought outright (a single
@@ -1303,7 +1309,7 @@ export const selectPage = {
 };
 
 /**
- * THE BRIEF STEP (/start/brief).
+ * THE BRIEF STEP (/pricing/brief).
  *
  * NO FILE UPLOAD FIELD. A static export has nowhere to put a file, and an
  * upload control that silently discards what someone drags onto it is worse
@@ -1317,14 +1323,140 @@ export const selectPage = {
  * is real, the words are mine, and nothing claims to be published research.
  * Replace a post wholesale rather than editing around it.
  */
+/**
+ * A photograph and the credit that has to travel with it.
+ *
+ * `width`/`height` are the INTRINSIC size of the file served, not the size it
+ * is displayed at. They exist so the browser can reserve the box before the
+ * image arrives. Getting them wrong is worse than omitting them, because the
+ * layout then settles into a shape nothing asked for.
+ *
+ * Self-hosting the file does not transfer authorship. The credit renders under
+ * every image and is not optional.
+ */
+export interface PostImage {
+  src: string;
+  /** Width-descriptor set. Omit only for images with a single rendition. */
+  srcSet?: string;
+  /** Paired with srcSet. Tells the browser the displayed width before layout. */
+  sizes?: string;
+  alt: string;
+  width: number;
+  height: number;
+  /**
+   * Above the fold. Loads eagerly instead of lazily. Exactly one image per page
+   * sets this. Lazy-loading the image somebody is already looking at delays the
+   * largest paint rather than deferring it.
+   */
+  priority?: boolean;
+  /** Photographer's name, shown under the image. */
+  credit: string;
+  /** Their profile, linked from the credit. */
+  creditUrl: string;
+  /** The photo's own page, linked from "Pexels". */
+  sourceUrl: string;
+}
+
+export interface PostSection {
+  /** Anchor id. The contents list links to it. Do not change it once live. */
+  id: string;
+  heading: string;
+  paragraphs: string[];
+  image?: PostImage;
+  /**
+   * The practical block under a section. Keep it to judgement that survives a
+   * month. Platform character limits and video ceilings change without telling
+   * anyone, so they belong in prose where they can carry a date and a source,
+   * not in a panel that reads as settled fact.
+   */
+  facts?: { label: string; value: string }[];
+  /**
+   * A real list, for the places where the prose was a list pretending not to
+   * be. `intro` is the line above it, since a list dropped straight under a
+   * paragraph reads as an interruption.
+   */
+  list?: { intro?: string; ordered?: boolean; items: string[] };
+}
+
+export interface PostFaq {
+  question: string;
+  answer: string;
+}
+
+/**
+ * The keyword cluster a post is written against.
+ *
+ * IT IS NOT RENDERED ANYWHERE, and that is the point. A visible strip of
+ * keywords is the oldest spam signal there is. The cluster earns its keep by
+ * deciding what the headings and the FAQ questions say, and it lives in the
+ * data so the next person editing the post can see what it was aimed at.
+ */
+export interface KeywordCluster {
+  primary: string;
+  secondary: string[];
+  longTail: string[];
+}
+
+/**
+ * A post.
+ *
+ * THE LONG-FORM FIELDS ARE ALL OPTIONAL, deliberately. The three short notes
+ * below predate them and still render through `body`, which is the whole
+ * reason this type was extended rather than replaced. A post supplies either
+ * `sections` or `body`. Supplying both renders both, which is almost never
+ * what anyone means.
+ */
 export interface BlogPost {
   slug: string;
   title: string;
   category: string;
+  /** Display date, as written. Shown on the index and under the headline. */
   date: string;
   readTime: string;
   excerpt: string;
-  body: string[];
+  /** Plain paragraphs, for posts with no section structure. */
+  body?: string[];
+
+  /* ---- long-form additions ---- */
+
+  /** ISO day. Drives datePublished in the schema, not the visible dateline. */
+  published?: string;
+  /** ISO day, when the post has been meaningfully revised since publishing. */
+  updated?: string;
+  author?: string;
+  /**
+   * What the byline actually is. Defaults to Person.
+   *
+   * SET THIS TO "Organization" WHEN NOBODY HAS PUT THEIR NAME TO THE POST.
+   * CLAUDE.md asks for a Person byline, and the right way to get one is a real
+   * writer who will stand behind the words, not a Person node wrapped around a
+   * company name. Until this site has named writers, a house byline is
+   * Organization and says so in the schema.
+   */
+  authorType?: "Person" | "Organization";
+  /**
+   * The byline's credentials. Say what makes whoever wrote this worth reading
+   * on this subject. Vague authority is worse than none.
+   */
+  authorBio?: string;
+  /** The <title> tag, when the headline is the wrong length for one. */
+  metaTitle?: string;
+  /** 150 to 160 characters. */
+  metaDescription?: string;
+  keywords?: KeywordCluster;
+  hero?: PostImage;
+  /**
+   * The 1200x630 social card, as a site-relative path. Separate from `hero`
+   * because the two jobs are different. A hero cropped for the article column
+   * gets letterboxed by every platform that renders a card.
+   */
+  socialImage?: string;
+  /** Paragraphs before the first heading. */
+  intro?: string[];
+  /** The body of a long-form post. Drives the contents list. */
+  sections?: PostSection[];
+  /** Rendered as a plain list, and as FAQPage JSON-LD. */
+  faqs?: PostFaq[];
 }
 
 export const blogPage = {
@@ -1337,8 +1469,23 @@ export const blogPage = {
   ctaBody: "Pick your services and see the price before you talk to anyone.",
   ctaButton: "See pricing",
   posts: [
+    crossPostingVsNativePosting,
     {
       slug: "one-recording-a-month",
+      socialImage: "/blog/one-recording-a-month/og-one-recording-a-month-1200x630.jpg",
+      hero: {
+        src: "/blog/one-recording-a-month/filming-session-1200.webp",
+        srcSet:
+          "/blog/one-recording-a-month/filming-session-800.webp 800w, /blog/one-recording-a-month/filming-session-1200.webp 1200w",
+        sizes: "(min-width: 44rem) 44rem, 100vw",
+        alt: "A camcorder on a tripod, set up in front of an interview scene.",
+        width: 1200,
+        height: 800,
+        priority: true,
+        credit: "Isaiah Ekele",
+        creditUrl: "https://www.pexels.com/@isaiah-ekele-102046059",
+        sourceUrl: "https://www.pexels.com/photo/close-up-of-a-camcorder-18357250/",
+      },
       title: "One recording a month is enough",
       category: "Process",
       date: "12 September 2026",
@@ -1353,6 +1500,20 @@ export const blogPage = {
     },
     {
       slug: "captions-do-the-work",
+      socialImage: "/blog/captions-do-the-work/og-captions-do-the-work-1200x630.jpg",
+      hero: {
+        src: "/blog/captions-do-the-work/watching-with-captions-1200.webp",
+        srcSet:
+          "/blog/captions-do-the-work/watching-with-captions-800.webp 800w, /blog/captions-do-the-work/watching-with-captions-1200.webp 1200w",
+        sizes: "(min-width: 44rem) 44rem, 100vw",
+        alt: "Someone eating a meal while watching a video on their phone.",
+        width: 1200,
+        height: 800,
+        priority: true,
+        credit: "S\u00f3c N\u0103ng \u0110\u1ed9ng",
+        creditUrl: "https://www.pexels.com/@soc-nang-d-ng-2150345854",
+        sourceUrl: "https://www.pexels.com/photo/young-adult-dining-while-watching-video-on-mobile-34689953/",
+      },
       title: "Captions are doing more work than your edit",
       category: "Craft",
       date: "28 August 2026",
@@ -1367,6 +1528,20 @@ export const blogPage = {
     },
     {
       slug: "posting-is-the-hard-part",
+      socialImage: "/blog/posting-is-the-hard-part/og-posting-is-the-hard-part-1200x630.jpg",
+      hero: {
+        src: "/blog/posting-is-the-hard-part/sticky-note-backlog-1200.webp",
+        srcSet:
+          "/blog/posting-is-the-hard-part/sticky-note-backlog-800.webp 800w, /blog/posting-is-the-hard-part/sticky-note-backlog-1200.webp 1200w",
+        sizes: "(min-width: 44rem) 44rem, 100vw",
+        alt: "Someone writing on green sticky notes stuck to a laptop.",
+        width: 1200,
+        height: 800,
+        priority: true,
+        credit: "Kaboompics",
+        creditUrl: "https://www.pexels.com/@karola-g",
+        sourceUrl: "https://www.pexels.com/photo/person-writing-on-green-sticky-notes-8547193/",
+      },
       title: "Editing is the easy half. Posting is where it dies.",
       category: "Distribution",
       date: "14 August 2026",
@@ -1750,7 +1925,7 @@ export const demoBar = {
  * NOTHING IS BOOKED. A static export has no endpoint and no calendar
  * provider, so picking a slot moves to a review state that repeats the
  * choice back and says plainly that the booking backend is missing — the
- * same bargain /start/brief makes. A picker that appears to confirm and
+ * same bargain /pricing/brief makes. A picker that appears to confirm and
  * quietly drops the meeting is the worst possible placeholder.
  */
 export const demoPage = {

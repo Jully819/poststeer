@@ -41,7 +41,7 @@ export default function ThankYouPage() {
               {thankYouPage.nextTitle}
             </h2>
             <p className="body-text mt-3">{thankYouPage.nextBody}</p>
-            <a href={withBase("/start/brief")} className="btn btn-accent mt-6">
+            <a href={withBase("/pricing/brief")} className="btn btn-accent mt-6">
               {thankYouPage.cta}
               <ArrowRight className="size-4" aria-hidden="true" />
             </a>

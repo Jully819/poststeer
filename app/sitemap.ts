@@ -13,10 +13,12 @@ export const dynamic = "force-static";
  * name added to one of those appears here without anyone remembering to add
  * it. The only literal paths below are the pages that exist as a single file.
  *
- * THE CHECKOUT FUNNEL IS NOT IN HERE. /start and /start/brief carry their own
- * `robots: { index: false }` independent of the site-wide placeholder state —
- * they are steps in a flow, not destinations, and a sitemap is a list of
- * destinations.
+ * /pricing/brief IS NOT IN HERE. It carries its own `robots: { index: false }`
+ * independent of the site-wide placeholder state — it is a step in a flow, not
+ * a destination, and a sitemap is a list of destinations.
+ *
+ * /pricing IS. It was the first step of the funnel back when it lived at
+ * /start; it is a nav item now, so it is a destination like any other.
  *
  * ⚠️ THE SITE IS STILL CLOSED TO CRAWLERS. app/robots.ts disallows everything
  * and every page sets `robots: { index: false }` while the figures are
@@ -34,6 +36,7 @@ const lastModified = new Date();
 const staticRoutes: { path: string; priority: number; changeFrequency: Change }[] = [
   { path: "/", priority: 1, changeFrequency: "weekly" },
   { path: "/demo", priority: 0.9, changeFrequency: "monthly" },
+  { path: "/pricing", priority: 0.9, changeFrequency: "monthly" },
   { path: "/service-areas", priority: 0.8, changeFrequency: "monthly" },
   { path: "/industries", priority: 0.8, changeFrequency: "monthly" },
   { path: "/blog", priority: 0.7, changeFrequency: "weekly" },

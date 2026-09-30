@@ -87,7 +87,7 @@ function briefBody(request: BriefRequest) {
     `One-off: ${money(oneTime)}`,
     "",
     /* Opens the builder with this exact selection, for quoting from. */
-    `Reopen this plan: /start#plan=${encodePlan(request.plan)}`,
+    `Reopen this plan: /pricing#plan=${encodePlan(request.plan)}`,
   ].join("\n");
 }
 

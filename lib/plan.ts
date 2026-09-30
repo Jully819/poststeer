@@ -1,7 +1,7 @@
 import { selectPage, type ServiceItem } from "@/lib/content";
 
 /**
- * The selected plan, shared by /start and /start/brief.
+ * The selected plan, shared by /pricing and /pricing/brief.
  *
  * A PLAN IS `itemId -> option index`, with -1 meaning an Add-style service
  * that is simply on. It travels between pages in the URL hash: a static
@@ -63,7 +63,7 @@ export function priceOf(service: ServiceItem, plan: Plan): number {
   return service.options?.[index]?.price ?? 0;
 }
 
-/** Monthly and one-time are never added together. See the note on /start. */
+/** Monthly and one-time are never added together. See the note on /pricing. */
 export function planTotals(plan: Plan) {
   const items = allServices.filter((service) => plan[service.id] !== undefined);
   const monthly = items
