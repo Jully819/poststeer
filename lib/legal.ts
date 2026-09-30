@@ -86,7 +86,7 @@ const terms: LegalDoc = {
     {
       title: "Fees & payment",
       body: [
-        "Fees are payable in advance, and a valid payment method has to stay on file. We manage subscription fees through [Stripe]. We will continue to attempt payment until a charge succeeds or you cancel, and unpaid charges put the service on hold until the balance is cleared.",
+        "Fees are payable in advance, and a valid payment method has to stay on file. We manage subscription fees through Stripe. We will continue to attempt payment until a charge succeeds or you cancel, and unpaid charges put the service on hold until the balance is cleared.",
         "You can cancel at any time in the client portal, under Manage subscription → Cancel. Cancelling stops the next renewal; it does not refund the current period. Service continues to the end of the period you have already paid for.",
       ],
       plain:
@@ -217,7 +217,7 @@ const privacy: LegalDoc = {
     {
       title: "Who we share it with",
       body: [
-        "Service providers who help us run the business, each under contract and only for the purpose we engaged them for: [Stripe] for payments, [hosting, email and analytics providers], and the social platforms you connect.",
+        "Service providers who help us run the business, each under contract and only for the purpose we engaged them for: Stripe for payments, [hosting, email and analytics providers], and the social platforms you connect.",
         "We also disclose data where the law requires it, and to a buyer in the event of a merger or sale of the business — in which case this policy continues to apply until it is replaced and you are told.",
       ],
       plain:
