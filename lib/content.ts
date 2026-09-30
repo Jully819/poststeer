@@ -57,7 +57,7 @@ export interface MenuItem {
 }
 
 export const servicesMenu = {
-  stats: ["Since 2010", "14-day guarantee"],
+  stats: ["Since 2018", "14-day guarantee"],
   groups: [
     {
       title: "Social Media",
@@ -2252,7 +2252,7 @@ export const serviceAreas = {
       "14-day satisfaction guarantee",
     ],
     stats: [
-      { value: "Since 2010", label: "Doing this for businesses" },
+      { value: "Since 2018", label: "Doing this for businesses" },
     ],
   },
   seoTitle: "Service Areas | PostSteer",

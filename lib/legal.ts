@@ -50,7 +50,7 @@ export const legalUi = {
   updatedLabel: "Updated",
   footnote:
     "The “in plain terms” notes are a summary written for clarity. They are not legal advice, and where the two differ the formal text governs. Questions? Email",
-  contactEmail: "hello@poststeer.com",
+  contactEmail: "info@poststeer.com",
 };
 
 const terms: LegalDoc = {
@@ -168,10 +168,10 @@ const terms: LegalDoc = {
       title: "Changes & contact",
       body: [
         "Our rules, policies, pricing and what each package includes may change at our discretion. Material changes are posted here with a new date at the top of the page, and continuing to use the service after that date means you accept the updated Terms.",
-        `Questions about any of this? Email [${legalUi.contactEmail}] and ask. We would rather explain a clause than argue about it later.`,
+        `Questions about any of this? Email ${legalUi.contactEmail} and ask. We would rather explain a clause than argue about it later.`,
       ],
       plain:
-        `We may update these Terms; continuing to use the service means you accept them. Questions go to [${legalUi.contactEmail}].`,
+        `We may update these Terms; continuing to use the service means you accept them. Questions go to ${legalUi.contactEmail}.`,
     },
   ],
 };
@@ -245,10 +245,10 @@ const privacy: LegalDoc = {
       title: "Your rights",
       body: [
         "Depending on where you live, you can ask for a copy of your data, ask us to correct it, ask us to delete it, object to particular uses, or ask for it in a portable format.",
-        `Email [${legalUi.contactEmail}] and we will respond within [30] days. We will not charge you for a request or treat you differently for making one.`,
+        `Email ${legalUi.contactEmail} and we will respond within [30] days. We will not charge you for a request or treat you differently for making one.`,
       ],
       plain:
-        `Ask us for a copy, a correction or a deletion at [${legalUi.contactEmail}]. We reply within [30] days.`,
+        `Ask us for a copy, a correction or a deletion at ${legalUi.contactEmail}. We reply within [30] days.`,
     },
     {
       title: "Security",
@@ -277,10 +277,10 @@ const privacy: LegalDoc = {
       title: "Changes & contact",
       body: [
         "If this policy changes materially, we post the new version here with a new date and email account holders before it takes effect.",
-        `Questions, or a request about your data: [${legalUi.contactEmail}].`,
+        `Questions, or a request about your data: ${legalUi.contactEmail}.`,
       ],
       plain:
-        `Material changes are emailed to account holders. Questions go to [${legalUi.contactEmail}].`,
+        `Material changes are emailed to account holders. Questions go to ${legalUi.contactEmail}.`,
     },
   ],
 };
@@ -303,7 +303,7 @@ const refundPolicy: LegalDoc = {
         "Inside it, review the work and go through at least [2] rounds of revisions with your account manager. If it is still not right and you have not approved or scheduled any of the content, we refund your first month in full.",
       ],
       plain:
-        "[14] days from your first batch. Use your revisions, and if it is still wrong, the first month is refunded.",
+        "14 days from your first batch. Use your revisions, and if it is still wrong, the first month is refunded.",
     },
     {
       title: "What the guarantee covers",
@@ -318,10 +318,10 @@ const refundPolicy: LegalDoc = {
       body: [
         "Content you have approved or scheduled. Approval is the point at which work is finished, and it closes the guarantee for that batch.",
         "One-time and third-party costs: setup and onboarding fees, rush fees, paid media spend, licensed stock, fonts and music, and anything bought on your behalf.",
-        "Requests made after the [14] days, months after the first, and accounts cancelled for breach of the Terms.",
+        "Requests made after the 14 days, months after the first, and accounts cancelled for breach of the Terms.",
       ],
       plain:
-        "Anything you approved or scheduled, one-time and third-party costs, and anything after day [14].",
+        "Anything you approved or scheduled, one-time and third-party costs, and anything after day 14.",
     },
     {
       title: "Cancelling your subscription",
@@ -362,11 +362,11 @@ const refundPolicy: LegalDoc = {
     {
       title: "How to request a refund",
       body: [
-        `Email [${legalUi.contactEmail}] from the address on the account, with the account name and one line on what is wrong. You do not need a form or a reason we approve of — a plain description is enough.`,
+        `Email ${legalUi.contactEmail} from the address on the account, with the account name and one line on what is wrong. You do not need a form or a reason we approve of — a plain description is enough.`,
         "We respond within [2] business days. Approved refunds are returned to the original payment method within [5–10] business days, depending on your bank.",
       ],
       plain:
-        `Email [${legalUi.contactEmail}] from the account address. We reply in [2] business days; the money lands in [5–10].`,
+        `Email ${legalUi.contactEmail} from the account address. We reply in [2] business days; the money lands in [5–10].`,
     },
   ],
 };
