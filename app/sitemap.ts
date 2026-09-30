@@ -48,9 +48,11 @@ const staticRoutes: { path: string; priority: number; changeFrequency: Change }[
   { path: "/industries", priority: 0.8, changeFrequency: "monthly" },
   { path: "/blog", priority: 0.7, changeFrequency: "weekly" },
   { path: "/marketing-glossary", priority: 0.6, changeFrequency: "monthly" },
-  { path: "/legal/privacy", priority: 0.2, changeFrequency: "yearly" },
-  { path: "/legal/terms", priority: 0.2, changeFrequency: "yearly" },
-  { path: "/legal/refund-policy", priority: 0.3, changeFrequency: "yearly" },
+  /* THE THREE LEGAL PAGES ARE OUT WHILE THEY STILL CARRY BLANKS. They set
+     their own `robots: { index: false }` and say why on it. A sitemap entry
+     for a noindexed page is a contradiction: it asks a crawler to fetch a
+     page that then tells it to go away. Put these back the same day the
+     brackets come out, not before. */
 ];
 
 function entry(path: string, priority: number, changeFrequency: Change) {

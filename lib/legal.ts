@@ -208,20 +208,20 @@ const privacy: LegalDoc = {
     {
       title: "Cookies & analytics",
       body: [
-        "We use cookies that are necessary for the site and dashboard to function — sign-in, session state, security. Those cannot be turned off without breaking the service.",
-        "We also use analytics cookies to understand traffic and product usage. You can decline these in the cookie banner or through your browser settings, and the site will still work.",
+        "This site sets no cookies and runs no analytics. There is nothing to accept or decline, which is why you have not been asked. No third-party script runs on any page.",
+        "That is a description of the site as it stands rather than a promise about the future. If tracking is ever added, this section changes first and the change is dated.",
       ],
       plain:
-        "Necessary cookies keep you signed in. Analytics cookies are optional and you can decline them.",
+        "No cookies, no analytics, no tracking. That is why there is no cookie banner.",
     },
     {
       title: "Who we share it with",
       body: [
-        "Service providers who help us run the business, each under contract and only for the purpose we engaged them for: Stripe for payments, [hosting, email and analytics providers], and the social platforms you connect.",
+        "Service providers who help us run the business, each under contract and only for the purpose we engaged them for: Stripe for payments, Vercel for hosting, EmailJS for delivering the forms you submit, and the social platforms you connect. There is no analytics provider, because there is no analytics.",
         "We also disclose data where the law requires it, and to a buyer in the event of a merger or sale of the business — in which case this policy continues to apply until it is replaced and you are told.",
       ],
       plain:
-        "Payment, hosting and analytics providers, the social platforms you connect, and anyone the law requires.",
+        "Stripe, Vercel, EmailJS, the social platforms you connect, and anyone the law requires.",
     },
     {
       title: "Connected social accounts",
