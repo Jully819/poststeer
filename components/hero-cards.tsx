@@ -76,7 +76,9 @@ const REEL_SHADOW =
 function Art({
   art,
   sizes,
+  priority = false,
 }: {
+  priority?: boolean;
   art: { src: string; alt: string; w: number; h: number };
   sizes: string;
 }) {
@@ -90,7 +92,15 @@ function Art({
       width={art.w}
       height={art.h}
       /* Above the fold on every page that uses the hero. */
-      loading="eager"
+      /* ONE EAGER IMAGE, NOT FIVE. React emits a <link rel="preload"> for
+         every eagerly-loaded image, so marking the whole cluster eager put
+         five preloads on the critical path, all competing with each other and
+         with the one that is actually the largest paint. Chrome reported the
+         losers as "preloaded but not used". The reel is the anchor and keeps
+         the priority; the rest are lazy, which for an in-viewport image still
+         loads promptly, it just stops jumping the queue. */
+      loading={priority ? "eager" : "lazy"}
+      fetchPriority={priority ? "high" : undefined}
       decoding="async"
       className="block w-full"
       style={{ aspectRatio: `${art.w} / ${art.h}` }}
@@ -119,7 +129,7 @@ export function HeroCards() {
               REEL_SHADOW,
             )}
           >
-            <Art art={s.video} sizes={LEFT_SIZES} />
+            <Art art={s.video} sizes={LEFT_SIZES} priority />
             {/* Only the identity is ours. The counters, progress bar and
                 platform pill are printed on the artwork, so drawing those
                 again would show each one twice. */}
