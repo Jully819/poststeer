@@ -8,7 +8,6 @@ export const metadata: Metadata = {
   title: doc.seoTitle,
   description: doc.seoDescription,
   alternates: { canonical: "/legal/terms" },
-  robots: { index: false, follow: false },
 };
 
 export default function TermsPage() {

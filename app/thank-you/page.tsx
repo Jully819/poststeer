@@ -15,6 +15,11 @@ export const metadata: Metadata = {
   title: thankYouPage.seoTitle,
   description: thankYouPage.seoDescription,
   alternates: { canonical: "/thank-you" },
+  /* NOINDEX ON PURPOSE, and not because the site is closed. The rest of
+     the site is open to crawlers now. Where Stripe sends someone after they pay. It means nothing to
+     anyone who did not just pay, it is absent from app/sitemap.ts, and an
+     indexed receipt page is a small privacy problem as well as a useless
+     search result. */
   robots: { index: false, follow: false },
 };
 

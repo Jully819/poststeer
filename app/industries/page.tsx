@@ -12,7 +12,6 @@ export const metadata: Metadata = {
   title: `Social Media Management by Industry | ${brand.name}`,
   description: intro,
   alternates: { canonical: "/industries" },
-  robots: { index: false, follow: false },
 };
 
 /** The hub the industry pages breadcrumb back to. */

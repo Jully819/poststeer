@@ -24,11 +24,6 @@ export const metadata: Metadata = {
   description: seo.description,
   metadataBase: new URL(SITE_URL),
   alternates: { canonical: "/" },
-  /* ⚠️ STILL NOINDEX, DELIBERATELY. The figures on this site are placeholders
-     — "[20,000]+ businesses", "[99.9]% uptime", "[4.6]/5" — and every image is
-     a labelled grey box. Flip this and app/robots.ts together, once those are
-     real. */
-  robots: { index: false, follow: false },
 };
 
 export const viewport: Viewport = {

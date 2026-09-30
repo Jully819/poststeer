@@ -34,9 +34,6 @@ export async function generateMetadata({
     title: `Social Media Agency in ${city.name} | ${brand.name}`,
     description: copy.intro,
     alternates: { canonical: `/service-areas/${city.slug}` },
-    /* Noindex with the rest of the site while the figures are placeholders.
-       Flip this, the layout and app/robots.ts together. */
-    robots: { index: false, follow: false },
   };
 }
 

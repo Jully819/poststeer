@@ -8,9 +8,6 @@ export const metadata: Metadata = {
   title: demoPage.seoTitle,
   description: demoPage.seoDescription,
   alternates: { canonical: "/demo" },
-  /* Noindex while the figures on this site are still placeholders, matching
-     the root layout. Flip both together. */
-  robots: { index: false, follow: false },
 };
 
 /** Copy and the questions on the left, the picker on the right. */

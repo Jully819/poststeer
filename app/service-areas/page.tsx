@@ -18,7 +18,6 @@ export const metadata: Metadata = {
   title: serviceAreas.seoTitle,
   description: serviceAreas.seoDescription,
   alternates: { canonical: "/service-areas" },
-  robots: { index: false, follow: false },
 };
 
 export default function ServiceAreasPage() {

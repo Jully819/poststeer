@@ -20,10 +20,17 @@ export const dynamic = "force-static";
  * /pricing IS. It was the first step of the funnel back when it lived at
  * /start; it is a nav item now, so it is a destination like any other.
  *
- * ⚠️ THE SITE IS STILL CLOSED TO CRAWLERS. app/robots.ts disallows everything
- * and every page sets `robots: { index: false }` while the figures are
- * placeholders. This file is the structure waiting for that switch; flip all
- * three together, not one at a time.
+ * THE SITE IS OPEN TO CRAWLERS. app/robots.ts allows everything and the
+ * per-page noindex is gone, so this file is now load-bearing rather than
+ * structure waiting for a switch. A route that belongs in search has to be
+ * here, and two routes deliberately are not: /pricing/brief and /thank-you
+ * keep their own `robots: { index: false }` and say why on it.
+ *
+ * WHAT STILL CARRIES BRACKETS. The legal documents render unconfirmed values
+ * inside square brackets on purpose, so a reader sees a blank rather than a
+ * claim, and those pages are now indexed with the brackets visible. Governing
+ * law, the sub-processor list, the data locations and the response windows are
+ * the open ones. See references/stats.md.
  */
 
 type Change = MetadataRoute.Sitemap[number]["changeFrequency"];

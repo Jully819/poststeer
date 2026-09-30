@@ -34,8 +34,6 @@ export async function generateMetadata({
     title: `Social Media Management for ${industry.name} | ${brand.name}`,
     description: copy.intro,
     alternates: { canonical: `/industries/${industry.slug}` },
-    /* Noindex with the rest of the site while the figures are placeholders. */
-    robots: { index: false, follow: false },
   };
 }
 

@@ -28,7 +28,6 @@ export async function generateMetadata({
     title: `${item.name} | ${brand.name}`,
     description: servicePages[slug]?.intro,
     alternates: { canonical: `/services/${slug}` },
-    robots: { index: false, follow: false },
   };
 }
 

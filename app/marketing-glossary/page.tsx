@@ -13,7 +13,6 @@ export const metadata: Metadata = {
   title: glossaryPage.seoTitle,
   description: glossaryPage.seoDescription,
   alternates: { canonical: "/marketing-glossary" },
-  robots: { index: false, follow: false },
 };
 
 export default function MarketingGlossaryPage() {

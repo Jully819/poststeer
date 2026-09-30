@@ -1139,7 +1139,7 @@ export const selectPage = {
   bullets: [
     { strong: "Every service", rest: "on one platform." },
     { strong: "Real marketers", rest: "on your brand, not a content mill." },
-    { strong: "Trusted", rest: "by businesses since 2010." },
+    { strong: "Trusted", rest: "by businesses since 2018." },
   ],
   groups: [
     {
@@ -1914,7 +1914,7 @@ export const footer = {
   legal: {
     leadIn: "PostSteer is a",
     linkText: "social media management agency",
-    tail: "since 2010.",
+    tail: "since 2018.",
     copyrightTail: "Inc. · [US + EU]",
     links: [
       { label: "Privacy", href: "/legal/privacy" },
@@ -2047,7 +2047,7 @@ export const demoPage = {
         "None. The demo is free, there is nothing to sign, and plans are month to month if you do go ahead.",
     },
   ],
-  trusted: "trusted since 2010",
+  trusted: "trusted since 2018",
 };
 
 export const chat = {

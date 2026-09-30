@@ -56,9 +56,6 @@ export async function generateMetadata({
     title: post.metaTitle ? { absolute: post.metaTitle } : post.title,
     description: post.metaDescription ?? post.excerpt,
     alternates: { canonical: `/blog/${slug}` },
-    /* Still closed to crawlers with the rest of the site. See app/sitemap.ts —
-       this flips with everything else, not on its own. */
-    robots: { index: false, follow: false },
     openGraph: {
       type: "article",
       url,

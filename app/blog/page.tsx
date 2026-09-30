@@ -8,7 +8,6 @@ export const metadata: Metadata = {
   title: blogPage.seoTitle,
   description: blogPage.seoDescription,
   alternates: { canonical: "/blog" },
-  robots: { index: false, follow: false },
 };
 
 export default function BlogIndex() {
