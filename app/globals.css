@@ -21,7 +21,14 @@
   --color-paper: #ffffff; /* cards, lighter than the cream page */
   --color-ink: #0a0b10; /* --fb-ink */
   --color-body: #52525b; /* --fb-ink-2 */
-  --color-muted: #8a8b95; /* --fb-muted */
+  /* MUTED IS STILL TEXT, SO IT HAS TO CLEAR 4.5:1. It was #8a8b95, which
+     measured 2.93 on sage and 3.32 on the cream page — below AA on every
+     background the site actually uses, and the contrast failure Lighthouse
+     reported. Darkened along its own hue until the worst case cleared: 5.11
+     on page, 4.51 on sage, 4.68 on wash, 5.21 on paper. Still lighter than
+     --color-body, so ink over body over muted survives as three tiers.
+     Anything darker collapses it into body. */
+  --color-muted: #6b6c76; /* --fb-muted */
   --color-hairline: #e9e2cc; /* warm border, to match the cream */
   --color-hairline-soft: #f1ecda;
   /* MINT IS A FILL COLOUR, NOT A TEXT COLOUR. #0ffcbe on cream measures

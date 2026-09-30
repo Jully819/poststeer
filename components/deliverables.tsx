@@ -127,7 +127,10 @@ function StepArt({ art }: { art: (typeof deliverables.steps)[number]["art"] }) {
         {deliverables.createThumbs.map((src, i) => (
           <img
             key={src}
-            src={withBase(`/hero/${src}.webp`)}
+            /* The 160px rendition, not the master. These are drawn at 56 to
+               68px, and the full-size file is up to 176KB for a thumbnail
+               smaller than the icon beside it. */
+            src={withBase(`/hero/${src}-160.webp`)}
             alt=""
             width={120}
             height={160}

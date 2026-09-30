@@ -25,7 +25,7 @@ import { cn, withBase } from "@/lib/utils";
  * gone, before the site is opened to crawlers.
  */
 export default function ClientFeedback() {
-  const track = useRef<HTMLUListElement>(null);
+  const track = useRef<HTMLDivElement>(null);
 
   /* One card plus one gap, measured off the DOM rather than hardcoded, so the
      step stays right as the card width changes across breakpoints. */
@@ -49,60 +49,69 @@ export default function ClientFeedback() {
         </div>
 
         <div className="relative mt-12">
-          <ul
+          {/* THE SCROLL REGION AND THE LIST ARE TWO ELEMENTS ON PURPOSE.
+              Both jobs used to sit on the <ul>, and role="region" overrode the
+              list role that <ul> carries implicitly. That is not a role <ul>
+              allows, and it also orphaned every <li> inside it, because their
+              parent no longer announced itself as a list. One mistake, two
+              axe failures. The div is the focusable, labelled scroll
+              container; the ul is just a list again. */}
+          <div
             ref={track}
             tabIndex={0}
             role="region"
             aria-label={testimonials.title}
             className={cn(
-              "flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth pb-1",
+              "overflow-x-auto scroll-smooth pb-1",
               "focus-visible:ring-2 focus-visible:ring-accent-ink focus-visible:ring-offset-4 focus-visible:outline-none",
               /* The arrows are the affordance; a scrollbar under the cards is
                  just a second one that does not match the design. */
               "[scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
             )}
           >
-            {testimonials.quotes.map((quote) => (
-              <li
-                key={quote.quote}
-                className="w-[86%] shrink-0 snap-start sm:w-[48%] lg:w-[calc((100%-2rem)/3)]"
-              >
-                <figure className="card flex h-full overflow-hidden">
-                  {/* Portrait panel, full height so the cards read as one
-                      row. object-cover crops the sides rather than the face:
-                      each file is already framed on it. */}
-                  <img
-                    src={withBase(`/reviews/${quote.photo}.webp`)}
-                    alt=""
-                    aria-hidden="true"
-                    width={340}
-                    height={510}
-                    loading="lazy"
-                    decoding="async"
-                    className="w-[38%] shrink-0 object-cover"
-                  />
+            <ul className="flex snap-x snap-mandatory gap-4">
+              {testimonials.quotes.map((quote) => (
+                <li
+                  key={quote.quote}
+                  className="w-[86%] shrink-0 snap-start sm:w-[48%] lg:w-[calc((100%-2rem)/3)]"
+                >
+                  <figure className="card flex h-full overflow-hidden">
+                    {/* Portrait panel, full height so the cards read as one
+                        row. object-cover crops the sides rather than the face:
+                        each file is already framed on it. */}
+                    <img
+                      src={withBase(`/reviews/${quote.photo}.webp`)}
+                      alt=""
+                      aria-hidden="true"
+                      width={340}
+                      height={510}
+                      loading="lazy"
+                      decoding="async"
+                      className="w-[38%] shrink-0 object-cover"
+                    />
 
-                  <div className="flex flex-1 flex-col justify-between gap-5 p-5">
-                    <blockquote className="text-[0.95rem] leading-relaxed text-ink">
-                      “{quote.quote}”
-                    </blockquote>
+                    <div className="flex flex-1 flex-col justify-between gap-5 p-5">
+                      <blockquote className="text-[0.95rem] leading-relaxed text-ink">
+                        “{quote.quote}”
+                      </blockquote>
 
-                    <figcaption>
-                      <span className="flex items-center gap-0.5" aria-hidden="true">
-                        {Array.from({ length: 5 }, (_, i) => (
-                          <Star key={i} className="size-3.5 fill-current text-ink" />
-                        ))}
-                      </span>
-                      <span className="mt-2.5 block font-display text-[0.95rem] font-semibold text-ink">
-                        {quote.name}
-                      </span>
-                      <span className="block text-[0.85rem] text-muted">{quote.role}</span>
-                    </figcaption>
-                  </div>
-                </figure>
-              </li>
-            ))}
-          </ul>
+                      <figcaption>
+                        <span className="flex items-center gap-0.5" aria-hidden="true">
+                          {Array.from({ length: 5 }, (_, i) => (
+                            <Star key={i} className="size-3.5 fill-current text-ink" />
+                          ))}
+                        </span>
+                        <span className="mt-2.5 block font-display text-[0.95rem] font-semibold text-ink">
+                          {quote.name}
+                        </span>
+                        <span className="block text-[0.85rem] text-muted">{quote.role}</span>
+                      </figcaption>
+                    </div>
+                  </figure>
+                  </li>
+                ))}
+            </ul>
+          </div>
 
           <Arrow direction={-1} onClick={() => page(-1)} />
           <Arrow direction={1} onClick={() => page(1)} />

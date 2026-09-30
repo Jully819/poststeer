@@ -1799,8 +1799,14 @@ export const finalCta = {
   title: "Your social media could be one less thing to manage.",
   body:
     "Take 20 minutes to see how PostSteer could fit into your business. No pitch deck. No pressure.",
-  primaryCta: `Start for ${brand.priceFrom}/mo`,
-  secondaryCta: "Talk to us first",
+  /* THESE NAME THEIR OWN DESTINATIONS. The primary used to read "Start for
+     $69/mo" while opening /demo, and the secondary "Talk to us first" while
+     jumping to #faq. Neither did what it said. It also gave the page two
+     different links with the identical label "Start for $69/mo", the other
+     being the header CTA, which a screen reader announces as one repeated
+     choice. A link is a promise about where it goes. */
+  primaryCta: "Book a 20-minute demo",
+  secondaryCta: "Read the questions first",
 };
 
 /**

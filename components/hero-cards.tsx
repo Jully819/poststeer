@@ -62,11 +62,30 @@ const CARD_SHADOW =
 const REEL_SHADOW =
   "shadow-none hover:shadow-[0_3px_8px_-3px_rgb(10_11_16/0.46),0_10px_20px_-12px_rgb(10_11_16/0.56)]";
 
-/** Shown at its own ratio, so the baked-in wording survives intact. */
-function Art({ art }: { art: { src: string; alt: string; w: number; h: number } }) {
+/**
+ * Shown at its own ratio, so the baked-in wording survives intact.
+ *
+ * TWO RENDITIONS, AND A `sizes` THAT DESCRIBES THE REAL LAYOUT. The masters
+ * run up to 1352px wide and these cards are drawn at roughly 180 to 300,
+ * so without this the browser downloads about four times the pixels it can
+ * use. `sizes` is per stack because the two columns are 57% and 43% of the
+ * cluster and a single value would be wrong for one of them.
+ *
+ * The widths here have to stay in step with the widths generated on disk.
+ */
+function Art({
+  art,
+  sizes,
+}: {
+  art: { src: string; alt: string; w: number; h: number };
+  sizes: string;
+}) {
+  const base = withBase(`/hero/${art.src}`);
   return (
     <img
-      src={withBase(`/hero/${art.src}.webp`)}
+      src={`${base}-800.webp`}
+      srcSet={`${base}-480.webp 480w, ${base}-800.webp 800w`}
+      sizes={sizes}
       alt={art.alt}
       width={art.w}
       height={art.h}
@@ -78,6 +97,12 @@ function Art({ art }: { art: { src: string; alt: string; w: number; h: number } 
     />
   );
 }
+
+/* The cluster is 57/43 inside a half-width column that loses 7rem of padding
+   at xl. These track that, so the browser picks the small rendition on a
+   phone instead of the large one. */
+const LEFT_SIZES = "(min-width: 1280px) 240px, (min-width: 1024px) 300px, 55vw";
+const RIGHT_SIZES = "(min-width: 1280px) 180px, (min-width: 1024px) 230px, 41vw";
 
 export function HeroCards() {
   const s = hero.showcase;
@@ -94,7 +119,7 @@ export function HeroCards() {
               REEL_SHADOW,
             )}
           >
-            <Art art={s.video} />
+            <Art art={s.video} sizes={LEFT_SIZES} />
             {/* Only the identity is ours. The counters, progress bar and
                 platform pill are printed on the artwork, so drawing those
                 again would show each one twice. */}
@@ -119,7 +144,7 @@ export function HeroCards() {
               CARD_SHADOW,
             )}
           >
-            <Art art={s.email} />
+            <Art art={s.email} sizes={LEFT_SIZES} />
             {/* Ours, over the painted-out wordmark. The rest of this card's
                 furniture is baked into the artwork; only the brand name is
                 ours to set. */}
@@ -145,7 +170,7 @@ export function HeroCards() {
                 i === 2 && "sm:rotate-[1.5deg]",
               )}
             >
-              <Art art={card} />
+              <Art art={card} sizes={RIGHT_SIZES} />
             </figure>
           ))}
         </div>
