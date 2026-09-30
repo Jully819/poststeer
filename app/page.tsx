@@ -4,7 +4,6 @@ import { Deliverables } from "@/components/deliverables";
 import { Gallery } from "@/components/gallery";
 import { PricingBuilder } from "@/components/pricing-builder";
 import { Guarantee } from "@/components/guarantee";
-import ClientFeedback from "@/components/ui/testimonial";
 import { Faq } from "@/components/faq";
 import { FinalCta } from "@/components/final-cta";
 
@@ -22,7 +21,11 @@ export default function Home() {
       <Gallery />
       <PricingBuilder />
       <Guarantee />
-      <ClientFeedback />
+      {/* The client reviews section is parked, not deleted. The quotes and
+          portraits were mocks, and mocks that look real cannot be on a page
+          that is about to be opened to crawlers. See the note on
+          `testimonials` in lib/content.ts for what has to be true before
+          <ClientFeedback /> goes back in here. */}
       <Faq />
       <FinalCta />
     </>

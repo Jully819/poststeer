@@ -1716,6 +1716,19 @@ export const caseStudies = {
  *
  * `role` is the kind of business, not a company: the reference sheet named
  * companies and those were dropped on request.
+ *
+ * ⚠️ PARKED, NOT DELETED. Nothing renders this any more. <ClientFeedback />
+ * came off the home page, the city pages and the industry pages, and the
+ * quote carousel came out of the demo booker, so that the site can be opened
+ * to crawlers without publishing endorsements nobody gave. The copy, the
+ * names, the roles and the portrait filenames are all kept here so the
+ * section can come back the day there are real reviews.
+ *
+ * TO BRING IT BACK: replace every quote with one a named customer has agreed
+ * to in writing, swap `photo` for that person's own picture or drop the
+ * portrait panel, then put <ClientFeedback /> back in the three pages. The
+ * component in components/ui/testimonial.tsx still works and is unchanged.
+ * Do not bring it back with these words in it.
  */
 export const testimonials = {
   kicker: "Client Reviews",

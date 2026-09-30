@@ -20,9 +20,12 @@ import { cn, withBase } from "@/lib/utils";
  * runs, and the arrows only call scrollBy. There is no autoplay: a quote that
  * slides away while it is being read is worse than no quote.
  *
- * ⚠️ THE PORTRAITS AND QUOTES ARE MOCKS THAT DO NOT LOOK LIKE MOCKS. See the
- * warning on `testimonials` in lib/content.ts: these have to be real, or
- * gone, before the site is opened to crawlers.
+ * ⚠️ NOTHING RENDERS THIS RIGHT NOW. The portraits and quotes are mocks that
+ * do not look like mocks, so the section was taken off the home page, the
+ * city pages and the industry pages rather than shipped to crawlers. The
+ * component is kept intact and working for the day there are real reviews to
+ * put through it. See the note on `testimonials` in lib/content.ts for what
+ * has to be true first.
  */
 export default function ClientFeedback() {
   const track = useRef<HTMLDivElement>(null);

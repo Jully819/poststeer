@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { ArrowLeft, Check, ChevronLeft, ChevronRight, Star } from "lucide-react";
-import { demoPage, testimonials } from "@/lib/content";
+import { ArrowLeft, Check, ChevronLeft, ChevronRight } from "lucide-react";
+import { demoPage } from "@/lib/content";
 import { DemoDetailsForm } from "@/components/demo-details-form";
 import type { DemoRequest } from "@/lib/booking";
 import { cn } from "@/lib/utils";
@@ -307,81 +307,14 @@ export function DemoBooker() {
           )}
         </div>
 
-        <DemoReview />
+        {/* The client-quote carousel that sat here is parked with the rest
+            of the testimonials. See the note on `testimonials` in
+            lib/content.ts. */}
       </div>
 
       <p className="mt-4 text-center font-mono text-[0.72rem] text-muted">
         // {demoPage.trusted}
       </p>
     </div>
-  );
-}
-
-/** One client quote at a time, with arrows and dots, under the picker. */
-function DemoReview() {
-  const quotes = testimonials.quotes.slice(0, 4);
-  const [index, setIndex] = useState(0);
-  const item = quotes[index];
-
-  return (
-    <figure className="border-t border-hairline bg-wash px-4 py-4 sm:px-5">
-      <div className="flex items-center gap-3">
-        {/* Initials, not a stock headshot: no invented faces on this site. */}
-        <span
-          className="grid size-9 shrink-0 place-items-center rounded-full bg-paper font-display text-[0.8rem] font-bold text-body"
-          aria-hidden="true"
-        >
-          {item.name.replace(/[^A-Za-z]/g, "").slice(0, 2).toUpperCase() || "PS"}
-        </span>
-        <div className="min-w-0 flex-1">
-          <p className="flex items-center gap-2 font-display text-[0.85rem] font-semibold text-ink">
-            {item.name}
-            <span className="flex items-center gap-0.5" aria-hidden="true">
-              {Array.from({ length: 5 }, (_, i) => (
-                <Star key={i} className="size-3 fill-current text-ink" />
-              ))}
-            </span>
-          </p>
-          <p className="mt-0.5 flex items-center gap-1 text-[0.75rem] text-accent-ink">
-            <Check className="size-3" strokeWidth={3} aria-hidden="true" />
-            {demoPage.reviewsLabel}
-          </p>
-        </div>
-        <span className="flex items-center gap-1">
-          <button
-            type="button"
-            onClick={() => setIndex((i) => (i - 1 + quotes.length) % quotes.length)}
-            aria-label="Previous review"
-            className="grid size-7 place-items-center rounded-full text-body transition-colors hover:bg-paper hover:text-ink"
-          >
-            <ChevronLeft className="size-3.5" aria-hidden="true" />
-          </button>
-          <button
-            type="button"
-            onClick={() => setIndex((i) => (i + 1) % quotes.length)}
-            aria-label="Next review"
-            className="grid size-7 place-items-center rounded-full text-body transition-colors hover:bg-paper hover:text-ink"
-          >
-            <ChevronRight className="size-3.5" aria-hidden="true" />
-          </button>
-        </span>
-      </div>
-
-      <blockquote className="mt-3 text-[0.85rem] leading-relaxed text-body">
-        “{item.quote}”
-      </blockquote>
-
-      <div className="mt-3 flex items-center gap-1.5" aria-hidden="true">
-        {quotes.map((quote, i) => (
-          <span
-            key={quote.quote}
-            className={cn(
-              "h-1 rounded-full transition-all duration-300",
-              i === index ? "w-5 bg-ink" : "w-1.5 bg-hairline",
-            )}
-          />
-        ))}
-      </div>
-    </figure>
   );
 }
