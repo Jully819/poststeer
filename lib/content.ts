@@ -15,7 +15,24 @@
    from here, and a type import is erased before anything runs. */
 import { crossPostingVsNativePosting } from "@/lib/posts/cross-posting-vs-native-posting";
 
-/** Canonical origin. Override with NEXT_PUBLIC_SITE_URL at build time. */
+/**
+ * Canonical origin. Override with NEXT_PUBLIC_SITE_URL at build time.
+ *
+ * ⚠️ THIS HAS TO BE THE HOST THAT ACTUALLY SERVES THE SITE, and it is one
+ * decision shared with the Vercel domain settings rather than two.
+ *
+ * poststeer.com is the production host. www.poststeer.com and
+ * poststeer.vercel.app both answer with a single 308 into it. So the bare
+ * domain is the address, and every canonical, sitemap entry, robots.txt
+ * pointer, Open Graph url and JSON-LD id below names it.
+ *
+ * WHY IT MATTERS. Naming a host that redirects spends a redirect on every
+ * crawl and splits the signals across two hostnames. In Search Console the
+ * two are separate properties, so a sitemap of one host's urls submitted
+ * under the other reads as zero coverage and looks like a broken site.
+ *
+ * If the production host is ever moved in Vercel, move this with it.
+ */
 export const SITE_URL = (
   process.env.NEXT_PUBLIC_SITE_URL || "https://poststeer.com"
 ).replace(/\/$/, "");
