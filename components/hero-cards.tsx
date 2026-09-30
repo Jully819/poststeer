@@ -26,6 +26,42 @@ import { cn, withBase } from "@/lib/utils";
  * sample captions to reach the buttons.
  */
 
+/**
+ * Card shadows, at rest and on hover.
+ *
+ * NOTHING AT REST. The cards sit flat on the page and the shadow is purely a
+ * hover response, so it reads as the card answering the pointer rather than as
+ * depth the layout always had. `shadow-none` is set explicitly rather than
+ * omitted, because the transition needs a defined start to animate from.
+ *
+ * THE HOVER PULLS IN RATHER THAN SPREADING OUT. The obvious move is to grow
+ * the blur and drop the card further off the page, which is what this used to
+ * do. It reads as the card drifting away. Tightening instead — shorter offset,
+ * much less blur, split into a hard contact layer and a contained body layer —
+ * reads as the card being pulled down against the page and held there.
+ *
+ * The reel hovers a step heavier than the rest, because it is the largest card
+ * and an identical shadow under a bigger object looks lighter.
+ *
+ * THERE ARE TWO DIALS HERE AND THEY MOVE INDEPENDENTLY. Keeping them apart is
+ * the point, because every request about this shadow has been about one or the
+ * other, never both.
+ *
+ * WEIGHT is the alpha. Raise it to make the hover hit harder. Nothing else.
+ *
+ * REACH is the blur and the negative spread together. How far the shadow gets
+ * out past the card edge before it fades. Blur pushes it out, negative spread
+ * pulls it back under the card, and the visible reach is roughly
+ * `offset + blur / 2 + spread`. Shrink both to keep the shadow hugging the
+ * card. Reaching for alpha to fix reach, or blur to fix weight, is what turns
+ * this back into the soft drifting shadow it is deliberately not.
+ */
+const CARD_SHADOW =
+  "shadow-none hover:shadow-[0_2px_6px_-2px_rgb(10_11_16/0.42),0_8px_16px_-10px_rgb(10_11_16/0.5)]";
+
+const REEL_SHADOW =
+  "shadow-none hover:shadow-[0_3px_8px_-3px_rgb(10_11_16/0.46),0_10px_20px_-12px_rgb(10_11_16/0.56)]";
+
 /** Shown at its own ratio, so the baked-in wording survives intact. */
 function Art({ art }: { art: { src: string; alt: string; w: number; h: number } }) {
   return (
@@ -52,7 +88,12 @@ export function HeroCards() {
       <div className="flex gap-3 sm:gap-4">
         {/* Left stack: the reel, then the newsletter under it. */}
         <div className="flex w-[57%] flex-col gap-3 sm:gap-4">
-          <figure className="relative overflow-hidden rounded-2xl shadow-[0_18px_44px_-18px_rgb(10_11_16/0.4)] transition-shadow duration-300 hover:shadow-[0_30px_64px_-20px_rgb(10_11_16/0.5)] sm:-rotate-1">
+          <figure
+            className={cn(
+              "relative overflow-hidden rounded-2xl transition-shadow duration-300 sm:-rotate-1",
+              REEL_SHADOW,
+            )}
+          >
             <Art art={s.video} />
             {/* Only the identity is ours. The counters, progress bar and
                 platform pill are printed on the artwork, so drawing those
@@ -72,7 +113,12 @@ export function HeroCards() {
             </span>
           </figure>
 
-          <figure className="relative overflow-hidden rounded-2xl shadow-[0_14px_36px_-18px_rgb(10_11_16/0.3)] transition-shadow duration-300 hover:shadow-[0_26px_56px_-20px_rgb(10_11_16/0.45)] sm:rotate-[0.5deg]">
+          <figure
+            className={cn(
+              "relative overflow-hidden rounded-2xl transition-shadow duration-300 sm:rotate-[0.5deg]",
+              CARD_SHADOW,
+            )}
+          >
             <Art art={s.email} />
             {/* Ours, over the painted-out wordmark. The rest of this card's
                 furniture is baked into the artwork; only the brand name is
@@ -92,7 +138,8 @@ export function HeroCards() {
             <figure
               key={card.src}
               className={cn(
-                "overflow-hidden rounded-2xl shadow-[0_14px_36px_-18px_rgb(10_11_16/0.3)] transition-shadow duration-300 hover:shadow-[0_26px_56px_-20px_rgb(10_11_16/0.45)]",
+                "overflow-hidden rounded-2xl transition-shadow duration-300",
+                CARD_SHADOW,
                 i === 0 && "sm:rotate-1",
                 i === 1 && "sm:-rotate-[0.5deg]",
                 i === 2 && "sm:rotate-[1.5deg]",
