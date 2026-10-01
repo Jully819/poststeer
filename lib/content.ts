@@ -14,6 +14,7 @@
    both directions because each post file imports only the `BlogPost` TYPE back
    from here, and a type import is erased before anything runs. */
 import { crossPostingVsNativePosting } from "@/lib/posts/cross-posting-vs-native-posting";
+import { socialMediaMarketingForRestaurants } from "@/lib/posts/social-media-marketing-for-restaurants";
 
 /**
  * Canonical origin. Override with NEXT_PUBLIC_SITE_URL at build time.
@@ -1486,6 +1487,7 @@ export const blogPage = {
   ctaBody: "Pick your services and see the price before you talk to anyone.",
   ctaButton: "See pricing",
   posts: [
+    socialMediaMarketingForRestaurants,
     crossPostingVsNativePosting,
     {
       slug: "one-recording-a-month",
