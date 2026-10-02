@@ -248,20 +248,6 @@ export const doINeedAWebsiteIfIHaveSocialMedia: BlogPost = {
       ],
     },
     {
-      id: "when-you-do-not-need-one",
-      heading: "When the answer is genuinely no",
-      paragraphs: [
-        "Four cases, and we would turn the work down in all of them.",
-        "**You are full.** A diary with no gaps does not have a marketing problem. Buying a website to generate demand you cannot serve is spending money to make your own life harder. Come back when there is a gap.",
-        "**All your work comes by referral.** If every customer arrives because somebody told them about you, your growth lever is that referral loop and not a page. Ask for the review, make the introduction easy, and leave the site until the loop stops feeding you.",
-        "**You are testing whether the business works.** If you are three months in and still deciding what you sell and to whom, a website locks in answers you have not reached. It will be wrong by the time it is finished. A profile and a phone number can carry you through that stage, and they can change on a Tuesday.",
-        "**Nobody will maintain it.** A site with last year's prices and a closed location on it is actively costing you. If there is no one to update it, the honest answer is to keep the thing that updates itself, which is the profile you post to anyway.",
-        "That last one is the common one, and it is why so many small business sites are three years stale. The build is the cheap part. Keeping it true is the cost nobody quotes for.",
-        "There is a fifth case that is less a rule than a warning. If the reason you want a website is that a competitor has one, stop. That is not a reason, it is a feeling, and it produces the sites that get built and abandoned. A competitor's site might be bringing them nothing. You cannot tell from outside, and neither can they without looking.",
-        "The useful test is to name the customer. One real person, the kind you actually want more of, and the moment in their week when they would need a page. If you can describe that moment, build the page for it. If the description comes out vague, the page will come out vague too, and vague pages are the ones nobody updates.",
-      ],
-    },
-    {
       id: "what-a-first-one-needs",
       heading: "If you do build one, what goes on it",
       paragraphs: [

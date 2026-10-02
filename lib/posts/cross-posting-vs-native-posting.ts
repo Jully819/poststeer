@@ -252,6 +252,7 @@ export const crossPostingVsNativePosting: BlogPost = {
         "Meta's own tooling handles part of this inside its own family. Connecting a professional Instagram account to a Facebook Page lets a post go to both, and Instagram documents the setup in [its help centre](https://help.instagram.com/570895513091465). It is genuinely one tap. It is also the least adapted version of your post that exists. Use it for quick and disposable material. Not for anything you want to work hard.",
         "For short video the specs are the thing to check rather than guess, and the platforms publish them. YouTube's own [Shorts documentation](https://support.google.com/youtube/answer/10059070) is the place to confirm what qualifies rather than trusting a blog post, including this one.",
         "Captions are not part of the adaptation, they are part of the asset, and they need to be right before any of this starts. That is [its own argument](/blog/captions-do-the-work) and it is the one thing on this list that changes performance on every platform at once.",
+        "When it is worth handling properly, that is what we do, and the [services and pricing](/pricing) are there without a call. If the bit you actually need is somebody making the video in the first place, that is [short-form video](/services/short-form-videos), and the per-platform posting is [social media posts](/services/social-media-posts).",
       ],
       list: {
         intro: "The order matters more than the tooling.",
@@ -264,18 +265,6 @@ export const crossPostingVsNativePosting: BlogPost = {
           "Come back for the replies, which is where the next post's idea usually is.",
         ],
       },
-    },
-    {
-      id: "when-not-to-bother",
-      heading: "When not to do this at all",
-      paragraphs: [
-        "Some businesses should not be on four platforms and should not pay anybody to help them be. It is worth saying plainly.",
-        "If you are on one channel and it is working, adding three more will not compound. It will divide the attention that made the first one work. Stay on one. Post more often on it. That is the entire strategy and it is a better one than most.",
-        "If all your customers arrive by referral or from a map listing, social posting is not your bottleneck. A business filling its diary from word of mouth has a different problem. An hour a week on a Threads account is an hour not spent on it.",
-        "If nobody internally can spend an hour a week on this, do not start. A feed that stops after five weeks reads worse than no feed at all, because it dates itself in public. An empty profile says nothing. An abandoned one says the business lost interest.",
-        "And if you are a solo operator on one platform with an audience that is growing, you do not need a posting process. You need to keep doing the thing that is working. Come back to this when a second channel starts producing enquiries on its own, which is the only honest signal that it deserves attention.",
-        "When it is worth handling properly, that is what we do, and the [services and pricing](/pricing) are there without a call. If the bit you actually need is somebody making the video in the first place, that is [short-form video](/services/short-form-videos), and the per-platform posting is [social media posts](/services/social-media-posts).",
-      ],
     },
   ],
 

@@ -341,35 +341,7 @@ export const socialMediaMarketingForRestaurants: BlogPost = {
         "There is one number worth knowing before you start, because it reframes the rest. Deloitte found that **41% of people who follow brands on social media follow restaurant brands**. The audience is there and it is already interested. That is unusual. Most industries are fighting for attention that does not want to be given, and restaurants are not.",
         "Which changes what a poor result means. If a restaurant posts for six months and nothing moves, the likely problem is not that nobody wants to follow a restaurant. It is the room, the booking link, the light, or the fact that it was nobody's job. Those are fixable. A disinterested audience would not be.",
         "Set a review date when you start. Three months out, put an hour in the diary and look at the three numbers honestly. Not to decide whether social media works, which is already settled, but to decide whether yours is working and what specifically is in the way.",
-      ],
-    },
-    {
-      id: "when-to-skip-this",
-      heading: "When a restaurant should skip this entirely",
-      paragraphs: [
-        "Some restaurants should not be doing this and should not be paying anyone to do it either. Worth saying plainly, since the people who write these guides never do.",
-        "If you are full every service and turning people away, social media is not your constraint and more demand is not your problem. Spend the hour on the thing that is actually limiting you, which is usually covers, staff or kitchen capacity.",
-        "Say you have no booking system and no delivery, and you live on passing trade from a busy street. The connection between a post and a seat is thin. Fix the Google Business Profile, get the hours right, collect reviews, and stop there. That genuinely might be the whole job.",
-        "If nobody on the team wants to do it, do not start. A feed that stops after six weeks is worse than no feed, because it dates itself in public. An empty profile says nothing at all. An abandoned one says the business lost interest, and a stranger reads that as a question about whether you are still open.",
-        "And if you are a single owner working every service yourself, be realistic about the hour. It is a real hour, it recurs forever, and it comes out of the day you already do not have. Either it is somebody's job or it does not happen. There is no third option where it happens anyway.",
         "When it is worth handling properly, that is the work we do. The [social posts](/services/social-media-posts) are **$69 a month for ten** and [short-form video](/services/short-form-videos) is **$129 a month for five**. You can see the whole plan and its [price](/pricing) before you speak to anyone.",
-      ],
-      facts: [
-        {
-          label: "Skip it if",
-          value:
-            "You are turning people away. More demand is not the problem you have.",
-        },
-        {
-          label: "Do less if",
-          value:
-            "You have no booking link and no delivery. Fix the Google profile and the hours first.",
-        },
-        {
-          label: "Do not start if",
-          value:
-            "Nobody wants to. Six weeks of posts then silence reads worse than an empty profile.",
-        },
       ],
     },
   ],

@@ -4,6 +4,7 @@ import { useMemo, useState, type ComponentType, type SVGProps } from "react";
 import {
   ArrowRight,
   Check,
+  FileText,
   Image as ImageIcon,
   Info,
   Link2,
@@ -30,6 +31,8 @@ const workByKey = new Map(work.items.map((item) => [item.src, item]));
 const icons: Record<PricingService["icon"], ComponentType<SVGProps<SVGSVGElement>>> = {
   posts: ImageIcon,
   video: MonitorPlay,
+  /* Same FileText the mega-menu and /pricing give blog posts. */
+  blog: FileText,
   growth: ThumbsUp,
   seo: MonitorCog,
   email: Mail,
@@ -103,9 +106,11 @@ const stepsOf = (service: PricingService) =>
 /**
  * What `qty` of this service costs.
  *
- * A tiered service carries a volume discount, so its larger quantities cost
- * less than the per-unit rate would suggest. An untiered one is sold at one
- * rate whatever the quantity.
+ * A tiered service is sold at the quantities it lists, for the figures it
+ * lists — usually a volume discount, though blog posts are not one. Either
+ * way the tier wins over the per-unit rate, because the tier is what the
+ * checkout charges. An untiered service is sold at one rate whatever the
+ * quantity.
  */
 function priceAt(service: PricingService, qty: number) {
   const tier = service.tiers?.find((t) => t.qty === qty);
@@ -122,8 +127,8 @@ function priceAt(service: PricingService, qty: number) {
  * `initialServiceId` lets a service page open the builder on its own service
  * rather than on whatever happens to be first in the catalogue. An id with no
  * row behind it falls back to the first service, because a builder that opens
- * empty reads as broken. SEO Blog Posts is currently in exactly that
- * position: it is in the mega-menu and has no row in `pricing.services`.
+ * empty reads as broken. Every `planId` in the mega-menu resolves to a row
+ * today, so that fallback is a guard rather than a live case.
  */
 export function PricingBuilder({ initialServiceId }: { initialServiceId?: string } = {}) {
   const opening =

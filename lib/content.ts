@@ -182,10 +182,6 @@ export const servicesMenu = {
  * flows that earn an email list its keep, the kinds of landing page. `tools`
  * names software we work inside, for the one service where the buyer already
  * owns the account.
- *
- * `notFor` IS NOT OPTIONAL. Naming who should not buy is the thing that
- * makes everything above it believable, and it is the first thing to go when
- * someone edits these pages in a hurry. Leave it in.
  */
 
 /** Keys into `featureIcons` in components/ui/feature-icons.tsx. */
@@ -228,8 +224,6 @@ export interface ServicePage {
   includes: { icon: FeatureIcon; title: string; body: string }[];
   /** How the work runs, in three beats. */
   steps: { title: string; body: string }[];
-  /** Who should not buy this. Rendered, not hidden in a tooltip. */
-  notFor: string;
   /** Service-specific bands between the portfolio and the plan builder. */
   sections?: { title: string; intro?: string; items: { title: string; body: string }[] }[];
   /** Named software, where the buyer already has an account we work inside. */
@@ -295,8 +289,6 @@ export const servicePages: Record<string, ServicePage> = {
       { title: "Calendar", body: "You approve the month's topics before anything is made." },
       { title: "Publish", body: "Approved posts go out on schedule, with a monthly report." },
     ],
-    notFor:
-      "Do not buy this if you want your feed to look like the account you sent us. We design to your brand, which means it will look like you. Do not buy it if you need something posted this afternoon either. The calendar is agreed a month ahead, and that is the whole point of it.",
     workType: "posts",
     galleryTitle: "Posts we have made for other brands.",
     channels: true,
@@ -397,8 +389,6 @@ export const servicePages: Record<string, ServicePage> = {
         ],
       },
     ],
-    notFor:
-      "Do not buy this if you have no footage and no intention of shooting any. We can work from stock, and stock looks like stock. Do not buy it if what you want is a commercial. These are twenty to sixty second cuts for a feed, not a production.",
     workType: "shortform",
     galleryTitle: "Short-form video we have cut.",
     channels: true,
@@ -472,8 +462,6 @@ export const servicePages: Record<string, ServicePage> = {
         ],
       },
     ],
-    notFor:
-      "Do not buy this if you need traffic this quarter. Rankings move over months, and anyone promising faster is selling you something else. Do not buy it if nobody on your side will answer a question about the business either. The research is ours. The expertise has to be yours.",
   },
 
   "email-marketing": {
@@ -569,8 +557,6 @@ export const servicePages: Record<string, ServicePage> = {
         "Salesforce",
       ],
     },
-    notFor:
-      "Do not buy this if the list was bought or scraped. We will not send to it. Do not buy it with a few dozen addresses either. Build the list first. Four well-made emails to thirty people is not a channel, it is a rehearsal.",
     workType: "email",
     galleryTitle: "Email we have designed.",
   },
@@ -651,8 +637,6 @@ export const servicePages: Record<string, ServicePage> = {
         ],
       },
     ],
-    notFor:
-      "Do not buy this if you need a shop. Five pages and a contact form is not a storefront, and pretending otherwise ends badly for both of us. Do not buy it if nobody will keep it current either. A site untouched for two years reads to a visitor like a business that closed.",
   },
 
   "landing-pages": {
@@ -753,8 +737,6 @@ export const servicePages: Record<string, ServicePage> = {
         ],
       },
     ],
-    notFor:
-      "Do not buy this if you have no traffic to point at it. A landing page converts traffic. It does not create any. Do not buy it while the offer is still being argued about internally either. We can write the page. We cannot decide what you are selling.",
   },
 };
 
@@ -1261,15 +1243,16 @@ export interface PricingService {
   id: string;
   name: string;
   /** Icon key, mapped to a lucide icon in the component. */
-  icon: "posts" | "video" | "growth" | "seo" | "email" | "landing" | "website";
+  icon: "posts" | "video" | "blog" | "growth" | "seo" | "email" | "landing" | "website";
   perUnit: number;
   /**
    * The quantities actually sold, with what each costs.
    *
    * PRESENT MEANS THE STEPPER WALKS THESE and the price comes from the tier
    * rather than `perUnit * quantity`. The two disagree above the entry
-   * quantity because the tiers carry a volume discount, and a home page
-   * quoting more than the checkout charges is worse than either number on
+   * quantity — usually because the tier carries a volume discount, though
+   * blog posts run a dollar the other way — and a home page quoting anything
+   * other than what the checkout charges is worse than either number on
    * its own. These must match selectPage's options, which is what /pricing
    * sells and what the Stripe links are priced at.
    *
@@ -1397,6 +1380,43 @@ export const pricing = {
           "Scheduled & published for you",
           "Revisions included",
         ],
+      },
+    },
+    {
+      id: "blog",
+      name: "SEO Blog Posts",
+      icon: "blog",
+      /* 189 / 4, the entry tier. The stepper never multiplies this — `tiers`
+         is present, so `priceAt` returns a tier price — but the info dialog
+         reads `perUnit * defaultQty`, and that has to come out at the $189
+         references/stats.md confirms and the Stripe link charges. */
+      perUnit: 47.25,
+      /* Both quantities /pricing sells, at the figures its two Stripe links
+         charge. Unlike the other tiered rows these carry no volume discount:
+         eight posts is $379, a dollar above four times the entry rate. The
+         tier is still what the checkout takes, which is what matters here. */
+      tiers: [
+        { qty: 4, price: 189 },
+        { qty: 8, price: 379 },
+      ],
+      defaultQty: 4,
+      minQty: 4,
+      step: 4,
+      unit: "posts",
+      description:
+        "Long-form articles researched against what people actually search for, written by a person, and published to your CMS with the titles, metadata and internal links already in place.",
+      details: {
+        summary:
+          "SEO blog posts, handled from keyword to published page. We pick the targets with you, read the pages ranking today, write 1,000 words a person would finish, and post them to your CMS with the links already done.",
+        includes: [
+          "1,000-word articles, drafted and edited before you see them",
+          "Keywords chosen with you, with the working shown",
+          "Researched against the pages ranking today",
+          "Titles & meta descriptions written for the result page",
+          "Internal links added, and older posts updated to point at the new one",
+          "Published to your CMS, images in place",
+        ],
+        note: "Rankings move over months, not weeks. Buy this for the quarter after next.",
       },
     },
     {
@@ -2682,8 +2702,6 @@ export const archivedServices = {
         { title: "Engage", body: "Manual work, every weekday, logged as it happens." },
         { title: "Report", body: "Monthly numbers, with what to double down on." },
       ],
-      notFor:
-        "Do not buy this if the number is the point. Manual growth is slow, and anyone quoting you ten thousand followers a month is buying them. Do not buy it if the feed is empty either. Engagement sends people to a profile, and a profile with nothing on it sends them straight back.",
     },
   } as typeof servicePages,
   selectGroups: [

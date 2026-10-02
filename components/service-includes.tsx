@@ -2,14 +2,16 @@ import type { ServicePage } from "@/lib/content";
 import { featureIcons } from "@/components/ui/feature-icons";
 
 /**
- * What the buyer actually receives: six cards, then the paragraph naming who
- * should not buy it.
+ * What the buyer actually receives: six cards, and nothing after them.
  *
- * THE "NOT FOR YOU" PARAGRAPH IS PART OF THIS SECTION, not a footnote under
- * it. It sits inside the same band, in the same type size as the cards, and
- * it is the last thing read before the plan builder. A page that lists six
- * good things and no limit is read as a brochure; the limit is what makes
- * the six believable.
+ * THERE WAS A "WHEN NOT TO BUY THIS" PARAGRAPH HERE. It came out on the
+ * owner's instruction, on every service page at once. The copy is in the
+ * history at 0c4937a if it is ever wanted back; it is not parked in
+ * lib/content.ts, because a field nothing renders is a field that rots.
+ *
+ * Worth knowing before anyone adds a seventh card: CLAUDE.md's content rules
+ * still name "tell people when NOT to hire you" as the biggest voice tell,
+ * and this band is where it used to live.
  */
 export function ServiceIncludes({ page, title }: { page: ServicePage; title: string }) {
   return (
@@ -41,13 +43,6 @@ export function ServiceIncludes({ page, title }: { page: ServicePage; title: str
             );
           })}
         </ul>
-
-        <div className="mx-auto mt-10 max-w-[48rem] rounded-2xl border border-hairline bg-paper p-6 sm:p-8">
-          <h3 className="font-display text-[1.05rem] font-bold text-ink">
-            When not to buy this.
-          </h3>
-          <p className="mt-3 text-[0.95rem] leading-relaxed text-body">{page.notFor}</p>
-        </div>
       </div>
     </section>
   );

@@ -30,17 +30,9 @@ const facts = [
 export function ServiceHero({
   item,
   page,
-  pricingHref,
 }: {
   item: MenuItem;
   page: ServicePage;
-  /**
-   * "#pricing" where the plan builder is on this page, "/pricing" where it is
-   * not. SEO Blog Posts is the second case: it sells on /pricing and has no
-   * row in the builder's catalogue, so scrolling to a builder that cannot
-   * add it would be a dead end dressed as a button.
-   */
-  pricingHref: string;
 }) {
   const Icon = serviceIcons[item.icon];
   /* Lands on /pricing with this service already in the build. */
@@ -92,7 +84,7 @@ export function ServiceHero({
                 <ArrowRight className="size-4" aria-hidden="true" />
               </a>
               <a
-                href={pricingHref.startsWith("#") ? pricingHref : withBase(pricingHref)}
+                href="#pricing"
                 className="btn btn-ghost min-h-[3.2rem] px-7 text-[1rem] shadow-[0_1px_2px_rgb(13_15_20/0.06)]"
               >
                 See pricing

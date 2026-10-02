@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { brand, pricing, servicePages, servicesMenu } from "@/lib/content";
+import { brand, servicePages, servicesMenu } from "@/lib/content";
 import { CheckoutSteps } from "@/components/checkout-steps";
 import { ServiceHero } from "@/components/service-hero";
 import { ServiceSteps } from "@/components/service-steps";
@@ -68,17 +68,12 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
 
   const others = allItems.filter((candidate) => candidate.slug !== slug);
   const sections = page.sections ?? [];
-  /* The plan builder carries five of the six services. SEO Blog Posts sells
-     on /pricing, which reads a wider catalogue, and has no row here — so that
-     page sends people to /pricing rather than scrolling them to a builder
-     that cannot add the thing they came for. */
-  const inBuilder = pricing.services.some((service) => service.id === item.planId);
 
   return (
     <>
       <CheckoutSteps current={0} />
 
-      <ServiceHero item={item} page={page} pricingHref={inBuilder ? "#pricing" : "/pricing"} />
+      <ServiceHero item={item} page={page} />
 
       {page.channels ? <LogoStrip /> : null}
 
@@ -119,7 +114,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
       {page.tools ? <ServiceTools tools={page.tools} /> : null}
 
       {/* Opens on this service rather than on the first row of the catalogue. */}
-      {inBuilder ? <PricingBuilder initialServiceId={item.planId} /> : null}
+      <PricingBuilder initialServiceId={item.planId} />
       <Guarantee />
       <Faq />
 
