@@ -41,7 +41,13 @@
   --color-accent-tint: #0ffcbe33;
   --color-good: #10b981; /* --fb-good */
   --color-warn: #f59e0b; /* --fb-warn */
-  --color-bad: #e0564b; /* --fb-bad */
+  /* ERROR TEXT HAS TO CLEAR 4.5:1 LIKE ANY OTHER TEXT, and the message that
+     tells somebody their email is wrong is the last place to be subtle. This
+     was #e0564b, which measured 3.75 on paper and 3.37 on wash. Darkened along
+     its own hue until the worst case cleared: 5.26 on paper, 4.73 on wash,
+     5.15 on page, 4.55 on sage. Nothing but the chat panel uses it, so this
+     changed no existing surface. */
+  --color-bad: #c43a2f; /* --fb-bad */
   /* The dark bands: key numbers, guarantee, closing CTA. Near-black with a
      faint green cast rather than the neutral --color-ink, so it sits with
      the mint accent instead of against it. It is a BACKGROUND only; text

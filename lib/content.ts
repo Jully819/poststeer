@@ -2069,12 +2069,47 @@ export const demoPage = {
   trusted: "trusted since 2018",
 };
 
+/**
+ * The chat launcher.
+ *
+ * IT SAYS IT IS EMAIL, because it is. A static export has nowhere to keep a
+ * conversation, so the panel takes an address and a message and sends them
+ * through EmailJS. Every line below is written so a visitor knows the reply
+ * lands in their inbox rather than in this window. See lib/chat.ts.
+ *
+ * NO AGENT PHOTOGRAPH AND NO RESPONSE-TIME PROMISE. The messengers this is
+ * modelled on put a face and a "replies within a day" badge in the header.
+ * Both are claims. A stock headshot of somebody who does not work here is the
+ * same thing as an invented testimonial, and a response time nobody has
+ * committed to is worse than saying nothing.
+ */
 export const chat = {
-  label: "Open chat",
-  title: "Chat with us",
-  body:
-    "Placeholder launcher. Wire this to your live chat provider, or point it at the booking page.",
-  cta: "Book a demo instead",
+  label: "Send us a message",
+  closeLabel: "Close",
+  title: brand.name,
+  subtitle: "We answer by email",
+  greeting:
+    "Ask anything. Pricing, what is included, whether any of this suits the business you run. A person reads it and answers your email, usually the same day we see it.",
+  emailLabel: "Your email",
+  emailPlaceholder: "you@yourbusiness.com",
+  messageLabel: "Message",
+  messagePlaceholder: "What would you like to know?",
+  send: "Send",
+  sending: "Sending",
+  sentTitle: "Sent.",
+  sentBody:
+    "It is in our inbox. The answer comes back to the address you gave, not to this window, so there is nothing to keep open.",
+  sendAnother: "Send another",
+  errorEmail: "That address does not look right. Check it and try again.",
+  errorMessage: "Add a line or two about what you need.",
+  errorSend:
+    "That did not send. Email us directly and it will reach the same place.",
+  /* Shown instead of the form when the build has no EmailJS keys, so the panel
+     never silently swallows a message. */
+  fallbackBody:
+    "The form on this panel is not connected in this build. Email us and it reaches the same people.",
+  directEmail: "info@poststeer.com",
+  footnote: "We use your address to reply and nothing else.",
 };
 
 export const seo = {
