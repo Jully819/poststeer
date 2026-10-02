@@ -163,105 +163,598 @@ export const servicesMenu = {
 };
 
 /**
- * One page per menu item.
+ * ONE PAGE PER MENU ITEM, and everything on the page is in here.
  *
- * `includes` is what the buyer actually receives; `steps` is how the month
- * runs. Both are short on purpose — a service page that repeats the whole
- * homepage is a page nobody scrolls.
+ * The thin version of this — an intro, two short lists and a link back to
+ * pricing — was a dead end. Someone arriving from a search for "short form
+ * video agency" landed on four sentences and left. So each service now
+ * carries a full page's worth of copy and app/services/[slug] renders the
+ * same shell around all six.
+ *
+ * WHAT IS DELIBERATELY ABSENT. No client counts, no review scores, no case
+ * study figures, no "trusted by 20,000 businesses". references/stats.md has
+ * none of those confirmed, and a number nobody can defend is worse than a
+ * page with no number on it. The only figures on these pages are prices, and
+ * those are what Stripe actually charges.
+ *
+ * `sections` is what stops six pages reading as one page with find-and-
+ * replace run over it: the five formats a short video can take, the four
+ * flows that earn an email list its keep, the kinds of landing page. `tools`
+ * names software we work inside, for the one service where the buyer already
+ * owns the account.
+ *
+ * `notFor` IS NOT OPTIONAL. Naming who should not buy is the thing that
+ * makes everything above it believable, and it is the first thing to go when
+ * someone edits these pages in a hurry. Leave it in.
  */
-export const servicePages: Record<
-  string,
-  { intro: string; includes: string[]; steps: { title: string; body: string }[] }
-> = {
+
+/** Keys into `featureIcons` in components/ui/feature-icons.tsx. */
+export type FeatureIcon =
+  | "design"
+  | "pencil"
+  | "calendar"
+  | "send"
+  | "team"
+  | "channels"
+  | "scissors"
+  | "captions"
+  | "hook"
+  | "motion"
+  | "export"
+  | "revisions"
+  | "search"
+  | "doc"
+  | "link"
+  | "chart"
+  | "mail"
+  | "flow"
+  | "globe"
+  | "form"
+  | "gauge"
+  | "layout"
+  | "phone"
+  | "target";
+
+export interface ServicePage {
+  /** Kicker over the h1. */
+  kicker: string;
+  /** The h1, split so the second half takes the accent colour. */
+  titleLead: string;
+  titleAccent: string;
+  intro: string;
+  /** Four short lines, each on a tick, beside the hero. */
+  highlights: string[];
+  /** Six cards: what the buyer actually receives. */
+  includes: { icon: FeatureIcon; title: string; body: string }[];
+  /** How the work runs, in three beats. */
+  steps: { title: string; body: string }[];
+  /** Who should not buy this. Rendered, not hidden in a tooltip. */
+  notFor: string;
+  /** Service-specific bands between the portfolio and the plan builder. */
+  sections?: { title: string; intro?: string; items: { title: string; body: string }[] }[];
+  /** Named software, where the buyer already has an account we work inside. */
+  tools?: { title: string; intro: string; names: string[] };
+  /**
+   * Which portfolio tab the grid opens on. ABSENT MEANS NO PORTFOLIO BAND —
+   * a wall of Instagram posts under a heading on the Business Website page
+   * is worse than no examples at all.
+   */
+  workType?: "posts" | "stories" | "shortform" | "ads" | "email";
+  galleryTitle?: string;
+  /** The social channel strip. Only on the services that publish to them. */
+  channels?: boolean;
+}
+
+export const servicePages: Record<string, ServicePage> = {
   "social-media-posts": {
+    kicker: "Social media posts",
+    titleLead: "Posts, captions and a calendar",
+    titleAccent: "you approve once a month.",
     intro:
       "Custom-branded posts, captions and a monthly calendar you approve. We design, write, schedule and publish them to your channels, so the feed keeps moving without you touching it.",
-    includes: [
-      "Static posts, carousels and stories, produced monthly",
+    highlights: [
+      "Custom-designed posts, carousels and stories",
       "Captions written from your own words, not filler",
       "A calendar you approve before anything is published",
-      "Native publishing to each channel, in the right format",
+      "Every channel included, with no per-channel fee",
+    ],
+    includes: [
+      {
+        icon: "design",
+        title: "Designed for your brand",
+        body: "Every post is drawn for you. Not a stock template with your logo dropped in the corner and the same layout sold to four other businesses.",
+      },
+      {
+        icon: "pencil",
+        title: "Captions and hashtags",
+        body: "Written in your voice, from what you told us in the brief. Tags are researched against your niche rather than guessed.",
+      },
+      {
+        icon: "calendar",
+        title: "A calendar you approve",
+        body: "The whole month, laid out in one view. Leave a note on anything, or approve the lot in a single pass.",
+      },
+      {
+        icon: "send",
+        title: "Scheduled and published",
+        body: "Connect once through the official API. After that we post to every channel for you, on the day and at the time agreed.",
+      },
+      {
+        icon: "team",
+        title: "The same people each month",
+        body: "A designer and a writer who learn how your business talks, instead of a new freelancer starting from nothing every January.",
+      },
+      {
+        icon: "channels",
+        title: "Every channel in the price",
+        body: "Instagram, TikTok, Facebook, LinkedIn, YouTube and Pinterest. Adding a channel does not add to the bill.",
+      },
     ],
     steps: [
       { title: "Brief", body: "Ten minutes on the business, the audience and the tone." },
       { title: "Calendar", body: "You approve the month's topics before anything is made." },
       { title: "Publish", body: "Approved posts go out on schedule, with a monthly report." },
     ],
+    notFor:
+      "Do not buy this if you want your feed to look like the account you sent us. We design to your brand, which means it will look like you. Do not buy it if you need something posted this afternoon either. The calendar is agreed a month ahead, and that is the whole point of it.",
+    workType: "posts",
+    galleryTitle: "Posts we have made for other brands.",
+    channels: true,
   },
+
   "short-form-videos": {
+    kicker: "Short-form videos",
+    titleLead: "Short-form video,",
+    titleAccent: "fully managed.",
     intro:
-      "Vertical video cut from your footage: hooks in the first seconds, captions that survive the mute button, and formats sized for Reels, TikTok and Shorts.",
-    includes: [
+      "Vertical video cut from your own footage. The hook lands in the first two seconds, the captions survive the mute button, and every file comes sized for the feed it is going to.",
+    highlights: [
       "20 to 60 second edits from your own footage",
       "Hook, captions, b-roll and simple motion graphics",
       "One file per platform, sized and titled correctly",
-      "Two rounds of changes per batch",
+      "Two rounds of changes on every batch",
+    ],
+    includes: [
+      {
+        icon: "scissors",
+        title: "Cut from your footage",
+        body: "A phone recording is enough. We pace it, grade it and throw away the four minutes nobody was going to watch.",
+      },
+      {
+        icon: "hook",
+        title: "A hook in the first two seconds",
+        body: "Written before the edit starts. Nothing after it matters if the first two seconds do not hold.",
+      },
+      {
+        icon: "captions",
+        title: "Captions that survive mute",
+        body: "Burned in and timed by hand, not dropped in by a transcription tool and left wrong on every proper noun.",
+      },
+      {
+        icon: "motion",
+        title: "B-roll and motion graphics",
+        body: "Simple, not showy. Enough to carry a cut from one idea to the next without turning it into a title sequence.",
+      },
+      {
+        icon: "export",
+        title: "Sized per platform",
+        body: "One export each for Reels, TikTok and Shorts, with the safe zones respected so no caption sits under a button.",
+      },
+      {
+        icon: "revisions",
+        title: "Two rounds of changes",
+        body: "Per batch, not per clip. Send the notes together and we work through them in one pass.",
+      },
     ],
     steps: [
       { title: "Send footage", body: "A phone recording or a call recording is enough." },
       { title: "We edit", body: "Cut, captioned and graded, delivered as one batch." },
       { title: "Publish", body: "Scheduled natively, or handed back as files if you prefer." },
     ],
+    sections: [
+      {
+        title: "Every video is built in one of five formats.",
+        intro:
+          "The format is picked before anyone opens an edit, from what the video has to do. Nothing here is improvised on the timeline.",
+        items: [
+          {
+            title: "Talking head",
+            body: "You on camera, answering one question. The cheapest format to shoot and the hardest to fake, which is why it works.",
+          },
+          {
+            title: "List or tips",
+            body: "Three to five points, one beat each. Built for saves and shares rather than for watch time.",
+          },
+          {
+            title: "B-roll and voiceover",
+            body: "No camera needed. Footage of the work, a script read over it, captions carrying the rest.",
+          },
+          {
+            title: "Story or POV",
+            body: "One situation, told from the customer's side. The format that makes a service business feel like a person.",
+          },
+          {
+            title: "Trend or remix",
+            body: "An existing audio or structure, used properly. Dated by design, so it goes out while it still means something.",
+          },
+        ],
+      },
+      {
+        title: "One production. Three platforms. Each one done properly.",
+        items: [
+          {
+            title: "Instagram Reels",
+            body: "Cut to the ratio Reels actually serves, with the caption clear of the overlay and the cover frame chosen rather than taken.",
+          },
+          {
+            title: "TikTok",
+            body: "Native text, native pacing, and a hook that reads before the sound has loaded.",
+          },
+          {
+            title: "YouTube Shorts",
+            body: "Titled for search, because Shorts is the one feed where people type what they want.",
+          },
+        ],
+      },
+    ],
+    notFor:
+      "Do not buy this if you have no footage and no intention of shooting any. We can work from stock, and stock looks like stock. Do not buy it if what you want is a commercial. These are twenty to sixty second cuts for a feed, not a production.",
+    workType: "shortform",
+    galleryTitle: "Short-form video we have cut.",
+    channels: true,
   },
+
   "seo-blog-posts": {
+    kicker: "SEO blog posts",
+    titleLead: "Articles written to rank,",
+    titleAccent: "published with the links in place.",
     intro:
-      "Long-form articles built to rank: researched against what people search for, written by a person, and published with the internal links and metadata already in place.",
-    includes: [
+      "Long-form articles researched against what people actually search for, written by a person, and published to your CMS with the titles, metadata and internal links already done.",
+    highlights: [
       "1,000-word articles on keywords chosen with you",
-      "Research against the pages currently ranking",
+      "Researched against the pages ranking today",
       "Titles, meta descriptions and internal links",
       "Published to your CMS, not emailed as a document",
+    ],
+    includes: [
+      {
+        icon: "search",
+        title: "Keywords chosen with you",
+        body: "We bring the list and show the working. You say which of them your business can honestly answer better than the pages already there.",
+      },
+      {
+        icon: "chart",
+        title: "Researched against what ranks",
+        body: "We read the pages holding the top of the results first, so the brief starts from what the search engine is already rewarding.",
+      },
+      {
+        icon: "pencil",
+        title: "Written by a person",
+        body: "Drafted, edited and checked before you see it. We use AI where it genuinely saves time and nowhere near the sentences.",
+      },
+      {
+        icon: "doc",
+        title: "Titles and meta descriptions",
+        body: "Written for the result page, not generated from the first line of the article and left at 180 characters.",
+      },
+      {
+        icon: "link",
+        title: "Internal links, both directions",
+        body: "New posts link to the pages that sell, and the older posts get updated to link to the new one. That second half is the part everyone skips.",
+      },
+      {
+        icon: "send",
+        title: "Published, not handed over",
+        body: "Posted in your CMS, formatted, with the images in place. Not a document in your inbox waiting for someone to find an hour.",
+      },
     ],
     steps: [
       { title: "Keywords", body: "We pick targets worth the effort and show the working." },
       { title: "Write", body: "Drafted, edited and checked by a person before you see it." },
       { title: "Publish", body: "Posted and linked, with rankings tracked monthly." },
     ],
+    sections: [
+      {
+        title: "Why most business blogs never rank.",
+        items: [
+          {
+            title: "Written for nobody in particular",
+            body: "A post about an industry, aimed at everyone in it. Nobody searches for that, so nobody finds it.",
+          },
+          {
+            title: "Published and abandoned",
+            body: "Four posts in one month, then nothing for a year. Search rewards the habit, not the burst.",
+          },
+          {
+            title: "Nothing links to them",
+            body: "An article with no link pointing at it from your own site is a page you have told the crawler not to care about.",
+          },
+        ],
+      },
+    ],
+    notFor:
+      "Do not buy this if you need traffic this quarter. Rankings move over months, and anyone promising faster is selling you something else. Do not buy it if nobody on your side will answer a question about the business either. The research is ours. The expertise has to be yours.",
   },
+
   "email-marketing": {
+    kicker: "Email marketing",
+    titleLead: "Campaigns and flows,",
+    titleAccent: "built in your own account.",
     intro:
-      "Campaigns and automated flows, designed and built in your platform. The list you already have, doing more than it does now.",
-    includes: [
+      "Designed and written emails for your campaigns and your automations, built inside the platform you already pay for. The list you have now is doing less than it could.",
+    highlights: [
       "Campaign emails designed, written and scheduled",
-      "Automated flows: welcome, abandoned cart, win-back",
-      "Works with any major email platform",
-      "Open, click and revenue reporting each month",
+      "Automated flows that keep running without you",
+      "Built in your account, not held hostage in ours",
+      "Opens, clicks and revenue reported every month",
+    ],
+    includes: [
+      {
+        icon: "mail",
+        title: "Campaigns, start to send",
+        body: "Designed, written, built and scheduled. You approve the proof, we press send.",
+      },
+      {
+        icon: "flow",
+        title: "Automated flows",
+        body: "Welcome, abandoned cart, post-purchase and win-back. Built once, earning while nobody is looking at them.",
+      },
+      {
+        icon: "design",
+        title: "Designed, not templated",
+        body: "Laid out for your brand and tested in the clients people actually read mail in, including the one that still ignores half of CSS.",
+      },
+      {
+        icon: "target",
+        title: "Segments that mean something",
+        body: "Buyers, browsers and the people who have gone quiet, each getting a different email rather than the same one three times.",
+      },
+      {
+        icon: "globe",
+        title: "Your account, your list",
+        body: "Everything is built where your data already lives. Cancel and the flows keep running, because they were never ours to take away.",
+      },
+      {
+        icon: "chart",
+        title: "Reported monthly",
+        body: "Opens, clicks and revenue per flow, with what to change next. Not a dashboard link and good luck.",
+      },
     ],
     steps: [
       { title: "Audit", body: "What the list is doing now, and what it should be." },
       { title: "Build", body: "Emails and flows built in your account, not ours." },
       { title: "Send", body: "Scheduled, monitored and reported monthly." },
     ],
+    sections: [
+      {
+        title: "The money is in the flows, not the campaigns.",
+        intro:
+          "A campaign earns once. An automation earns every time somebody triggers it, at three in the morning, for as long as it is switched on.",
+        items: [
+          {
+            title: "Welcome series",
+            body: "The one email everybody opens, turned into three. Sent while they still remember signing up.",
+          },
+          {
+            title: "Abandoned cart",
+            body: "A reminder, then a reason, then a last call. The highest-earning email most shops never build.",
+          },
+          {
+            title: "Post-purchase",
+            body: "What to do with the thing they just bought, and what to buy next. It is also where reviews come from.",
+          },
+          {
+            title: "Win-back",
+            body: "For the people who have stopped opening. Cheaper than finding somebody new, and it cleans the list either way.",
+          },
+        ],
+      },
+    ],
+    tools: {
+      title: "Built in the platform you already use.",
+      intro:
+        "We work inside your account rather than moving you. If yours is not listed, ask before you assume it is a problem.",
+      names: [
+        "Klaviyo",
+        "Mailchimp",
+        "HubSpot",
+        "Brevo",
+        "ActiveCampaign",
+        "Constant Contact",
+        "Omnisend",
+        "Campaign Monitor",
+        "MailerLite",
+        "Shopify Email",
+        "Drip",
+        "Salesforce",
+      ],
+    },
+    notFor:
+      "Do not buy this if the list was bought or scraped. We will not send to it. Do not buy it with a few dozen addresses either. Build the list first. Four well-made emails to thirty people is not a channel, it is a rehearsal.",
+    workType: "email",
+    galleryTitle: "Email we have designed.",
   },
+
   "business-website": {
+    kicker: "Business website",
+    titleLead: "Up to five pages,",
+    titleAccent: "live on your own domain.",
     intro:
-      "Up to five pages, written, designed and built on your domain. The site your posts and ads send people to when one page is not enough.",
-    includes: [
-      "Up to 5 pages, copy and custom design",
+      "Written, designed and built on a domain you own. The site your posts and your ads send people to, for the times when one page is not enough.",
+    highlights: [
+      "Up to five pages, copy and custom design",
       "Built on your own domain, not rented from us",
       "Forms or booking wired up and tested",
-      "Mobile-ready throughout",
+      "Fast on a phone, where most of the traffic lands",
+    ],
+    includes: [
+      {
+        icon: "layout",
+        title: "Five pages, designed",
+        body: "Home, services, about, contact and whichever fifth page your business actually needs. Drawn for you, not picked from a gallery.",
+      },
+      {
+        icon: "pencil",
+        title: "Copy written, not borrowed",
+        body: "Every page written from a conversation with you. Nothing lifted from a competitor and reworded until it is legal.",
+      },
+      {
+        icon: "form",
+        title: "Forms that arrive",
+        body: "Contact or booking wired up and tested end to end, including the part where the email lands somewhere a person reads.",
+      },
+      {
+        icon: "phone",
+        title: "Built for a phone first",
+        body: "Laid out at phone width before anything else, because that is where most of your visitors will see it.",
+      },
+      {
+        icon: "globe",
+        title: "Your domain, your hosting",
+        body: "Everything is handed over on your own accounts. Leaving us does not mean leaving the site behind.",
+      },
+      {
+        icon: "gauge",
+        title: "Fast, and findable",
+        body: "Titles, descriptions and a sitemap in place at launch, with the pages loading quickly enough that nobody leaves first.",
+      },
     ],
     steps: [
       { title: "Scope", body: "Which pages you need, and what each one is for." },
       { title: "Build", body: "Written, designed and built, with one round of changes." },
       { title: "Launch", body: "Live on your domain, forms tested before handover." },
     ],
+    sections: [
+      {
+        title: "What the five pages usually turn out to be.",
+        items: [
+          {
+            title: "Home",
+            body: "What you do, who for, and what to press. Most of the traffic sees only this one.",
+          },
+          {
+            title: "Services",
+            body: "One section per thing you sell, written so a reader can tell whether it is the thing they want.",
+          },
+          {
+            title: "About",
+            body: "The second most read page on nearly every small business site, and the one most of them leave as a paragraph.",
+          },
+          {
+            title: "Contact",
+            body: "A form that works, an address, and the hours. Nothing clever.",
+          },
+          {
+            title: "The fifth one",
+            body: "Pricing, a case study, a menu, a booking page. It depends on the business, which is why it is not decided here.",
+          },
+        ],
+      },
+    ],
+    notFor:
+      "Do not buy this if you need a shop. Five pages and a contact form is not a storefront, and pretending otherwise ends badly for both of us. Do not buy it if nobody will keep it current either. A site untouched for two years reads to a visitor like a business that closed.",
   },
+
   "landing-pages": {
+    kicker: "Landing pages",
+    titleLead: "A landing page built to convert,",
+    titleAccent: "copy included.",
     intro:
-      "One page built to do one job: take the traffic your posts and ads send, and turn it into enquiries. Written, designed, built and launched.",
-    includes: [
+      "One page with one job. We handle the strategy, the writing, the design and the build, and hand it over live on your domain with the tracking already connected.",
+    highlights: [
       "Copywriting, design and build on your domain",
       "Form or booking widget wired up and tested",
       "Conversion tracking connected from day one",
       "Fast on mobile, where the traffic arrives",
+    ],
+    includes: [
+      {
+        icon: "target",
+        title: "One offer, one action",
+        body: "The page sells one thing and asks for one thing. Every extra option on a landing page is a reason to leave it.",
+      },
+      {
+        icon: "pencil",
+        title: "Copy first, design after",
+        body: "The words are written and agreed before anyone opens a design file. A pretty page around weak copy is an expensive way to be ignored.",
+      },
+      {
+        icon: "form",
+        title: "The form actually works",
+        body: "Wired up, submitted, and the test entry chased all the way to the inbox it is meant to reach.",
+      },
+      {
+        icon: "gauge",
+        title: "Tracking from day one",
+        body: "Conversions firing before the first visitor, so the page can be judged on numbers instead of on how it feels.",
+      },
+      {
+        icon: "phone",
+        title: "Fast on mobile",
+        body: "Built at phone width first. Paid traffic arrives on a phone, usually on a connection nobody tested on.",
+      },
+      {
+        icon: "globe",
+        title: "Live on your domain",
+        body: "Not a subdomain of ours. The page, the analytics and the leads stay with you.",
+      },
     ],
     steps: [
       { title: "Offer", body: "What the page sells, and to whom." },
       { title: "Build", body: "Written, designed and built, with one round of changes." },
       { title: "Launch", body: "Live on your domain, tracking verified." },
     ],
+    sections: [
+      {
+        title: "Types of landing page we build.",
+        intro: "Which one you need comes out of the offer and the traffic, not out of a preference.",
+        items: [
+          {
+            title: "Standard landing page",
+            body: "Offer, proof, objections, one form. The default, and the right answer more often than people expect.",
+          },
+          {
+            title: "Advertorial",
+            body: "Reads as an article, sells at the end. For offers that need explaining before anyone will consider the price.",
+          },
+          {
+            title: "Listicle",
+            body: "Numbered, scannable, built for cold traffic that has not agreed to concentrate yet.",
+          },
+          {
+            title: "Quiz funnel",
+            body: "A few questions, then a recommendation. Qualifies the lead and earns the email at the same time.",
+          },
+          {
+            title: "A/B test variant",
+            body: "A second version of a page that already runs, changed in one place so the result means something.",
+          },
+        ],
+      },
+      {
+        title: "Looking good and working are two different jobs.",
+        items: [
+          {
+            title: "The headline is about you",
+            body: "Most pages open with the company name and the year it was founded. The reader wants to know what they get.",
+          },
+          {
+            title: "Four things to press",
+            body: "A nav bar, a chat bubble, a newsletter box and the actual button. Three of those are exits.",
+          },
+          {
+            title: "Proof that proves nothing",
+            body: "Six logos nobody recognises and a quote with no name on it. A reader discounts both instantly.",
+          },
+          {
+            title: "The form asks for too much",
+            body: "Nine fields for a quote request. Every field after the third costs you people who were ready.",
+          },
+        ],
+      },
+    ],
+    notFor:
+      "Do not buy this if you have no traffic to point at it. A landing page converts traffic. It does not create any. Do not buy it while the offer is still being argued about internally either. We can write the page. We cannot decide what you are selling.",
   },
 };
 
@@ -2141,19 +2634,56 @@ export const archivedServices = {
   } as MenuItem,
   servicePage: {
     "instagram-growth": {
+      kicker: "Instagram growth",
+      titleLead: "Followers earned by hand,",
+      titleAccent: "not bought by the thousand.",
       intro:
         "Manual engagement with the people you actually want following you. No bots, no follow-for-follow, no bought audiences.",
-      includes: [
+      highlights: [
         "Daily engagement with a defined target audience",
         "Hashtag and keyword research for your niche",
         "Comment replies on weekdays",
         "A monthly report on who arrived and from where",
+      ],
+      includes: [
+        {
+          icon: "target",
+          title: "A target audience, defined",
+          body: "The accounts, topics and tags worth your time, agreed with you before anyone engages with anything.",
+        },
+        {
+          icon: "team",
+          title: "Engaged by a person",
+          body: "Daily, by hand, from your account. No automation tool holding your login and risking the ban.",
+        },
+        {
+          icon: "search",
+          title: "Hashtag and keyword research",
+          body: "Refreshed as the niche moves, rather than the same twelve tags pasted under every post for a year.",
+        },
+        {
+          icon: "pencil",
+          title: "Comment replies on weekdays",
+          body: "Answered in your voice, so the people who did engage get a reason to do it again.",
+        },
+        {
+          icon: "chart",
+          title: "Reported monthly",
+          body: "Who arrived, from where, and whether they look like customers or like a number going up.",
+        },
+        {
+          icon: "channels",
+          title: "No bought audiences",
+          body: "Nothing is purchased, inflated or farmed. A follower count that cannot buy anything is a cost, not an asset.",
+        },
       ],
       steps: [
         { title: "Target", body: "We agree the accounts and topics worth engaging." },
         { title: "Engage", body: "Manual work, every weekday, logged as it happens." },
         { title: "Report", body: "Monthly numbers, with what to double down on." },
       ],
+      notFor:
+        "Do not buy this if the number is the point. Manual growth is slow, and anyone quoting you ten thousand followers a month is buying them. Do not buy it if the feed is empty either. Engagement sends people to a profile, and a profile with nothing on it sends them straight back.",
     },
   } as typeof servicePages,
   selectGroups: [

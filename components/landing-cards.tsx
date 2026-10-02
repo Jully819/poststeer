@@ -11,11 +11,14 @@ import { cn } from "@/lib/utils";
  */
 export function LandingCards({
   title,
+  intro,
   items,
   numbered = false,
   tone = "page",
 }: {
   title: string;
+  /** One line under the heading. Service pages use it; landing pages do not. */
+  intro?: string;
   items: { title: string; body: string }[];
   /** Puts a counter on each card. Used for the "why us" grid. */
   numbered?: boolean;
@@ -25,12 +28,19 @@ export function LandingCards({
   return (
     <section className={cn("section-pad", tone === "sage" && "bg-sage")}>
       <div className="container-x">
-        <h2 className="h2 mx-auto max-w-3xl text-center">{title}</h2>
+        <div className="mx-auto max-w-3xl text-center">
+          <h2 className="h2">{title}</h2>
+          {intro ? <p className="lead mt-4">{intro}</p> : null}
+        </div>
 
+        {/* The column count follows the item count so no row ends in an
+            orphan: five formats run five across, three run three. */}
         <ul
           className={cn(
             "mt-10 grid gap-4",
-            items.length === 3 ? "md:grid-cols-3" : "sm:grid-cols-2 lg:grid-cols-4",
+            items.length === 3 && "md:grid-cols-3",
+            items.length === 5 && "sm:grid-cols-2 lg:grid-cols-5",
+            items.length !== 3 && items.length !== 5 && "sm:grid-cols-2 lg:grid-cols-4",
           )}
         >
           {items.map((item, i) => (

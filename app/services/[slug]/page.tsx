@@ -1,8 +1,18 @@
 import type { Metadata } from "next";
-import { ArrowRight, Check } from "lucide-react";
 import { notFound } from "next/navigation";
-import { brand, servicePages, servicesMenu } from "@/lib/content";
+import { brand, pricing, servicePages, servicesMenu } from "@/lib/content";
 import { CheckoutSteps } from "@/components/checkout-steps";
+import { ServiceHero } from "@/components/service-hero";
+import { ServiceSteps } from "@/components/service-steps";
+import { ServiceIncludes } from "@/components/service-includes";
+import { ServiceTools } from "@/components/service-tools";
+import { LogoStrip } from "@/components/logo-strip";
+import { Gallery } from "@/components/gallery";
+import { LandingCards } from "@/components/landing-cards";
+import { PricingBuilder } from "@/components/pricing-builder";
+import { Guarantee } from "@/components/guarantee";
+import { Faq } from "@/components/faq";
+import { FinalCta } from "@/components/final-cta";
 import { serviceIcons } from "@/components/ui/service-icons";
 import { withBase } from "@/lib/utils";
 
@@ -31,128 +41,111 @@ export async function generateMetadata({
   };
 }
 
+/**
+ * One full page per service, from one shell.
+ *
+ * THE SHAPE FOLLOWS THE REFERENCE: hero, channels, how it works, portfolio,
+ * what's included, the service's own bands, plan builder, guarantee, FAQ,
+ * close. Three of those bands are conditional, and that is the point —
+ * `channels`, `workType` and `tools` are only set on the services they are
+ * true for, so the Business Website page does not carry a row of Instagram
+ * posts under a heading promising examples of this service.
+ *
+ * BACKGROUNDS ALTERNATE AND THERE ARE ONLY THREE. Reading down: page, sage,
+ * page, wash, page, sage, band, page, wash, band. No two neighbours share a
+ * tone, including when the conditional bands drop out — which is why the
+ * service's own `sections` alternate from an index that counts them rather
+ * than from a fixed tone. See app/globals.css.
+ *
+ * WHAT IS NOT HERE. No review scores, no client counts, no case studies.
+ * references/stats.md confirms none of them, and this page is indexed.
+ */
 export default async function ServicePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const item = allItems.find((candidate) => candidate.slug === slug);
   const page = servicePages[slug];
   if (!item || !page) notFound();
 
-  const Icon = serviceIcons[item.icon];
-  /* Lands on /pricing with this service already selected. */
-  const pricingHref = `/pricing#plan=${item.planId}:0`;
   const others = allItems.filter((candidate) => candidate.slug !== slug);
+  const sections = page.sections ?? [];
+  /* The plan builder carries five of the six services. SEO Blog Posts sells
+     on /pricing, which reads a wider catalogue, and has no row here — so that
+     page sends people to /pricing rather than scrolling them to a builder
+     that cannot add the thing they came for. */
+  const inBuilder = pricing.services.some((service) => service.id === item.planId);
 
   return (
     <>
       <CheckoutSteps current={0} />
 
-      <article className="container-x py-12">
-        <nav aria-label="Breadcrumb" className="text-[0.8rem] text-muted">
-          <a href={withBase("/")} className="transition-colors hover:text-ink">
-            Home
-          </a>
-          <span aria-hidden="true"> / </span>
-          <a href={withBase("/pricing")} className="transition-colors hover:text-ink">
-            Services
-          </a>
-          <span aria-hidden="true"> / </span>
-          <span className="text-ink">{item.name}</span>
-        </nav>
+      <ServiceHero item={item} page={page} pricingHref={inBuilder ? "#pricing" : "/pricing"} />
 
-        <header className="mt-6 flex flex-wrap items-start gap-5">
-          <span className="grid size-14 shrink-0 place-items-center rounded-xl bg-wash" aria-hidden="true">
-            <Icon className="size-6 text-ink" />
-          </span>
+      {page.channels ? <LogoStrip /> : null}
 
-          <div className="min-w-0 flex-1">
-            <h1 className="font-display text-[2rem] leading-tight font-bold tracking-tight text-ink">
-              {item.name}
-            </h1>
-            <p className="mt-1 text-[0.95rem] text-muted">{item.tagline}</p>
-          </div>
+      <ServiceSteps
+        title={item.unit === "once" ? "How the project runs." : "How the month runs."}
+        steps={page.steps}
+      />
 
-          <p className="font-mono text-[0.8rem] text-muted">
-            from{" "}
-            <span className="font-display text-[1.6rem] font-bold text-accent-ink">{item.price}</span>{" "}
-            {item.unit}
-          </p>
-        </header>
+      {page.workType ? (
+        <Gallery
+          title={page.galleryTitle ?? "Work we have made for other brands."}
+          initialScope="all"
+          initialType={page.workType}
+        />
+      ) : null}
 
-        <p className="mt-6 max-w-[44rem] text-[1rem] leading-relaxed text-body">{page.intro}</p>
+      <ServiceIncludes
+        page={page}
+        title={
+          item.unit === "once"
+            ? "Everything handled, start to launch."
+            : "Everything handled, every month."
+        }
+      />
 
-        <div className="mt-10 flex flex-wrap gap-3">
-          <a href={withBase(pricingHref)} className="btn btn-accent min-h-[3rem] px-6 text-[0.95rem]">
-            Add to plan
-            <ArrowRight className="size-4" aria-hidden="true" />
-          </a>
-          <a href={withBase("/pricing")} className="btn btn-ghost min-h-[3rem] px-6 text-[0.95rem]">
-            See all services
-          </a>
-        </div>
+      {/* The service's own bands. The first takes the page tone against the
+          wash above it; a second alternates back to sage. */}
+      {sections.map((section, i) => (
+        <LandingCards
+          key={section.title}
+          title={section.title}
+          intro={section.intro}
+          items={section.items}
+          tone={i % 2 === 0 ? "page" : "sage"}
+        />
+      ))}
 
-        <div className="mt-12 grid gap-8 lg:grid-cols-2">
-          <section aria-labelledby="includes">
-            <h2 id="includes" className="font-display text-[1.1rem] font-bold text-ink">
-              What you get
-            </h2>
-            <ul className="mt-4 flex flex-col gap-2.5">
-              {page.includes.map((line) => (
-                <li key={line} className="flex items-start gap-2.5">
-                  <Check className="mt-0.5 size-4 shrink-0 text-accent-ink" aria-hidden="true" />
-                  <span className="text-[0.92rem] leading-relaxed text-body">{line}</span>
-                </li>
-              ))}
-            </ul>
-          </section>
+      {page.tools ? <ServiceTools tools={page.tools} /> : null}
 
-          <section aria-labelledby="how">
-            <h2 id="how" className="font-display text-[1.1rem] font-bold text-ink">
-              How the month runs
-            </h2>
-            <ol className="mt-4 flex flex-col gap-4">
-              {page.steps.map((step, i) => (
-                <li key={step.title} className="flex gap-3">
-                  <span
-                    className="grid size-6 shrink-0 place-items-center rounded-full bg-ink text-[0.7rem] font-semibold text-white"
-                    aria-hidden="true"
-                  >
-                    {i + 1}
-                  </span>
-                  <span>
-                    <span className="block font-display text-[0.95rem] font-semibold text-ink">
-                      {step.title}
-                    </span>
-                    <span className="block text-[0.9rem] leading-relaxed text-body">
-                      {step.body}
-                    </span>
-                  </span>
-                </li>
-              ))}
-            </ol>
-          </section>
-        </div>
+      {/* Opens on this service rather than on the first row of the catalogue. */}
+      {inBuilder ? <PricingBuilder initialServiceId={item.planId} /> : null}
+      <Guarantee />
+      <Faq />
 
-        <section aria-labelledby="others" className="mt-14 border-t border-hairline pt-8">
-          <h2 id="others" className="font-display text-[1.1rem] font-bold text-ink">
-            Other services
+      <section aria-labelledby="others-title" className="section-pad bg-wash">
+        <div className="container-x">
+          <h2 id="others-title" className="h2 text-center">
+            The rest of what we do.
           </h2>
-          <ul className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+
+          <ul className="mx-auto mt-10 grid max-w-[60rem] gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {others.map((other) => {
               const OtherIcon = serviceIcons[other.icon];
               return (
                 <li key={other.slug}>
                   <a
                     href={withBase(`/services/${other.slug}`)}
-                    className="flex items-center gap-3 rounded-xl border border-hairline bg-wash p-3 transition-colors hover:border-ink"
+                    className="flex h-full items-center gap-3 rounded-xl border border-hairline bg-paper p-3.5 transition-colors hover:border-ink"
                   >
                     <span
-                      className="grid size-8 shrink-0 place-items-center rounded-lg bg-paper"
+                      className="grid size-9 shrink-0 place-items-center rounded-lg bg-wash"
                       aria-hidden="true"
                     >
                       <OtherIcon className="size-4 text-ink" />
                     </span>
                     <span className="min-w-0 flex-1">
-                      <span className="block truncate font-display text-[0.88rem] font-semibold text-ink">
+                      <span className="block truncate font-display text-[0.9rem] font-semibold text-ink">
                         {other.name}
                       </span>
                       <span className="block truncate text-[0.78rem] text-muted">
@@ -164,8 +157,10 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
               );
             })}
           </ul>
-        </section>
-      </article>
+        </div>
+      </section>
+
+      <FinalCta />
     </>
   );
 }

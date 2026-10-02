@@ -43,12 +43,15 @@ const typeIcons = {
   email: Mail,
 };
 
-type TypeId = (typeof gallery.types)[number]["id"];
+export type TypeId = (typeof gallery.types)[number]["id"];
 /** The industry row also carries the two filters that are not industries. */
 export type Scope = "featured" | "all" | WorkIndustry;
 
-export function WorkGrid({ initialScope = "featured" }: { initialScope?: Scope } = {}) {
-  const [type, setType] = useState<TypeId>("all");
+export function WorkGrid({
+  initialScope = "featured",
+  initialType = "all",
+}: { initialScope?: Scope; initialType?: TypeId } = {}) {
+  const [type, setType] = useState<TypeId>(initialType);
   const [scope, setScope] = useState<Scope>(initialScope);
   const [visible, setVisible] = useState(gallery.pageSize);
 

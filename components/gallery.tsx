@@ -1,5 +1,5 @@
 import { gallery } from "@/lib/content";
-import { WorkGrid, type Scope } from "@/components/work-grid";
+import { WorkGrid, type Scope, type TypeId } from "@/components/work-grid";
 
 /**
  * The portfolio: centred heading, then the filterable grid of sample work.
@@ -10,11 +10,18 @@ import { WorkGrid, type Scope } from "@/components/work-grid";
 export function Gallery({
   title = gallery.title,
   initialScope,
+  initialType,
 }: {
   /** Landing pages name their trade in the heading. */
   title?: string;
   /** Landing pages open the grid on their own industry where we have work. */
   initialScope?: Scope;
+  /**
+   * Service pages open the grid on their own service tab. They pass "all" as
+   * the industry scope with it: one service tab holds a handful of cards, and
+   * narrowing those to the featured two reads as an empty shelf.
+   */
+  initialType?: TypeId;
 } = {}) {
   return (
     <section id="work" aria-labelledby="gallery-title" className="section-pad">
@@ -26,7 +33,7 @@ export function Gallery({
           </h2>
         </div>
 
-        <WorkGrid initialScope={initialScope} />
+        <WorkGrid initialScope={initialScope} initialType={initialType} />
       </div>
     </section>
   );

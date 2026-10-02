@@ -118,9 +118,18 @@ function priceAt(service: PricingService, qty: number) {
   }
   return service.perUnit * qty;
 }
-export function PricingBuilder() {
+/**
+ * `initialServiceId` lets a service page open the builder on its own service
+ * rather than on whatever happens to be first in the catalogue. An id with no
+ * row behind it falls back to the first service, because a builder that opens
+ * empty reads as broken. SEO Blog Posts is currently in exactly that
+ * position: it is in the mega-menu and has no row in `pricing.services`.
+ */
+export function PricingBuilder({ initialServiceId }: { initialServiceId?: string } = {}) {
+  const opening =
+    pricing.services.find((service) => service.id === initialServiceId) ?? pricing.services[0];
   const [quantities, setQuantities] = useState<Record<string, number>>({
-    [pricing.services[0].id]: pricing.services[0].defaultQty,
+    [opening.id]: opening.defaultQty,
   });
   const [copied, setCopied] = useState(false);
   /* The service whose "i" pop-up is open, if any. */
