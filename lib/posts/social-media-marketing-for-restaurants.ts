@@ -360,7 +360,7 @@ export const socialMediaMarketingForRestaurants: BlogPost = {
     {
       question: "Does a restaurant need TikTok?",
       answer:
-        "Only if somebody on the team actually wants to make it. TikTok rewards frequency and personality rather than production value, and it punishes reluctance faster than any other platform. A restaurant without a willing person will get more from putting that hour into Instagram and the Google Business Profile.",
+        "It is the natural second channel, once somebody on the team enjoys being on camera. TikTok rewards frequency and personality rather than production value, so a kitchen that likes filming does unusually well there. Instagram and the Google Business Profile carry most restaurants on their own, and TikTok is what you add when you have the person for it.",
     },
     {
       question: "How much does restaurant social media management cost?",
@@ -375,7 +375,7 @@ export const socialMediaMarketingForRestaurants: BlogPost = {
     {
       question: "Is social media worth it for a small restaurant?",
       answer:
-        "Not always. If you are full every service, or you run on passing trade with no booking system, the link between a post and a seat is thin and the hour is better spent elsewhere. It is worth it when you have capacity to fill, a way to book, and one person who will actually own the task every week.",
+        "Yes, and restaurants start from a better position than most trades. Deloitte found that 41% of people who follow brands on social media follow restaurant brands, so the audience is already there and already interested. It pays back fastest when you have covers to fill, a booking link to send people to, and one person who owns the hour each week. Get those three lined up and the posting does real work.",
     },
   ],
 };
