@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { ArrowRight, ChevronDown, Star, Users } from "lucide-react";
+import { ArrowRight, ChevronDown, Star } from "lucide-react";
 import { servicesMenu, type MenuItem } from "@/lib/content";
 import { cn, withBase } from "@/lib/utils";
 import { serviceIcons } from "@/components/ui/service-icons";
@@ -174,39 +174,20 @@ export function ServicesMenu({ label }: { label: string }) {
           </div>
         </div>
 
+        {/* The full-service row that used to sit here is gone. With it removed
+            the footer is the only way out of the menu, so it carries the
+            accent tint the row had rather than reading as a grey rule. */}
         <a
           href={withBase("/pricing")}
           onClick={close}
-          className="flex flex-wrap items-center gap-4 border-t border-hairline bg-accent-tint px-6 py-4 transition-colors hover:bg-accent/15"
+          className="flex flex-wrap items-center justify-between gap-3 border-t border-hairline bg-accent-tint px-6 py-4 transition-colors hover:bg-accent/15"
         >
-          <span
-            className="grid size-11 shrink-0 place-items-center rounded-xl bg-accent/15"
-            aria-hidden="true"
-          >
-            <Users className="size-5 text-accent-ink" />
+          <span className="font-display text-[0.98rem] font-bold text-ink">
+            {servicesMenu.footerLeft}
           </span>
-
-          <span className="min-w-0 flex-1">
-            <span className="flex flex-wrap items-center gap-2">
-              <span className="font-display text-[1rem] font-bold text-ink">
-                {servicesMenu.pro.name}
-              </span>
-              <span className="rounded bg-accent/15 px-2 py-0.5 font-mono text-[0.65rem] tracking-[0.1em] text-accent-ink uppercase">
-                {servicesMenu.pro.badge}
-              </span>
-            </span>
-            <span className="mt-0.5 block text-[0.85rem] text-body">
-              {servicesMenu.pro.tagline}
-            </span>
-          </span>
-
-          <span className="flex items-center gap-3">
-            <span className="font-mono text-[0.75rem] text-muted">
-              from{" "}
-              <span className="font-display text-[1.1rem] font-bold text-ink">
-                {servicesMenu.pro.price}
-              </span>{" "}
-              {servicesMenu.pro.unit}
+          <span className="inline-flex items-center gap-3">
+            <span className="font-display text-[0.92rem] font-semibold text-accent-ink">
+              {servicesMenu.footerRight}
             </span>
             <span
               className="grid size-9 place-items-center rounded-full bg-accent text-ink"
@@ -216,20 +197,6 @@ export function ServicesMenu({ label }: { label: string }) {
             </span>
           </span>
         </a>
-
-        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-hairline px-6 py-3.5">
-          <a href={withBase("/pricing")} onClick={close} className="font-display text-[0.92rem] font-bold text-ink">
-            {servicesMenu.footerLeft}
-          </a>
-          <a
-            href={withBase("/pricing")}
-            onClick={close}
-            className="inline-flex items-center gap-1 font-display text-[0.92rem] font-semibold text-accent-ink"
-          >
-            {servicesMenu.footerRight}
-            <ArrowRight className="size-3.5" aria-hidden="true" />
-          </a>
-        </div>
       </div>
     </div>
   );

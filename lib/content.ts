@@ -16,6 +16,8 @@
 import { crossPostingVsNativePosting } from "@/lib/posts/cross-posting-vs-native-posting";
 import { socialMediaMarketingForRestaurants } from "@/lib/posts/social-media-marketing-for-restaurants";
 import { doINeedAWebsiteIfIHaveSocialMedia } from "@/lib/posts/do-i-need-a-website-if-i-have-social-media";
+import { contentCalendarForSocialMedia } from "@/lib/posts/content-calendar-for-social-media";
+import { youtubeShorts0ViewsProblem } from "@/lib/posts/youtube-shorts-0-views-problem";
 
 /**
  * Canonical origin. Override with NEXT_PUBLIC_SITE_URL at build time.
@@ -151,13 +153,6 @@ export const servicesMenu = {
       ],
     },
   ] as { title: string; viewAll: string; items: MenuItem[] }[],
-  pro: {
-    name: "PostSteer Pro",
-    badge: "Full service",
-    tagline: "An embedded team running every channel for you",
-    price: "$1,500",
-    unit: "/mo",
-  },
   footerLeft: "View all services & pricing",
   footerRight: "From $69/mo",
 };
@@ -2001,6 +1996,8 @@ export const blogPage = {
   ctaBody: "Pick your services and see the price before you talk to anyone.",
   ctaButton: "See pricing",
   posts: [
+    contentCalendarForSocialMedia,
+    youtubeShorts0ViewsProblem,
     doINeedAWebsiteIfIHaveSocialMedia,
     socialMediaMarketingForRestaurants,
     crossPostingVsNativePosting,
