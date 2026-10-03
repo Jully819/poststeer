@@ -73,8 +73,21 @@ export interface MenuItem {
   /** "/mo" or "once" — one-time work is never shown as monthly. */
   unit: string;
   icon: ServiceIcon;
-  /** Matching service id in the /pricing catalogue. */
+  /** Matching service id in the /pricing catalogue. Empty when `enquiry`. */
   planId: string;
+  /**
+   * QUOTED RATHER THAN SOLD. A service with no row in the catalogue and no
+   * Stripe Payment Link behind it, so there is no price for the checkout to
+   * disagree with. Everywhere a price would render, the three call sites read
+   * this instead and say so, and the hero's button sends the visitor to the
+   * brief rather than into a plan that cannot be built.
+   *
+   * REMOVE THIS THE DAY A PAYMENT LINK EXISTS, and add the service to BOTH
+   * `pricing.services` and `selectPage.groups` in the same change. A service
+   * in one and not the other produces a page that cannot sell the thing it is
+   * about.
+   */
+  enquiry?: boolean;
 }
 
 export const servicesMenu = {
@@ -102,6 +115,16 @@ export const servicesMenu = {
           icon: "video",
           planId: "video",
         },
+        {
+          slug: "chinese-social-media-posts",
+          name: "Chinese Social Media",
+          tagline: "Xiaohongshu posts, in Simplified Chinese",
+          price: "Enquiry",
+          unit: "",
+          icon: "posts",
+          planId: "",
+          enquiry: true,
+        },
       ],
     },
     {
@@ -124,15 +147,6 @@ export const servicesMenu = {
       viewAll: "View all",
       items: [
         {
-          slug: "email-marketing",
-          name: "Email Marketing",
-          tagline: "Campaigns & automated flows",
-          price: "$289",
-          unit: "/mo",
-          icon: "email",
-          planId: "email",
-        },
-        {
           slug: "business-website",
           name: "Business Website",
           tagline: "Up to five pages, on your domain",
@@ -149,6 +163,15 @@ export const servicesMenu = {
           unit: "once",
           icon: "landing",
           planId: "landing",
+        },
+        {
+          slug: "email-marketing",
+          name: "Email Marketing",
+          tagline: "Campaigns & automated flows",
+          price: "$289",
+          unit: "/mo",
+          icon: "email",
+          planId: "email",
         },
       ],
     },
@@ -287,6 +310,84 @@ export const servicePages: Record<string, ServicePage> = {
     workType: "posts",
     galleryTitle: "Posts we have made for other brands.",
     channels: true,
+  },
+
+  /* QUOTED, NOT SOLD. This page has no row in the catalogue and no Payment
+     Link, so `enquiry` on the menu item turns every price into a line about
+     the brief. It also carries no `channels` strip and no `workType`, because
+     the logo row is Instagram and TikTok and the portfolio holds no
+     Xiaohongshu work. A grid of Instagram posts under a heading promising
+     examples of this service would be the wrong kind of borrowing. */
+  "chinese-social-media-posts": {
+    kicker: "Chinese social media",
+    titleLead: "Xiaohongshu posts, written",
+    titleAccent: "in Chinese rather than translated.",
+    intro:
+      "Posts for Xiaohongshu, made by a Chinese-language writer and a designer. We produce the cover, the images and the text, and hand the finished set over for you to publish from your own account.",
+    highlights: [
+      "Written in Simplified Chinese from the brief, not translated",
+      "Cover image, body images and the text underneath them",
+      "A month of topics you approve before anything is made",
+      "Delivered ready to publish from your own account",
+    ],
+    includes: [
+      {
+        icon: "pencil",
+        title: "Written in Chinese, not translated",
+        body: "A translated English post reads like a translated English post. These are written in Chinese from the brief, so the phrasing is what somebody would actually type.",
+      },
+      {
+        icon: "design",
+        title: "Made for the Xiaohongshu feed",
+        body: "The cover does almost all of the work. It is drawn to be read at thumbnail size, with text sized for a phone rather than shrunk down from a desktop layout.",
+      },
+      {
+        icon: "calendar",
+        title: "A month you approve",
+        body: "The month's topics in one view, before any of it is made. Leave a note on anything, or approve the lot in a single pass.",
+      },
+      {
+        icon: "export",
+        title: "Delivered ready to post",
+        body: "Images sized for the feed, and the text in a document you can paste straight out of. Nothing in the handover needs editing before it goes up.",
+      },
+      {
+        icon: "revisions",
+        title: "Changes while it is still a file",
+        body: "You see everything before anyone else does. Revisions go through before publishing, which is the cheapest moment to make them.",
+      },
+      {
+        icon: "team",
+        title: "The same people each month",
+        body: "A writer and a designer who learn how the business talks, instead of a new freelancer starting from nothing every quarter.",
+      },
+    ],
+    steps: [
+      { title: "Brief", body: "Ten minutes on the business, the audience and what you sell." },
+      { title: "Calendar", body: "You approve the month's topics before anything is made." },
+      { title: "Handover", body: "The finished set arrives ready to publish from your account." },
+    ],
+    sections: [
+      {
+        title: "Why you publish it and we do not.",
+        intro:
+          "Every other service on this site connects once and then posts for you. This one stops at the handover, and the reason is worth stating plainly.",
+        items: [
+          {
+            title: "The account has to be yours",
+            body: "Xiaohongshu verifies a business account against a company and a phone number in mainland China. That account is yours. Handing the login to an outside agency is a risk nobody should take with a channel they rely on.",
+          },
+          {
+            title: "There is no publishing API to connect",
+            body: "Instagram and the rest offer an official connection that lets us post on your behalf. Xiaohongshu offers no equivalent to overseas businesses, so a promise to publish for you would really be a request for your password.",
+          },
+          {
+            title: "Uploading is the short part",
+            body: "Putting a finished set up takes a few minutes. The writing, the design and deciding what is worth saying are the hours, and those are the hours this covers.",
+          },
+        ],
+      },
+    ],
   },
 
   "short-form-videos": {

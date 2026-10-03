@@ -113,8 +113,10 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
 
       {page.tools ? <ServiceTools tools={page.tools} /> : null}
 
-      {/* Opens on this service rather than on the first row of the catalogue. */}
-      <PricingBuilder initialServiceId={item.planId} />
+      {/* Opens on this service rather than on the first row of the catalogue.
+          A quoted service has no row, so the builder opens on the catalogue's
+          first entry rather than pretending to hold this one. */}
+      <PricingBuilder initialServiceId={item.enquiry ? undefined : item.planId} />
       <Guarantee />
       <Faq />
 
@@ -144,7 +146,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
                         {other.name}
                       </span>
                       <span className="block truncate text-[0.78rem] text-muted">
-                        from {other.price} {other.unit}
+                        {other.enquiry ? "On enquiry" : `from ${other.price} ${other.unit}`}
                       </span>
                     </span>
                   </a>

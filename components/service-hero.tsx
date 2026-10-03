@@ -35,8 +35,9 @@ export function ServiceHero({
   page: ServicePage;
 }) {
   const Icon = serviceIcons[item.icon];
-  /* Lands on /pricing with this service already in the build. */
-  const planHref = `/pricing#plan=${item.planId}:0`;
+  /* Lands on /pricing with this service already in the build. A quoted
+     service has no row to open, so it goes to the brief instead. */
+  const planHref = item.enquiry ? "/pricing/brief" : `/pricing#plan=${item.planId}:0`;
 
   return (
     <section aria-labelledby="service-title" className="pt-8 pb-16 md:pt-10 md:pb-20">
@@ -80,7 +81,7 @@ export function ServiceHero({
                 href={withBase(planHref)}
                 className="btn btn-accent min-h-[3.2rem] px-7 text-[1rem]"
               >
-                Add to plan
+                {item.enquiry ? "Send a brief" : "Add to plan"}
                 <ArrowRight className="size-4" aria-hidden="true" />
               </a>
               <a
@@ -102,11 +103,21 @@ export function ServiceHero({
             <dl className="mt-10 flex flex-wrap gap-x-10 gap-y-5 border-t border-hairline pt-6">
               <div className="flex flex-col-reverse">
                 <dt className="mt-0.5 font-mono text-[0.72rem] text-muted">
-                  {item.unit === "once" ? "One-time project" : "No contract, cancel anytime"}
+                  {item.enquiry
+                    ? "Quoted from your brief"
+                    : item.unit === "once"
+                      ? "One-time project"
+                      : "No contract, cancel anytime"}
                 </dt>
                 <dd className="font-display text-[1.5rem] font-bold tracking-tight text-accent-ink">
-                  from {item.price}
-                  <span className="text-[1rem] font-semibold text-ink"> {item.unit}</span>
+                  {item.enquiry ? (
+                    "On enquiry"
+                  ) : (
+                    <>
+                      from {item.price}
+                      <span className="text-[1rem] font-semibold text-ink"> {item.unit}</span>
+                    </>
+                  )}
                 </dd>
               </div>
 

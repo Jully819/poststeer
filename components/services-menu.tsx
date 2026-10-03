@@ -53,11 +53,19 @@ function MenuGroup({ group, onNavigate }: { group: Group; onNavigate: () => void
                 </span>
 
                 <span className="shrink-0 font-mono text-[0.75rem] whitespace-nowrap text-muted">
-                  from{" "}
-                  <span className="font-display text-[1.05rem] font-bold text-accent-ink">
-                    {item.price}
-                  </span>{" "}
-                  {item.unit}
+                  {item.enquiry ? (
+                    <span className="font-display text-[0.85rem] font-bold text-accent-ink">
+                      On enquiry
+                    </span>
+                  ) : (
+                    <>
+                      from{" "}
+                      <span className="font-display text-[1.05rem] font-bold text-accent-ink">
+                        {item.price}
+                      </span>{" "}
+                      {item.unit}
+                    </>
+                  )}
                 </span>
               </a>
             </li>
