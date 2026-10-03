@@ -2167,12 +2167,6 @@ export const briefPage = {
   seoDescription: "Tell us about the business so the first batch lands right.",
 };
 
-export const proStrip = {
-  text: "Want someone to run the whole account for you?",
-  linkText: `Look at PostSteer Pro`,
-  href: "#pricing",
-};
-
 export const guarantee = {
   kicker: "Money-back guarantee",
   title: "Love your first batch, or get your money back.",
