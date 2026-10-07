@@ -76,12 +76,6 @@ export function SiteHeader({
               {link.label}
             </a>
           ))}
-          <a
-            href="#pricing"
-            className="hidden font-display text-[0.9rem] font-medium text-ink sm:inline"
-          >
-            {copy.login}
-          </a>
           <a href="#pricing" className="btn btn-primary min-h-[2.4rem] px-4 text-[0.85rem]">
             {copy.cta}
           </a>

@@ -65,7 +65,6 @@ export interface HeaderCopy {
   /** Where the wordmark goes: "/" on the English site, "/zh" on the Chinese one. */
   homeHref: string;
   nav: { label: string; href: string; dropdown: boolean }[];
-  login: string;
   cta: string;
   openMenu: string;
   closeMenu: string;
@@ -78,7 +77,6 @@ export interface HeaderCopy {
 export const headerCopy: HeaderCopy = {
   homeHref: "/",
   nav,
-  login: "Log in",
   cta: `Start for ${brand.priceFrom}/mo`,
   openMenu: "Open menu",
   closeMenu: "Close menu",
