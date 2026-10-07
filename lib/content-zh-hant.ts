@@ -105,7 +105,7 @@ export const zhHantHero: typeof hero = {
   ...hero,
   headlineLead: "訂閱制社群內容",
   headlineAccent: `${brand.priceFrom}/月起`,
-  subheadParagraph: "每月持續產出新貼文、短影音和限時動態，讓品牌維持曝光與互動。",
+  subheadParagraph: "每月持續生成新貼文、短影音和限時動態，讓品牌維持曝光與互動。",
   highlights: hero.highlights.map((item, i) => ({ ...item, ...highlightText[i] })),
   showcase: { ...hero.showcase, handle: "[您的品牌]", posted: "2 小時前" },
   primaryCta: "預約示範",
@@ -180,7 +180,7 @@ const industryLabel: Record<string, string> = {
 export const zhHantGallery: typeof gallery = {
   ...gallery,
   kicker: "作品集",
-  title: "創意團隊打造，為脫穎而出而生",
+  title: "由創意團隊打造，只為讓您脫穎而出",
   types: gallery.types.map((tab) => ({ ...tab, label: typeLabel[tab.id] })),
   featuredLabel: "精選",
   allLabel: "全部",

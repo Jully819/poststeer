@@ -111,7 +111,7 @@ export const zhHero: typeof hero = {
   headlineLead: "订阅制社交内容",
   headlineAccent: `${brand.priceFrom}/月起`,
   subheadParagraph:
-    "每月持续产出新帖子、短视频和快拍，让品牌保持曝光与互动。",
+    "每月持续生成新帖、短视频和快拍，让品牌保持曝光与互动。",
   highlights: hero.highlights.map((item, i) => ({ ...item, ...highlightText[i] })),
   showcase: { ...hero.showcase, handle: "[您的品牌]", posted: "2 小时前" },
   primaryCta: "预约演示",
@@ -186,7 +186,7 @@ const industryLabel: Record<string, string> = {
 export const zhGallery: typeof gallery = {
   ...gallery,
   kicker: "作品集",
-  title: "创意团队打造，为脱颖而出而生",
+  title: "由创意团队打造，只为让您脱颖而出",
   types: gallery.types.map((tab) => ({ ...tab, label: typeLabel[tab.id] })),
   featuredLabel: "精选",
   allLabel: "全部",
