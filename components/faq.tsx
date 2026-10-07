@@ -2,27 +2,40 @@
 
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
-import { faqs } from "@/lib/content";
+import { faqs as defaultFaqs } from "@/lib/content";
 import { cn } from "@/lib/utils";
 
 /** Accordion. Answers stay in the HTML whether open or shut, for the schema. */
-export function Faq() {
+export function Faq({
+  faqs = defaultFaqs,
+  kicker = "FAQ",
+  title = "Questions, answered.",
+}: {
+  faqs?: typeof defaultFaqs;
+  kicker?: string;
+  title?: string;
+} = {}) {
   const [open, setOpen] = useState<string | null>(faqs[0].question);
 
   return (
     <section id="faq" aria-labelledby="faq-title" className="section-pad">
       <div className="container-x grid gap-10 lg:grid-cols-[1fr_1.6fr] lg:gap-16">
         <div>
-          <p className="kicker">FAQ</p>
+          <p className="kicker">{kicker}</p>
           <h2 id="faq-title" className="h2 mt-4">
-            Questions, answered.
+            {title}
           </h2>
         </div>
 
         <ul className="border-t border-hairline">
-          {faqs.map((item) => {
+          {faqs.map((item, index) => {
             const isOpen = open === item.question;
-            const slug = item.question.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+            /* A question with no Latin letters slugs to nothing, and every
+               button and region would then share one id. The index is the
+               fallback. */
+            const slug =
+              item.question.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") ||
+              `q${index}`;
             return (
               <li key={item.question} className="border-b border-hairline">
                 <h3>

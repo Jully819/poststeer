@@ -8,7 +8,19 @@ import { serviceIcons } from "@/components/ui/service-icons";
 
 type Group = { title: string; viewAll: string; items: MenuItem[] };
 
-function MenuGroup({ group, onNavigate }: { group: Group; onNavigate: () => void }) {
+function MenuGroup({
+  group,
+  onNavigate,
+  fromLabel,
+  fromSuffix,
+  onEnquiry,
+}: {
+  group: Group;
+  onNavigate: () => void;
+  fromLabel: string;
+  fromSuffix: string;
+  onEnquiry: string;
+}) {
   return (
     <section className="px-6 py-5">
       <div className="flex items-center justify-between gap-4">
@@ -55,14 +67,15 @@ function MenuGroup({ group, onNavigate }: { group: Group; onNavigate: () => void
                 <span className="shrink-0 font-mono text-[0.75rem] whitespace-nowrap text-muted">
                   {item.enquiry ? (
                     <span className="font-display text-[0.85rem] font-bold text-accent-ink">
-                      On enquiry
+                      {onEnquiry}
                     </span>
                   ) : (
                     <>
-                      from{" "}
+                      {fromLabel ? `${fromLabel} ` : null}
                       <span className="font-display text-[1.05rem] font-bold text-accent-ink">
                         {item.price}
-                      </span>{" "}
+                      </span>
+                      {fromSuffix}{" "}
                       {item.unit}
                     </>
                   )}
@@ -93,7 +106,13 @@ function MenuGroup({ group, onNavigate }: { group: Group; onNavigate: () => void
  *
  * Every row is a real page: nothing in here points at "#".
  */
-export function ServicesMenu({ label }: { label: string }) {
+export function ServicesMenu({
+  label,
+  copy = servicesMenu,
+}: {
+  label: string;
+  copy?: typeof servicesMenu;
+}) {
   const [open, setOpen] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -119,8 +138,8 @@ export function ServicesMenu({ label }: { label: string }) {
   }, [open]);
 
   const close = () => setOpen(false);
-  const left = servicesMenu.groups.slice(0, 2);
-  const right = servicesMenu.groups.slice(2);
+  const left = copy.groups.slice(0, 2);
+  const right = copy.groups.slice(2);
 
   return (
     <div ref={wrapRef} className="static">
@@ -154,7 +173,7 @@ export function ServicesMenu({ label }: { label: string }) {
       >
         <p className="flex flex-wrap items-center gap-x-3 gap-y-1 border-b border-hairline px-6 py-3 text-[0.85rem] text-ink">
           <Star className="size-3.5 fill-current text-accent-ink" aria-hidden="true" />
-          {servicesMenu.stats.map((stat, i) => (
+          {copy.stats.map((stat, i) => (
             <span key={stat} className="flex items-center gap-3">
               {i > 0 ? (
                 <span aria-hidden="true" className="text-muted">
@@ -172,12 +191,26 @@ export function ServicesMenu({ label }: { label: string }) {
         <div className="grid lg:grid-cols-2 lg:divide-x lg:divide-hairline">
           <div className="divide-y divide-hairline">
             {left.map((group) => (
-              <MenuGroup key={group.title} group={group} onNavigate={close} />
+              <MenuGroup
+                key={group.title}
+                group={group}
+                onNavigate={close}
+                fromLabel={copy.fromLabel}
+                fromSuffix={copy.fromSuffix}
+                onEnquiry={copy.onEnquiry}
+              />
             ))}
           </div>
           <div className="border-t border-hairline lg:border-t-0">
             {right.map((group) => (
-              <MenuGroup key={group.title} group={group} onNavigate={close} />
+              <MenuGroup
+                key={group.title}
+                group={group}
+                onNavigate={close}
+                fromLabel={copy.fromLabel}
+                fromSuffix={copy.fromSuffix}
+                onEnquiry={copy.onEnquiry}
+              />
             ))}
           </div>
         </div>
@@ -191,11 +224,11 @@ export function ServicesMenu({ label }: { label: string }) {
           className="flex flex-wrap items-center justify-between gap-3 border-t border-hairline bg-accent-tint px-6 py-4 transition-colors hover:bg-accent/15"
         >
           <span className="font-display text-[0.98rem] font-bold text-ink">
-            {servicesMenu.footerLeft}
+            {copy.footerLeft}
           </span>
           <span className="inline-flex items-center gap-3">
             <span className="font-display text-[0.92rem] font-semibold text-accent-ink">
-              {servicesMenu.footerRight}
+              {copy.footerRight}
             </span>
             <span
               className="grid size-9 place-items-center rounded-full bg-accent text-ink"

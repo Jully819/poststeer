@@ -1,5 +1,5 @@
 import { Check, ChevronDown, ChevronLeft, ChevronRight, Play, Plus } from "lucide-react";
-import { deliverables } from "@/lib/content";
+import { deliverables as defaultDeliverables } from "@/lib/content";
 import { PlatformLogo } from "@/components/platform-logos";
 import { withBase } from "@/lib/utils";
 
@@ -27,7 +27,9 @@ import { withBase } from "@/lib/utils";
    which is exactly what the first pass at this did. */
 const ART_SLOT = "h-[7rem] overflow-hidden";
 
-export function Deliverables() {
+export function Deliverables({
+  deliverables = defaultDeliverables,
+}: { deliverables?: typeof defaultDeliverables } = {}) {
   return (
     <section id="how-it-works" aria-labelledby="deliverables-title" className="section-pad bg-sage">
       <div className="container-x grid gap-10 lg:grid-cols-[minmax(16rem,1fr)_3fr] lg:gap-14">
@@ -58,7 +60,7 @@ export function Deliverables() {
               </h3>
               <p className="mt-1.5 text-[0.85rem] leading-snug text-body">{step.body}</p>
               <div className={`mt-4 flex items-end self-end ${ART_SLOT}`} aria-hidden="true">
-                <StepArt art={step.art} />
+                <StepArt art={step.art} copy={deliverables} />
               </div>
             </li>
           ))}
@@ -80,7 +82,13 @@ function Panel({ children, className }: { children: React.ReactNode; className?:
 }
 
 /** One illustration per step. Decorative throughout. */
-function StepArt({ art }: { art: (typeof deliverables.steps)[number]["art"] }) {
+function StepArt({
+  art,
+  copy: deliverables,
+}: {
+  art: (typeof defaultDeliverables.steps)[number]["art"];
+  copy: typeof defaultDeliverables;
+}) {
   if (art === "brand") {
     const f = deliverables.brandForm;
     return (

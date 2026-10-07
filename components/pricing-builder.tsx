@@ -20,7 +20,15 @@ import {
   ThumbsUp,
   Zap,
 } from "lucide-react";
-import { brand, pricing, work, type AddOn, type PricingService } from "@/lib/content";
+import {
+  brand,
+  pricing as defaultPricing,
+  pricingUi,
+  work,
+  type AddOn,
+  type PricingService,
+  type PricingUi,
+} from "@/lib/content";
 import { cn, withBase } from "@/lib/utils";
 import { Placeholder } from "@/components/ui/placeholder";
 import { ServiceInfoDialog } from "@/components/service-info-dialog";
@@ -54,8 +62,12 @@ const addOnQtyOf = (item: AddOn, quantities: Record<string, number>) =>
   quantities[item.id] ?? item.defaultQty ?? 1;
 
 /** "1 video", not "1 videos". Same rule as the services above. */
-const addOnUnitLabel = (item: AddOn, qty: number) =>
-  qty === 1 ? (item.unit ?? "").replace(/s$/, "") : (item.unit ?? "");
+const addOnUnitLabel = (item: AddOn, qty: number, ui: PricingUi) =>
+  qty === 1 && ui.singularise ? (item.unit ?? "").replace(/s$/, "") : (item.unit ?? "");
+
+/** Fills `{unit}` / `{name}` in a template from the UI strings. */
+const fill = (template: string, vars: Record<string, string>) =>
+  template.replace(/\{(\w+)\}/g, (_, key: string) => vars[key] ?? "");
 
 /**
  * "1 page", not "1 pages".
@@ -64,11 +76,12 @@ const addOnUnitLabel = (item: AddOn, qty: number) =>
  * position; a quantity of one is the exception, and a stepper that can reach
  * one will reach it often.
  */
-const unitLabel = (service: PricingService, qty: number) =>
-  qty === 1 ? service.unit.replace(/s$/, "") : service.unit;
+const unitLabel = (service: PricingService, qty: number, ui: PricingUi) =>
+  qty === 1 && ui.singularise ? service.unit.replace(/s$/, "") : service.unit;
 
 /** "/mo" for a subscription, " once" for a one-off build fee. */
-const rate = (service: PricingService) => (service.oneTime ? " once" : "/mo");
+const rate = (service: PricingService, ui: PricingUi) =>
+  service.oneTime ? ui.once : ui.perMonth;
 
 function IconTile({ service, large = false }: { service: PricingService; large?: boolean }) {
   const Icon = icons[service.icon];
@@ -130,7 +143,16 @@ function priceAt(service: PricingService, qty: number) {
  * empty reads as broken. Every `planId` in the mega-menu resolves to a row
  * today, so that fallback is a guard rather than a live case.
  */
-export function PricingBuilder({ initialServiceId }: { initialServiceId?: string } = {}) {
+export function PricingBuilder({
+  initialServiceId,
+  pricing = defaultPricing,
+  ui = pricingUi,
+}: {
+  initialServiceId?: string;
+  /** Another language's copy, with the same ids, prices and tiers. */
+  pricing?: typeof defaultPricing;
+  ui?: PricingUi;
+} = {}) {
   const opening =
     pricing.services.find((service) => service.id === initialServiceId) ?? pricing.services[0];
   const [quantities, setQuantities] = useState<Record<string, number>>({
@@ -306,7 +328,7 @@ export function PricingBuilder({ initialServiceId }: { initialServiceId?: string
                 <article key={service.id} className="relative rounded-2xl border-2 border-ink bg-paper p-6">
                   {service.popular ? (
                     <span className="absolute -top-3 left-6 rounded-full bg-ink px-3 py-1 font-display text-[0.585rem] font-bold tracking-[0.12em] text-white uppercase">
-                      Most popular
+                      {ui.mostPopular}
                     </span>
                   ) : null}
 
@@ -318,9 +340,11 @@ export function PricingBuilder({ initialServiceId }: { initialServiceId?: string
                         {service.name}
                       </h3>
                       <p className="mt-1 font-display text-[0.828rem] font-semibold text-ink">
-                        from {money(priceAt(service, service.defaultQty))}
-                        {rate(service)} · {service.defaultQty}{" "}
-                        {unitLabel(service, service.defaultQty)}
+                        {ui.from}
+                        {money(priceAt(service, service.defaultQty))}
+                        {rate(service, ui)}
+                        {ui.fromSuffix} · {service.defaultQty}{" "}
+                        {unitLabel(service, service.defaultQty, ui)}
                       </p>
                       {service.description ? (
                         <p className="body-text mt-3 max-w-[32rem] text-[0.855rem]">
@@ -357,7 +381,7 @@ export function PricingBuilder({ initialServiceId }: { initialServiceId?: string
                         : [1, 2, 3].map((i) => (
                             <Placeholder
                               key={i}
-                              label={`Sample ${i}`}
+                              label={`${ui.sample} ${i}`}
                               ratio="aspect-[4/5]"
                               className="w-20 shrink-0 sm:w-24"
                             />
@@ -372,7 +396,7 @@ export function PricingBuilder({ initialServiceId }: { initialServiceId?: string
                           type="button"
                           onClick={() => setQty(service, -1)}
                           disabled={qty <= service.minQty}
-                          aria-label={`Fewer ${service.unit}`}
+                          aria-label={fill(ui.fewer, { unit: service.unit })}
                           className="grid size-9 place-items-center rounded-full text-ink transition-colors hover:bg-wash disabled:opacity-35"
                         >
                           <Minus className="size-4" aria-hidden="true" />
@@ -381,7 +405,7 @@ export function PricingBuilder({ initialServiceId }: { initialServiceId?: string
                           aria-live="polite"
                           className="min-w-[5.5rem] text-center font-display text-[0.855rem] font-semibold text-ink"
                         >
-                          {qty} {unitLabel(service, qty)}
+                          {qty} {unitLabel(service, qty, ui)}
                         </span>
                         <button
                           type="button"
@@ -389,7 +413,7 @@ export function PricingBuilder({ initialServiceId }: { initialServiceId?: string
                           /* A tiered service stops at its largest plan: past
                              it there is nothing to sell. */
                           disabled={qty >= (stepsOf(service)?.at(-1) ?? Infinity)}
-                          aria-label={`More ${service.unit}`}
+                          aria-label={fill(ui.more, { unit: service.unit })}
                           className="grid size-9 place-items-center rounded-full text-ink transition-colors hover:bg-wash disabled:opacity-35"
                         >
                           <Plus className="size-4" aria-hidden="true" />
@@ -400,7 +424,7 @@ export function PricingBuilder({ initialServiceId }: { initialServiceId?: string
                     <p className="flex items-center gap-2 font-display text-[0.945rem] font-bold text-ink">
                       <Check className="size-4 text-ink" aria-hidden="true" />
                       {money(priceOf(service))}
-                      {rate(service)}
+                      {rate(service, ui)}
                     </p>
 
                     <button
@@ -408,7 +432,7 @@ export function PricingBuilder({ initialServiceId }: { initialServiceId?: string
                       onClick={() => remove(service)}
                       className="text-[0.828rem] text-muted underline-offset-4 transition-colors hover:text-ink hover:underline"
                     >
-                      Remove
+                      {ui.remove}
                     </button>
                   </div>
                 </article>
@@ -441,8 +465,8 @@ export function PricingBuilder({ initialServiceId }: { initialServiceId?: string
 
                         <p className="text-[0.765rem] text-muted">
                           {service.fixed
-                            ? `${money(service.perUnit)}${rate(service)}`
-                            : `from ${money(priceAt(service, service.defaultQty))}${rate(service)} · ${service.defaultQty} ${unitLabel(service, service.defaultQty)}`}
+                            ? `${money(service.perUnit)}${rate(service, ui)}`
+                            : `${ui.from}${money(priceAt(service, service.defaultQty))}${rate(service, ui)}${ui.fromSuffix} · ${service.defaultQty} ${unitLabel(service, service.defaultQty, ui)}`}
                         </p>
                       </div>
 
@@ -450,7 +474,7 @@ export function PricingBuilder({ initialServiceId }: { initialServiceId?: string
                         <button
                           type="button"
                           onClick={() => setInfoId(service.id)}
-                          aria-label={`About ${service.name}`}
+                          aria-label={fill(ui.about, { name: service.name })}
                           aria-haspopup="dialog"
                           className="grid size-8 place-items-center rounded-full bg-accent-tint text-accent-ink transition-colors hover:bg-accent hover:text-white"
                         >
@@ -462,7 +486,7 @@ export function PricingBuilder({ initialServiceId }: { initialServiceId?: string
                           type="button"
                           onClick={() => (isOn ? remove(service) : add(service))}
                           aria-pressed={isOn}
-                          aria-label={`${isOn ? "Remove" : "Add"} ${service.name}`}
+                          aria-label={fill(isOn ? ui.removeNamed : ui.add, { name: service.name })}
                           className={cn(
                             "grid size-9 place-items-center rounded-xl transition-colors",
                             isOn
@@ -570,7 +594,7 @@ export function PricingBuilder({ initialServiceId }: { initialServiceId?: string
                                             <button
                                               type="button"
                                               onClick={() => setAddOnStep(item, -1)}
-                                              aria-label={`Fewer ${item.unit}`}
+                                              aria-label={fill(ui.fewer, { unit: item.unit ?? "" })}
                                               className="grid size-6 cursor-pointer place-items-center rounded-md bg-wash text-ink transition-colors hover:bg-hairline-soft"
                                             >
                                               <Minus className="size-3.5" aria-hidden="true" />
@@ -579,12 +603,12 @@ export function PricingBuilder({ initialServiceId }: { initialServiceId?: string
                                               aria-live="polite"
                                               className="min-w-[3.75rem] text-center font-display text-[0.765rem] font-semibold text-ink"
                                             >
-                                              {qty} {addOnUnitLabel(item, qty)}
+                                              {qty} {addOnUnitLabel(item, qty, ui)}
                                             </span>
                                             <button
                                               type="button"
                                               onClick={() => setAddOnStep(item, 1)}
-                                              aria-label={`More ${item.unit}`}
+                                              aria-label={fill(ui.more, { unit: item.unit ?? "" })}
                                               className="grid size-6 cursor-pointer place-items-center rounded-md bg-wash text-ink transition-colors hover:bg-hairline-soft"
                                             >
                                               <Plus className="size-3.5" aria-hidden="true" />
@@ -599,7 +623,7 @@ export function PricingBuilder({ initialServiceId }: { initialServiceId?: string
                                            ticking a row does not grow it. */
                                         <p className="mt-0.5 flex min-h-6 items-center text-[0.765rem] text-muted">
                                           {added && item.mode === "percent"
-                                            ? `${item.price} · ${money(addOnAmount(item, monthlyBase))}/mo`
+                                            ? `${item.price} · ${money(addOnAmount(item, monthlyBase))}${ui.perMonth}`
                                             : item.price}
                                         </p>
                                       )}
@@ -613,7 +637,7 @@ export function PricingBuilder({ initialServiceId }: { initialServiceId?: string
                                         type="button"
                                         onClick={() => (added ? removeAddOn(item) : addAddOn(item))}
                                         aria-pressed={added}
-                                        aria-label={`${added ? "Remove" : "Add"} ${item.name}`}
+                                        aria-label={fill(added ? ui.removeNamed : ui.add, { name: item.name })}
                                         className={cn(
                                           "grid size-9 cursor-pointer place-items-center rounded-xl transition-colors",
                                           added
@@ -657,7 +681,7 @@ export function PricingBuilder({ initialServiceId }: { initialServiceId?: string
             <ul className="flex flex-col gap-3">
               {chosen.length === 0 && chosenAddOns.length === 0 ? (
                 <li className="font-mono text-[0.765rem] text-muted">
-                  Nothing added yet. Pick a service on the left.
+                  {ui.nothingYet}
                 </li>
               ) : (
                 chosen.map((service) => {
@@ -671,11 +695,11 @@ export function PricingBuilder({ initialServiceId }: { initialServiceId?: string
                       </span>
                       {service.fixed ? null : (
                         <span className="font-mono text-[0.765rem] text-muted">
-                          · {qty} {unitLabel(service, qty)}
+                          · {qty} {unitLabel(service, qty, ui)}
                         </span>
                       )}
                       {service.oneTime ? (
-                        <span className="font-mono text-[0.765rem] text-muted">· one-time</span>
+                        <span className="font-mono text-[0.765rem] text-muted">· {ui.oneTime}</span>
                       ) : null}
                       <span className="leader" aria-hidden="true" />
                       <span className="font-mono text-[0.855rem] font-bold text-ink tabular-nums">
@@ -697,14 +721,14 @@ export function PricingBuilder({ initialServiceId }: { initialServiceId?: string
                     <span className="font-mono text-[0.81rem] font-bold text-ink">{item.name}</span>
                     {item.mode === "quantity" ? (
                       <span className="font-mono text-[0.765rem] text-muted">
-                        · {qty} {addOnUnitLabel(item, qty)}
+                        · {qty} {addOnUnitLabel(item, qty, ui)}
                       </span>
                     ) : null}
                     {item.mode === "percent" ? (
                       <span className="font-mono text-[0.765rem] text-muted">· {item.price}</span>
                     ) : null}
                     {item.oneTime ? (
-                      <span className="font-mono text-[0.765rem] text-muted">· one-time</span>
+                      <span className="font-mono text-[0.765rem] text-muted">· {ui.oneTime}</span>
                     ) : null}
                     <span className="leader" aria-hidden="true" />
                     <span className="font-mono text-[0.855rem] font-bold text-ink tabular-nums">
@@ -741,10 +765,15 @@ export function PricingBuilder({ initialServiceId }: { initialServiceId?: string
                 {pricing.estimate.subtotalLabel}
               </p>
               <p className="flex items-baseline gap-1.5">
-                <span className="font-mono text-[0.72rem] text-muted">from</span>
+                {ui.from ? (
+                  <span className="font-mono text-[0.72rem] text-muted">{ui.from.trim()}</span>
+                ) : null}
                 <span className="font-display text-[2.34rem] leading-none font-bold text-ink tabular-nums">
                   {money(subtotal)}
                 </span>
+                {ui.fromSuffix ? (
+                  <span className="font-mono text-[0.72rem] text-muted">{ui.fromSuffix}</span>
+                ) : null}
               </p>
             </div>
 
@@ -753,7 +782,7 @@ export function PricingBuilder({ initialServiceId }: { initialServiceId?: string
             {oneTimeTotal > 0 ? (
               <div className="mt-3 flex items-baseline justify-between gap-3 border-t border-dashed border-hairline pt-3">
                 <p className="font-mono text-[0.648rem] tracking-[0.12em] text-muted uppercase">
-                  One-time
+                  {ui.oneTimeLabel}
                 </p>
                 <p className="font-display text-[0.945rem] font-bold text-ink tabular-nums">
                   {money(oneTimeTotal)}
@@ -792,45 +821,48 @@ export function PricingBuilder({ initialServiceId }: { initialServiceId?: string
               className="mt-5 flex w-full items-center justify-center gap-2 font-mono text-[0.765rem] font-medium text-accent-ink"
             >
               <Link2 className="size-4" aria-hidden="true" />
-              {copied ? "Link copied" : pricing.estimate.shareLink}
+              {copied ? ui.linkCopied : pricing.estimate.shareLink}
             </button>
             <p className="mt-1.5 text-center font-mono text-[0.702rem] text-muted">
               {pricing.estimate.shareNote}
             </p>
 
             <p className="mt-6 text-center text-[0.675rem] leading-relaxed text-muted">
-              {pricing.estimate.finePrint}{" "}
+              {pricing.estimate.finePrint}
+              {ui.finePrintGap}
               <a href={withBase("/legal/terms")} className="underline underline-offset-2">
                 {pricing.estimate.terms}
-              </a>{" "}
-              and{" "}
+              </a>
+              {ui.and}
               <a href={withBase("/legal/refund-policy")} className="underline underline-offset-2">
                 {pricing.estimate.refunds}
               </a>
-              .
+              {ui.end}
             </p>
           </aside>
         </div>
       </div>
 
       <ServiceInfoDialog
+        copy={pricing.infoDialog}
+        fromLabel={ui.from}
         service={infoService}
         icon={infoService ? icons[infoService.icon] : null}
         priceLine={
           infoService
             ? {
                 price: money(infoService.perUnit * infoService.defaultQty),
-                rest: `${rate(infoService)}${
+                rest: `${rate(infoService, ui)}${ui.fromSuffix}${
                   infoService.fixed
                     ? ""
-                    : ` · ${infoService.defaultQty} ${unitLabel(infoService, infoService.defaultQty)}`
+                    : ` · ${infoService.defaultQty} ${unitLabel(infoService, infoService.defaultQty, ui)}`
                 }`,
               }
             : { price: "", rest: "" }
         }
         addLabel={
           infoService
-            ? `${money(infoService.perUnit * infoService.defaultQty)}${rate(infoService)}`
+            ? `${money(infoService.perUnit * infoService.defaultQty)}${rate(infoService, ui)}`
             : ""
         }
         onAdd={() => {

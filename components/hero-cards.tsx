@@ -114,8 +114,7 @@ function Art({
 const LEFT_SIZES = "(min-width: 1280px) 240px, (min-width: 1024px) 300px, 55vw";
 const RIGHT_SIZES = "(min-width: 1280px) 180px, (min-width: 1024px) 230px, 41vw";
 
-export function HeroCards() {
-  const s = hero.showcase;
+export function HeroCards({ showcase: s = hero.showcase }: { showcase?: typeof hero.showcase } = {}) {
   const [postCard, carouselCard, storyCard] = s.cards;
 
   return (
@@ -135,7 +134,7 @@ export function HeroCards() {
                 again would show each one twice. */}
             <span className="absolute top-3 left-3 flex items-center gap-2">
               <span className="grid size-7 place-items-center rounded-full bg-paper font-display text-[0.65rem] font-bold text-ink">
-                {s.handle.replace(/[^A-Za-z]/g, "").slice(0, 1).toUpperCase()}
+                {s.handle.replace(/[[\]\s]/g, "").slice(0, 1).toUpperCase()}
               </span>
               <span className="leading-tight">
                 <span className="block font-display text-[0.7rem] font-semibold text-white drop-shadow">

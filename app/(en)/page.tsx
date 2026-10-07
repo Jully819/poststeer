@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Hero } from "@/components/hero";
 import { LogoStrip } from "@/components/logo-strip";
 import { Deliverables } from "@/components/deliverables";
@@ -6,6 +7,15 @@ import { PricingBuilder } from "@/components/pricing-builder";
 import { Guarantee } from "@/components/guarantee";
 import { Faq } from "@/components/faq";
 import { FinalCta } from "@/components/final-cta";
+
+/* The page-level `alternates` replaces the layout's, so the canonical is
+   restated here next to the hreflang pair. /zh names this page back. */
+export const metadata: Metadata = {
+  alternates: {
+    canonical: "/",
+    languages: { en: "/", "zh-CN": "/zh", "zh-Hant": "/zh-hant", "x-default": "/" },
+  },
+};
 
 /* Section order follows the reference screenshot, top to bottom.
 

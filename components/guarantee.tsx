@@ -1,5 +1,5 @@
 import { Check } from "lucide-react";
-import { guarantee } from "@/lib/content";
+import { guarantee as defaultGuarantee } from "@/lib/content";
 import KineticGrid from "@/components/ui/kinetic-grid";
 
 /**
@@ -10,7 +10,7 @@ import KineticGrid from "@/components/ui/kinetic-grid";
  * card keeps its own bg-ink, so the canvas draws over it and the colour stays
  * defined in one place.
  */
-export function Guarantee() {
+export function Guarantee({ guarantee = defaultGuarantee }: { guarantee?: typeof defaultGuarantee } = {}) {
   return (
     /* Full bleed, not a rounded card inset on cream. One of the page's three
        backgrounds, so the edge of the band is the section break. */

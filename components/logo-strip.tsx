@@ -1,8 +1,8 @@
-import { logoStrip } from "@/lib/content";
+import { logoStrip as defaultLogoStrip } from "@/lib/content";
 import { PlatformLogo } from "@/components/platform-logos";
 
 /** Mark plus wordmark per platform, under a mono kicker. */
-export function LogoStrip() {
+export function LogoStrip({ logoStrip = defaultLogoStrip }: { logoStrip?: typeof defaultLogoStrip } = {}) {
   return (
     <section aria-label={logoStrip.label} className="border-y border-hairline py-10">
       <div className="container-x">

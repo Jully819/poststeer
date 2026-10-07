@@ -1,5 +1,5 @@
 import { ArrowRight, CalendarX, Check, PencilLine, ShieldCheck } from "lucide-react";
-import { hero } from "@/lib/content";
+import { hero as defaultHero } from "@/lib/content";
 import { HeroCards } from "@/components/hero-cards";
 import { withBase } from "@/lib/utils";
 
@@ -16,7 +16,7 @@ const highlightIcons = { pencil: PencilLine, check: Check, calendar: CalendarX }
  * The previous version, with the scrolling collage, is kept intact at
  * components/hero-marquee.tsx — see the note there for how to swap back.
  */
-export function Hero() {
+export function Hero({ hero = defaultHero }: { hero?: typeof defaultHero } = {}) {
   return (
     <section id="top" aria-labelledby="hero-title" className="pt-12 pb-16 md:pt-16 md:pb-20">
       {/* items-center, not items-start: the card cluster is shorter than the
@@ -87,7 +87,7 @@ export function Hero() {
           </p>
         </div>
 
-        <HeroCards />
+        <HeroCards showcase={hero.showcase} />
       </div>
     </section>
   );

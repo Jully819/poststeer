@@ -42,6 +42,8 @@ const lastModified = new Date();
 /** Priorities are relative and only meaningful against each other. */
 const staticRoutes: { path: string; priority: number; changeFrequency: Change }[] = [
   { path: "/", priority: 1, changeFrequency: "weekly" },
+  { path: "/zh", priority: 0.9, changeFrequency: "weekly" },
+  { path: "/zh-hant", priority: 0.9, changeFrequency: "weekly" },
   { path: "/demo", priority: 0.9, changeFrequency: "monthly" },
   { path: "/pricing", priority: 0.9, changeFrequency: "monthly" },
   { path: "/service-areas", priority: 0.8, changeFrequency: "monthly" },
@@ -55,8 +57,20 @@ const staticRoutes: { path: string; priority: number; changeFrequency: Change }[
      brackets come out, not before. */
 ];
 
+/* The home page and its Chinese versions name each other, which a sitemap can
+   say as well as the page's own hreflang tags. */
+const homeAlternates = {
+  languages: {
+    en: `${SITE_URL}/`,
+    "zh-CN": `${SITE_URL}/zh`,
+    "zh-Hant": `${SITE_URL}/zh-hant`,
+    "x-default": `${SITE_URL}/`,
+  },
+};
+
 function entry(path: string, priority: number, changeFrequency: Change) {
-  return { url: `${SITE_URL}${path}`, lastModified, changeFrequency, priority };
+  const alternates = ["/", "/zh", "/zh-hant"].includes(path) ? homeAlternates : undefined;
+  return { url: `${SITE_URL}${path}`, lastModified, changeFrequency, priority, alternates };
 }
 
 export default function sitemap(): MetadataRoute.Sitemap {

@@ -1,4 +1,4 @@
-import { gallery } from "@/lib/content";
+import { gallery as defaultGallery } from "@/lib/content";
 import { WorkGrid, type Scope, type TypeId } from "@/components/work-grid";
 
 /**
@@ -8,10 +8,13 @@ import { WorkGrid, type Scope, type TypeId } from "@/components/work-grid";
  * the "use client" boundary itself.
  */
 export function Gallery({
+  gallery = defaultGallery,
   title = gallery.title,
   initialScope,
   initialType,
 }: {
+  /** Another language's labels. The counts and the grid are the same. */
+  gallery?: typeof defaultGallery;
   /** Landing pages name their trade in the heading. */
   title?: string;
   /** Landing pages open the grid on their own industry where we have work. */
@@ -33,7 +36,7 @@ export function Gallery({
           </h2>
         </div>
 
-        <WorkGrid initialScope={initialScope} initialType={initialType} />
+        <WorkGrid gallery={gallery} initialScope={initialScope} initialType={initialType} />
       </div>
     </section>
   );

@@ -1,21 +1,11 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, JetBrains_Mono } from "next/font/google";
 import { seo, SITE_URL } from "@/lib/content";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { ChatBubble } from "@/components/chat-bubble";
 import { DemoBar } from "@/components/demo-bar";
-import "./globals.css";
-
-/* Geist and JetBrains Mono, the two faces the reference loads. Both are
-   served by next/font, so there is no render-blocking stylesheet and no
-   layout shift when they arrive. */
-const geist = Geist({ subsets: ["latin"], variable: "--font-geist", display: "swap" });
-const jetbrains = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-jetbrains",
-  display: "swap",
-});
+import { geist, jetbrains } from "../fonts";
+import "../globals.css";
 
 /* Layout clone for adjustment. No canonical or social tags yet: this is not a
    site that should be indexed or shared while it says PostSteer on every line. */

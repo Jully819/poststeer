@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { ArrowUp, Check, MessageCircle, X } from "lucide-react";
-import { chat } from "@/lib/content";
+import { chat as defaultChat } from "@/lib/content";
 import { Logo } from "@/components/logo";
 import {
   MESSAGE_MAX,
@@ -34,7 +34,7 @@ import { cn } from "@/lib/utils";
 
 type Status = "idle" | "sending" | "sent" | "error";
 
-export function ChatBubble() {
+export function ChatBubble({ copy: chat = defaultChat }: { copy?: typeof defaultChat } = {}) {
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");

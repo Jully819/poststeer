@@ -1,4 +1,4 @@
-import { finalCta } from "@/lib/content";
+import { finalCta as defaultFinalCta } from "@/lib/content";
 import { Button } from "@/components/ui/button";
 import KineticGrid from "@/components/ui/kinetic-grid";
 import { withBase } from "@/lib/utils";
@@ -8,7 +8,7 @@ import { withBase } from "@/lib/utils";
  * dark blocks on the page now share one treatment rather than one being plain
  * ink and the other alive.
  */
-export function FinalCta() {
+export function FinalCta({ finalCta = defaultFinalCta }: { finalCta?: typeof defaultFinalCta } = {}) {
   return (
     /* Full bleed, like the guarantee band: the page ends on one of its three
        backgrounds rather than on a dark card sitting in cream. */

@@ -18,6 +18,7 @@ import { socialMediaMarketingForRestaurants } from "@/lib/posts/social-media-mar
 import { doINeedAWebsiteIfIHaveSocialMedia } from "@/lib/posts/do-i-need-a-website-if-i-have-social-media";
 import { contentCalendarForSocialMedia } from "@/lib/posts/content-calendar-for-social-media";
 import { youtubeShorts0ViewsProblem } from "@/lib/posts/youtube-shorts-0-views-problem";
+import { xiaohongshuMarketingForSmallBusiness } from "@/lib/posts/xiaohongshu-marketing-for-small-business";
 
 /**
  * Canonical origin. Override with NEXT_PUBLIC_SITE_URL at build time.
@@ -56,6 +57,40 @@ export const nav = [
 ];
 
 /**
+ * Everything in the header that is not the nav list. Taken as one object so
+ * the Chinese home page can hand the header its own, and so the language link
+ * lives with the other copy rather than inside the component.
+ */
+export interface HeaderCopy {
+  /** Where the wordmark goes: "/" on the English site, "/zh" on the Chinese one. */
+  homeHref: string;
+  nav: { label: string; href: string; dropdown: boolean }[];
+  login: string;
+  cta: string;
+  openMenu: string;
+  closeMenu: string;
+  primaryNavLabel: string;
+  mobileNavLabel: string;
+  /** The links to the other languages. `href` is a site-root path. */
+  langLinks: { label: string; href: string; lang: string; title: string }[];
+}
+
+export const headerCopy: HeaderCopy = {
+  homeHref: "/",
+  nav,
+  login: "Log in",
+  cta: `Start for ${brand.priceFrom}/mo`,
+  openMenu: "Open menu",
+  closeMenu: "Close menu",
+  primaryNavLabel: "Primary",
+  mobileNavLabel: "Mobile",
+  langLinks: [
+    { label: "简体中文", href: "/zh", lang: "zh-CN", title: "查看简体中文版" },
+    { label: "繁體中文", href: "/zh-hant", lang: "zh-Hant", title: "檢視繁體中文版" },
+  ],
+};
+
+/**
  * THE SERVICES MEGA-MENU, and the pages behind it.
  *
  * Every item links to a real page — a menu entry that scrolls to a section,
@@ -91,6 +126,12 @@ export interface MenuItem {
 }
 
 export const servicesMenu = {
+  /* The two words the rows say around a price, so another language can swap
+     them without the component knowing which language it is in. */
+  fromLabel: "from",
+  /* Where a language puts "from" after the price instead: Chinese says $69/月起. */
+  fromSuffix: "",
+  onEnquiry: "On enquiry",
   stats: ["Since 2018", "14-day guarantee"],
   groups: [
     {
@@ -1663,6 +1704,64 @@ export const pricing = {
 };
 
 /**
+ * The words the plan builder says that are not in `pricing`: button labels,
+ * the screen-reader names of the steppers, the line when the ticket is empty.
+ *
+ * `{unit}` and `{name}` are filled by the component. They are templates and
+ * not functions because the Chinese page hands this object to a client
+ * component, and a function cannot cross that boundary.
+ *
+ * `singularise` is the English rule that turns "videos" into "video" at a
+ * quantity of one. A language without plurals switches it off.
+ */
+export interface PricingUi {
+  mostPopular: string;
+  from: string;
+  /** "from" said after the rate instead of before the price: 起 in $129/月起. */
+  fromSuffix: string;
+  remove: string;
+  sample: string;
+  fewer: string;
+  more: string;
+  about: string;
+  add: string;
+  removeNamed: string;
+  nothingYet: string;
+  oneTime: string;
+  oneTimeLabel: string;
+  once: string;
+  perMonth: string;
+  linkCopied: string;
+  and: string;
+  finePrintGap: string;
+  end: string;
+  singularise: boolean;
+}
+
+export const pricingUi: PricingUi = {
+  mostPopular: "Most popular",
+  from: "from ",
+  fromSuffix: "",
+  remove: "Remove",
+  sample: "Sample",
+  fewer: "Fewer {unit}",
+  more: "More {unit}",
+  about: "About {name}",
+  add: "Add {name}",
+  removeNamed: "Remove {name}",
+  nothingYet: "Nothing added yet. Pick a service on the left.",
+  oneTime: "one-time",
+  oneTimeLabel: "One-time",
+  once: " once",
+  perMonth: "/mo",
+  linkCopied: "Link copied",
+  and: " and ",
+  finePrintGap: " ",
+  end: ".",
+  singularise: true,
+};
+
+/**
  * Pricing-builder services taken off the page for now, kept here so they can
  * go back into `pricing.services` unchanged.
  */
@@ -2099,6 +2198,7 @@ export const blogPage = {
   posts: [
     contentCalendarForSocialMedia,
     youtubeShorts0ViewsProblem,
+    xiaohongshuMarketingForSmallBusiness,
     doINeedAWebsiteIfIHaveSocialMedia,
     socialMediaMarketingForRestaurants,
     crossPostingVsNativePosting,
@@ -2457,7 +2557,35 @@ export const finalCta = {
  * pages behind them exist; they are placeholders in the same way the numbers
  * in brackets are.
  */
-export const footer = {
+export interface FooterLink {
+  label: string;
+  href?: string;
+}
+
+/** A city or industry row item. A bare string is slugged from its own text. */
+export interface FooterPlace {
+  label: string;
+  slug: string;
+}
+
+export interface FooterCopy {
+  about: string;
+  status: { label: string };
+  columns: { title: string; items: (string | FooterLink)[] }[];
+  cities: { label: string; items: (string | FooterPlace)[]; all: string };
+  industries: { label: string; items: (string | FooterPlace)[] };
+  legal: {
+    leadIn: string;
+    linkText: string;
+    tail: string;
+    /** Between the lead-in, the link and the tail. A space unless told otherwise. */
+    gap?: string;
+    copyrightTail: string;
+    links: { label: string; href: string }[];
+  };
+}
+
+export const footer: FooterCopy = {
   about:
     "The all-in-one content platform where creatives and software we built ourselves work as one team, shipping standout content faster, and for less, than an agency.",
   status: { label: "all systems operational" },

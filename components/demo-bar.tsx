@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight, X } from "lucide-react";
-import { demoBar } from "@/lib/content";
+import { demoBar as defaultDemoBar } from "@/lib/content";
 import { cn, withBase } from "@/lib/utils";
 
 /**
@@ -25,7 +25,7 @@ import { cn, withBase } from "@/lib/utils";
  */
 const DISMISS_KEY = "demo-bar-dismissed";
 
-export function DemoBar() {
+export function DemoBar({ copy: demoBar = defaultDemoBar }: { copy?: typeof defaultDemoBar } = {}) {
   const [visible, setVisible] = useState(false);
   const [dismissed, setDismissed] = useState(true);
   const barRef = useRef<HTMLDivElement>(null);

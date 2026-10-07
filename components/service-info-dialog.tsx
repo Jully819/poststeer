@@ -12,6 +12,8 @@ import { pricing, type PricingService } from "@/lib/content";
  * hand-rolled here.
  */
 export function ServiceInfoDialog({
+  copy = pricing.infoDialog,
+  fromLabel = "from ",
   service,
   icon: Icon,
   priceLine,
@@ -19,6 +21,9 @@ export function ServiceInfoDialog({
   onAdd,
   onClose,
 }: {
+  copy?: typeof pricing.infoDialog;
+  /** The word before the price, with its trailing space where the language has one. */
+  fromLabel?: string;
   service: PricingService | null;
   icon: ComponentType<SVGProps<SVGSVGElement>> | null;
   /** "from $129/mo · 5 videos", worked out by the builder so it matches the row. */
@@ -44,7 +49,6 @@ export function ServiceInfoDialog({
     };
   }, [service]);
 
-  const copy = pricing.infoDialog;
   const details = service?.details;
 
   return (
@@ -77,7 +81,8 @@ export function ServiceInfoDialog({
                 {service.name}
               </h3>
               <p className="mt-1 text-[0.92rem] text-muted">
-                from <span className="font-semibold text-ink">{priceLine.price}</span>
+                {fromLabel}
+                <span className="font-semibold text-ink">{priceLine.price}</span>
                 {priceLine.rest}
               </p>
             </div>

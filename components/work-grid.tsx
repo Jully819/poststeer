@@ -15,7 +15,7 @@ import {
   Smartphone,
   Video,
 } from "lucide-react";
-import { gallery, work, type WorkIndustry } from "@/lib/content";
+import { gallery as defaultGallery, work, type WorkIndustry } from "@/lib/content";
 import { cn, withBase } from "@/lib/utils";
 
 /**
@@ -43,14 +43,15 @@ const typeIcons = {
   email: Mail,
 };
 
-export type TypeId = (typeof gallery.types)[number]["id"];
+export type TypeId = (typeof defaultGallery.types)[number]["id"];
 /** The industry row also carries the two filters that are not industries. */
 export type Scope = "featured" | "all" | WorkIndustry;
 
 export function WorkGrid({
+  gallery = defaultGallery,
   initialScope = "featured",
   initialType = "all",
-}: { initialScope?: Scope; initialType?: TypeId } = {}) {
+}: { gallery?: typeof defaultGallery; initialScope?: Scope; initialType?: TypeId } = {}) {
   const [type, setType] = useState<TypeId>(initialType);
   const [scope, setScope] = useState<Scope>(initialScope);
   const [visible, setVisible] = useState(gallery.pageSize);

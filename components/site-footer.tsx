@@ -1,5 +1,5 @@
 import { ArrowRight } from "lucide-react";
-import { brand, footer } from "@/lib/content";
+import { brand, footer as defaultFooter, type FooterCopy } from "@/lib/content";
 import { slugify } from "@/lib/landing";
 import { Logo } from "@/components/logo";
 import { withBase } from "@/lib/utils";
@@ -27,7 +27,16 @@ const columnHrefs: Record<string, string> = {
   "Refund Policy": "/legal/refund-policy",
 };
 
-export function SiteFooter() {
+/** A bare string is its own label; the href and slug then come from the label. */
+const linkOf = (item: string | { label: string; href?: string }) =>
+  typeof item === "string"
+    ? { label: item, href: columnHrefs[item] }
+    : { label: item.label, href: item.href };
+const placeOf = (item: string | { label: string; slug: string }) =>
+  typeof item === "string" ? { label: item, slug: slugify(item) } : item;
+
+export function SiteFooter({ footer = defaultFooter }: { footer?: FooterCopy } = {}) {
+  const gap = footer.legal.gap ?? " ";
   return (
     <footer className="border-t border-hairline bg-wash">
       <div className="container-x py-12">
@@ -51,13 +60,13 @@ export function SiteFooter() {
             <nav key={column.title} aria-label={column.title}>
               <p className="font-display text-[0.85rem] font-bold text-ink">{column.title}</p>
               <ul className="mt-4 flex flex-col gap-2.5">
-                {column.items.map((item) => (
-                  <li key={item}>
+                {column.items.map(linkOf).map((item) => (
+                  <li key={item.label}>
                     <a
-                      href={withBase(columnHrefs[item] ?? "#")}
+                      href={withBase(item.href ?? "#")}
                       className="text-[0.82rem] leading-snug text-body transition-colors hover:text-ink"
                     >
-                      {item}
+                      {item.label}
                     </a>
                   </li>
                 ))}
@@ -75,13 +84,13 @@ export function SiteFooter() {
           <span className="font-display text-[0.82rem] font-bold text-ink">
             {footer.cities.label}
           </span>
-          {footer.cities.items.map((city) => (
+          {footer.cities.items.map(placeOf).map((city) => (
             <a
-              key={city}
-              href={withBase(`/service-areas/${slugify(city)}`)}
+              key={city.slug}
+              href={withBase(`/service-areas/${city.slug}`)}
               className="text-[0.82rem] text-body transition-colors hover:text-ink"
             >
-              {city}
+              {city.label}
             </a>
           ))}
           <a
@@ -102,13 +111,13 @@ export function SiteFooter() {
           <span className="font-display text-[0.82rem] font-bold text-ink">
             {footer.industries.label}
           </span>
-          {footer.industries.items.map((industry) => (
+          {footer.industries.items.map(placeOf).map((industry) => (
             <a
-              key={industry}
-              href={withBase(`/industries/${slugify(industry)}`)}
+              key={industry.slug}
+              href={withBase(`/industries/${industry.slug}`)}
               className="text-[0.82rem] text-body transition-colors hover:text-ink"
             >
-              {industry}
+              {industry.label}
             </a>
           ))}
         </nav>
@@ -116,10 +125,12 @@ export function SiteFooter() {
 
       <div className="container-x flex flex-wrap items-center justify-between gap-6 border-t border-hairline py-6">
         <p className="font-mono text-[0.72rem] leading-relaxed text-muted">
-          {footer.legal.leadIn}{" "}
+          {footer.legal.leadIn}
+          {gap}
           <a href="#" className="underline underline-offset-2">
             {footer.legal.linkText}
-          </a>{" "}
+          </a>
+          {gap}
           {footer.legal.tail}
           <br />© {new Date().getFullYear()} {brand.name}, {footer.legal.copyrightTail}
         </p>

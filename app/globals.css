@@ -61,6 +61,34 @@
   --font-mono: var(--font-jetbrains), ui-monospace, monospace;
 }
 
+/* GEIST HAS NO CHINESE GLYPHS, so a Chinese page would fall to whatever the
+   browser picks for the generic family. Naming the platform faces puts
+   PingFang on Apple, Microsoft YaHei on Windows and Noto Sans SC elsewhere,
+   behind Geist so the Latin letters and digits still set in Geist. */
+html:lang(zh-CN),
+html:lang(zh-Hant) {
+  --font-display: var(--font-geist), "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
+    "Noto Sans SC", system-ui, sans-serif;
+  --font-body: var(--font-geist), "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
+    "Noto Sans SC", system-ui, sans-serif;
+}
+
+/* The English headings are tracked tight and the kicker tracked wide, which
+   suits Latin. Applied to Chinese, tight tracking crowds the characters and
+   a 0.16em kicker spreads them. */
+html:lang(zh-CN) .h1,
+html:lang(zh-CN) .h2,
+html:lang(zh-Hant) .h1,
+html:lang(zh-Hant) .h2 {
+  letter-spacing: 0;
+  line-height: 1.2;
+  text-wrap: balance;
+}
+html:lang(zh-CN) .kicker,
+html:lang(zh-Hant) .kicker {
+  letter-spacing: 0.06em;
+}
+
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 5rem;
