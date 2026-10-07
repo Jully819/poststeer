@@ -136,7 +136,7 @@ export const zhHantDeliverables: typeof deliverables = {
   ...deliverables,
   kicker: "服務流程",
   titleLead: "從想法到成效",
-  titleAccent: "只需 4 步。",
+  titleAccent: "只需 4 步",
   steps: deliverables.steps.map((step, i) => ({ ...step, ...stepText[i] })),
   brandForm: {
     ...deliverables.brandForm,
@@ -181,7 +181,7 @@ const industryLabel: Record<string, string> = {
 export const zhHantGallery: typeof gallery = {
   ...gallery,
   kicker: "作品集",
-  title: "創意團隊打造，為脫穎而出而生。",
+  title: "創意團隊打造，為脫穎而出而生",
   types: gallery.types.map((tab) => ({ ...tab, label: typeLabel[tab.id] })),
   featuredLabel: "精選",
   allLabel: "全部",
@@ -300,7 +300,7 @@ const addOnText: Record<string, { name: string; price: string; unit?: string }> 
 export const zhHantPricing: typeof pricing = {
   ...pricing,
   kicker: "方案與價格",
-  title: "訂閱制社群媒體全託管服務。",
+  title: "訂閱制社群媒體全託管服務",
   intro: "選擇你需要的服務——貼文、短影音、著陸頁等，自由組合成適合你的方案，並可隨時調整。",
   services: pricing.services.map((service) => {
     const text = serviceText[service.id];
@@ -368,7 +368,7 @@ export const zhHantPricingUi: PricingUi = {
 
 export const zhHantGuarantee: typeof guarantee = {
   kicker: "退款保證",
-  title: "喜歡第一批內容，否則全額退款。",
+  title: "不滿意，全額退款",
   body: "每個新訂閱方案都享有 14 天滿意保證。",
   points: [
     { title: "14 天考慮期", body: "檢視第一批內容，並與團隊一起完成修改。" },
@@ -414,12 +414,12 @@ export const zhHantFaqs: typeof faqs = [
   },
 ];
 
-export const zhHantFaqHeading = { kicker: "常見問題", title: "你的問題，這裡都有答案。" };
+export const zhHantFaqHeading = { kicker: "常見問題", title: "你的問題，這裡都有答案" };
 
 /* ------------------------------------------------------------- final cta */
 
 export const zhHantFinalCta: typeof finalCta = {
-  title: "讓社群媒體少佔你一份心力。",
+  title: "社群媒體管理-省時省力",
   body: "花 20 分鐘看看 PostSteer 是否適合你的業務。沒有推銷簡報，也沒有壓力。",
   primaryCta: "預約 20 分鐘示範",
   secondaryCta: "先看看常見問題",

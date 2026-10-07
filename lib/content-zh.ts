@@ -142,7 +142,7 @@ export const zhDeliverables: typeof deliverables = {
   ...deliverables,
   kicker: "服务流程",
   titleLead: "从想法到成效",
-  titleAccent: "只需 4 步。",
+  titleAccent: "只需 4 步",
   steps: deliverables.steps.map((step, i) => ({ ...step, ...stepText[i] })),
   brandForm: {
     ...deliverables.brandForm,
@@ -187,7 +187,7 @@ const industryLabel: Record<string, string> = {
 export const zhGallery: typeof gallery = {
   ...gallery,
   kicker: "作品集",
-  title: "创意团队打造，为脱颖而出而生。",
+  title: "创意团队打造，为脱颖而出而生",
   types: gallery.types.map((tab) => ({ ...tab, label: typeLabel[tab.id] })),
   featuredLabel: "精选",
   allLabel: "全部",
@@ -308,7 +308,7 @@ const addOnText: Record<string, { name: string; price: string; unit?: string }> 
 export const zhPricing: typeof pricing = {
   ...pricing,
   kicker: "方案与价格",
-  title: "订阅制社交媒体全托管服务。",
+  title: "订阅制社交媒体全托管服务",
   intro:
     "选择你需要的服务——帖子、短视频、落地页等，自由组合成适合你的方案，并可随时调整。",
   services: pricing.services.map((service) => {
@@ -377,7 +377,7 @@ export const zhPricingUi: PricingUi = {
 
 export const zhGuarantee: typeof guarantee = {
   kicker: "退款保证",
-  title: "喜欢第一批内容，否则全额退款。",
+  title: "不满意，全额退款",
   body: "每个新订阅方案都享有 14 天满意保证。",
   points: [
     { title: "14 天考虑期", body: "查看第一批内容，并与团队一起完成修改。" },
@@ -423,12 +423,12 @@ export const zhFaqs: typeof faqs = [
   },
 ];
 
-export const zhFaqHeading = { kicker: "常见问题", title: "你的问题，这里都有答案。" };
+export const zhFaqHeading = { kicker: "常见问题", title: "你的问题，这里都有答案" };
 
 /* ------------------------------------------------------------- final cta */
 
 export const zhFinalCta: typeof finalCta = {
-  title: "让社交媒体少占你一份心力。",
+  title: "社交媒体管理-省时省力",
   body: "花 20 分钟看看 PostSteer 是否适合你的业务。没有推销简报，也没有压力。",
   primaryCta: "预约 20 分钟演示",
   secondaryCta: "先看看常见问题",
