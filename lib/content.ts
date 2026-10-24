@@ -19,6 +19,8 @@ import { doINeedAWebsiteIfIHaveSocialMedia } from "@/lib/posts/do-i-need-a-websi
 import { contentCalendarForSocialMedia } from "@/lib/posts/content-calendar-for-social-media";
 import { youtubeShorts0ViewsProblem } from "@/lib/posts/youtube-shorts-0-views-problem";
 import { xiaohongshuMarketingForSmallBusiness } from "@/lib/posts/xiaohongshu-marketing-for-small-business";
+import { shopifyBlackFridayChecklist } from "@/lib/posts/shopify-black-friday-checklist";
+import { singlesDayMarketingXiaohongshu } from "@/lib/posts/singles-day-marketing-xiaohongshu";
 
 /**
  * Canonical origin. Override with NEXT_PUBLIC_SITE_URL at build time.
@@ -2194,6 +2196,8 @@ export const blogPage = {
   ctaBody: "Pick your services and see the price before you talk to anyone.",
   ctaButton: "See pricing",
   posts: [
+    shopifyBlackFridayChecklist,
+    singlesDayMarketingXiaohongshu,
     contentCalendarForSocialMedia,
     youtubeShorts0ViewsProblem,
     xiaohongshuMarketingForSmallBusiness,
